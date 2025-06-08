@@ -1,34 +1,39 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import WishGrid from '@/components/WishGrid';
-import { mockWishes } from '@/data/mockWishes';
-import { useToast } from '@/hooks/use-toast';
+import { AuthDialog } from '@/components/auth/AuthDialog';
+import { CreateWishDialog } from '@/components/wishes/CreateWishDialog';
+import { useAuth } from '@/hooks/useAuth';
+import { useWishes } from '@/hooks/useWishes';
 
 const Index = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const { toast } = useToast();
+  const [authDialog, setAuthDialog] = useState<{open: boolean, mode: 'login' | 'register'}>({
+    open: false,
+    mode: 'login'
+  });
+  const [createWishDialog, setCreateWishDialog] = useState(false);
+  const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
+  const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishes();
+
+  // Update document theme and language when profile changes
+  useEffect(() => {
+    if (profile?.theme_preference) {
+      document.documentElement.classList.toggle('dark', profile.theme_preference === 'dark');
+    }
+  }, [profile?.theme_preference]);
 
   const handleLogin = () => {
-    toast({
-      title: "Login",
-      description: "Please connect to Supabase to enable authentication features.",
-    });
+    setAuthDialog({ open: true, mode: 'login' });
   };
 
   const handleRegister = () => {
-    toast({
-      title: "Sign Up", 
-      description: "Please connect to Supabase to enable registration features.",
-    });
+    setAuthDialog({ open: true, mode: 'register' });
   };
 
   const handleGetStarted = () => {
-    if (isAuthenticated) {
-      // Scroll to wish grid or open create modal
+    if (user) {
       document.getElementById('wish-grid')?.scrollIntoView({ behavior: 'smooth' });
     } else {
       handleRegister();
@@ -40,52 +45,94 @@ const Index = () => {
   };
 
   const handleLanguageChange = (lang: string) => {
-    setCurrentLanguage(lang);
-    toast({
-      title: "Language Changed",
-      description: `Switched to ${lang === 'en' ? 'English' : 'Ukrainian'}`,
-    });
+    if (user && profile) {
+      updateProfile({ language_preference: lang as 'en' | 'ua' });
+    }
   };
 
   const handleThemeToggle = () => {
-    setIsDarkTheme(!isDarkTheme);
-    toast({
-      title: "Theme Changed",
-      description: `Switched to ${isDarkTheme ? 'light' : 'dark'} theme`,
-    });
-  };
-
-  const handleLike = (id: string) => {
-    toast({
-      title: "Liked!",
-      description: "You liked this wish",
-    });
-  };
-
-  const handleMessage = (authorName: string) => {
-    toast({
-      title: "Message",
-      description: `Connect to Supabase to enable messaging with ${authorName}`,
-    });
+    if (user && profile) {
+      const newTheme = profile.theme_preference === 'light' ? 'dark' : 'light';
+      updateProfile({ theme_preference: newTheme });
+    } else {
+      // For non-authenticated users, just toggle the class
+      document.documentElement.classList.toggle('dark');
+    }
   };
 
   const handleAddWish = () => {
-    toast({
-      title: "Create Wish",
-      description: "Connect to Supabase to enable wish creation",
-    });
+    if (user) {
+      setCreateWishDialog(true);
+    } else {
+      handleRegister();
+    }
   };
+
+  const handleLike = (id: string) => {
+    if (user) {
+      toggleLike(id);
+    } else {
+      handleLogin();
+    }
+  };
+
+  const handleMessage = (authorName: string) => {
+    if (user) {
+      // TODO: Implement messaging functionality
+      console.log('Message to:', authorName);
+    } else {
+      handleLogin();
+    }
+  };
+
+  const handleEdit = (id: string) => {
+    // TODO: Implement edit functionality
+    console.log('Edit wish:', id);
+  };
+
+  const handleDelete = (id: string) => {
+    deleteWish(id);
+  };
+
+  const transformedWishes = wishes.map(wish => ({
+    id: wish.id,
+    title: wish.title,
+    description: wish.description || '',
+    image: wish.image_url || '/placeholder.svg',
+    link: wish.link,
+    tags: wish.tags,
+    likes: wish.likes,
+    author: {
+      name: wish.profiles.full_name || 'Anonymous',
+      avatar: wish.profiles.avatar_url,
+    },
+    isLiked: wish.isLiked,
+    isOwner: wish.isOwner,
+  }));
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <Header
-        isAuthenticated={isAuthenticated}
+        isAuthenticated={!!user}
         onLogin={handleLogin}
         onRegister={handleRegister}
         onLanguageChange={handleLanguageChange}
         onThemeToggle={handleThemeToggle}
-        currentLanguage={currentLanguage}
-        isDarkTheme={isDarkTheme}
+        currentLanguage={profile?.language_preference || 'en'}
+        isDarkTheme={profile?.theme_preference === 'dark'}
+        onSignOut={signOut}
+        userProfile={profile}
       />
 
       <Hero
@@ -95,12 +142,15 @@ const Index = () => {
 
       <div id="wish-grid">
         <WishGrid
-          wishes={mockWishes}
-          isAuthenticated={isAuthenticated}
+          wishes={transformedWishes}
+          isAuthenticated={!!user}
           showAddButton={true}
+          loading={wishesLoading}
           onAddWish={handleAddWish}
           onLike={handleLike}
           onMessage={handleMessage}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
         />
       </div>
 
@@ -118,6 +168,17 @@ const Index = () => {
           </button>
         </div>
       </footer>
+
+      <AuthDialog
+        open={authDialog.open}
+        onOpenChange={(open) => setAuthDialog(prev => ({ ...prev, open }))}
+        mode={authDialog.mode}
+      />
+
+      <CreateWishDialog
+        open={createWishDialog}
+        onOpenChange={setCreateWishDialog}
+      />
     </div>
   );
 };

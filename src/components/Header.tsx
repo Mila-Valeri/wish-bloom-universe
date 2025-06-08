@@ -10,14 +10,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+interface UserProfile {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+  theme_preference: 'light' | 'dark';
+  language_preference: 'en' | 'ua';
+}
+
 interface HeaderProps {
   isAuthenticated?: boolean;
   onLogin?: () => void;
   onRegister?: () => void;
   onLanguageChange?: (lang: string) => void;
   onThemeToggle?: () => void;
+  onSignOut?: () => void;
   currentLanguage?: string;
   isDarkTheme?: boolean;
+  userProfile?: UserProfile | null;
 }
 
 const Header = ({ 
@@ -26,8 +36,10 @@ const Header = ({
   onRegister, 
   onLanguageChange,
   onThemeToggle,
+  onSignOut,
   currentLanguage = 'en',
-  isDarkTheme = false
+  isDarkTheme = false,
+  userProfile
 }: HeaderProps) => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -68,7 +80,15 @@ const Header = ({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                  <User className="h-6 w-6" />
+                  {userProfile?.avatar_url ? (
+                    <img 
+                      src={userProfile.avatar_url} 
+                      alt="Avatar" 
+                      className="h-full w-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <User className="h-6 w-6" />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-background">
@@ -85,7 +105,7 @@ const Header = ({
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={onSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Logout</span>
                 </DropdownMenuItem>

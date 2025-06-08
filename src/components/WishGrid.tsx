@@ -30,6 +30,7 @@ interface WishGridProps {
   wishes: Wish[];
   isAuthenticated?: boolean;
   showAddButton?: boolean;
+  loading?: boolean;
   onAddWish?: () => void;
   onLike?: (id: string) => void;
   onMessage?: (authorId: string) => void;
@@ -41,6 +42,7 @@ const WishGrid = ({
   wishes = [],
   isAuthenticated = false,
   showAddButton = false,
+  loading = false,
   onAddWish,
   onLike,
   onMessage,
@@ -55,6 +57,25 @@ const WishGrid = ({
     if (filter === 'recent') return true; // Add timestamp logic later
     return true;
   });
+
+  if (loading) {
+    return (
+      <section className="py-12 px-4">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="bg-card rounded-lg p-4 animate-pulse">
+                <div className="aspect-[4/3] bg-muted rounded-md mb-4"></div>
+                <div className="h-4 bg-muted rounded mb-2"></div>
+                <div className="h-3 bg-muted rounded mb-2 w-3/4"></div>
+                <div className="h-3 bg-muted rounded w-1/2"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-12 px-4">
@@ -86,10 +107,10 @@ const WishGrid = ({
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {showAddButton && isAuthenticated && (
+            {showAddButton && (
               <Button onClick={onAddWish} className="flex items-center space-x-2">
                 <Plus className="h-4 w-4" />
-                <span>Add Wish</span>
+                <span>{isAuthenticated ? 'Add Wish' : 'Sign Up to Add'}</span>
               </Button>
             )}
           </div>

@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Plus, Filter, Search, X } from 'lucide-react';
+import { Plus, Filter, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -103,61 +103,62 @@ const WishGrid = ({
             Discover amazing dreams and aspirations
           </p>
           
-          {/* Search and Filter Controls */}
-          <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto mb-6 md:mb-8">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search wishes..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 text-sm md:text-base"
-              />
-            </div>
-            
-            <div className="flex gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="flex items-center gap-2 text-sm md:text-base">
-                    <Filter className="h-4 w-4" />
-                    Filter
-                    {selectedTag && (
-                      <span className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs">
-                        {selectedTag}
-                      </span>
-                    )}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="bg-background">
-                  <DropdownMenuItem onClick={() => setSelectedTag(null)}>
-                    All Tags
-                  </DropdownMenuItem>
-                  {allTags.map((tag) => (
-                    <DropdownMenuItem 
-                      key={tag} 
-                      onClick={() => setSelectedTag(tag)}
-                    >
-                      {tag}
+          {/* Search and Filter Controls - only show if there are wishes */}
+          {wishes.length > 0 && (
+            <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto mb-6 md:mb-8">
+              <div className="relative flex-1">
+                <Input
+                  placeholder="Search wishes..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-4 text-sm md:text-base"
+                />
+              </div>
+              
+              <div className="flex gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2 text-sm md:text-base">
+                      <Filter className="h-4 w-4" />
+                      Filter
+                      {selectedTag && (
+                        <span className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs">
+                          {selectedTag}
+                        </span>
+                      )}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-background">
+                    <DropdownMenuItem onClick={() => setSelectedTag(null)}>
+                      All Tags
                     </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-              
-              {hasActiveFilters && (
-                <Button variant="ghost" onClick={clearFilters} className="flex items-center gap-2">
-                  <X className="h-4 w-4" />
-                  Clear
-                </Button>
-              )}
-              
-              {showAddButton && (
-                <Button onClick={onAddWish} className="flex items-center gap-2 text-sm md:text-base">
-                  <Plus className="h-4 w-4" />
-                  {isAuthenticated ? 'Add Wish' : 'Log in to add'}
-                </Button>
-              )}
+                    {allTags.map((tag) => (
+                      <DropdownMenuItem 
+                        key={tag} 
+                        onClick={() => setSelectedTag(tag)}
+                      >
+                        {tag}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                
+                {hasActiveFilters && (
+                  <Button variant="ghost" onClick={clearFilters} className="flex items-center gap-2">
+                    <X className="h-4 w-4" />
+                    Clear
+                  </Button>
+                )}
+                
+                {showAddButton && (
+                  <Button onClick={onAddWish} className="flex items-center gap-2 text-sm md:text-base">
+                    <Plus className="h-4 w-4" />
+                    {isAuthenticated ? 'Add Wish' : 'Log in to add'}
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {filteredWishes.length === 0 ? (
@@ -174,19 +175,22 @@ const WishGrid = ({
                 : 'Be the first to share your dreams!'
               }
             </p>
-            {!hasActiveFilters && showAddButton && (
-              <Button onClick={onAddWish} size="lg" className="text-sm md:text-base">
-                <Plus className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-                {isAuthenticated ? 'Create Your First Wish' : 'Log in to add'}
-              </Button>
-            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {filteredWishes.map((wish) => (
               <WishCard
                 key={wish.id}
-                wish={wish}
+                id={wish.id}
+                title={wish.title}
+                description={wish.description}
+                image={wish.image}
+                link={wish.link}
+                tags={wish.tags}
+                likes={wish.likes}
+                author={wish.author}
+                isLiked={wish.isLiked}
+                isOwner={wish.isOwner}
                 isAuthenticated={isAuthenticated}
                 onLike={onLike}
                 onMessage={onMessage}

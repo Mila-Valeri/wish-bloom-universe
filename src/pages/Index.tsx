@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import WishGrid from '@/components/WishGrid';
+import ScrollToTop from '@/components/ScrollToTop';
 import { AuthDialog } from '@/components/auth/AuthDialog';
 import { CreateWishDialog } from '@/components/wishes/CreateWishDialog';
 import { useAuth } from '@/hooks/useAuth';
@@ -112,10 +113,10 @@ const Index = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
+          <div className="animate-spin rounded-full h-8 w-8 md:h-12 md:w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground text-sm md:text-base">Loading...</p>
         </div>
       </div>
     );
@@ -154,20 +155,23 @@ const Index = () => {
         />
       </div>
 
-      <footer className="bg-muted/30 py-12 px-4 mt-16">
+      <footer className="bg-muted/30 py-8 md:py-12 px-4 mt-16">
         <div className="container mx-auto text-center">
-          <h3 className="text-lg font-semibold mb-2">Ready to start your wish journey?</h3>
-          <p className="text-muted-foreground mb-6">
+          <h3 className="text-base md:text-lg font-semibold mb-2">Ready to start your wish journey?</h3>
+          <p className="text-muted-foreground mb-4 md:mb-6 text-sm md:text-base">
             Join thousands of dreamers who are making their wishes come true
           </p>
           <button 
             onClick={handleGetStarted}
-            className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+            className="bg-primary text-primary-foreground px-4 md:px-6 py-2 md:py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors text-sm md:text-base"
           >
             Get Started Today
           </button>
         </div>
       </footer>
+
+      {/* Scroll to top button */}
+      <ScrollToTop />
 
       <AuthDialog
         open={authDialog.open}

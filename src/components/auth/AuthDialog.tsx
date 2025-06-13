@@ -48,16 +48,16 @@ export const AuthDialog = ({ open, onOpenChange, mode }: AuthDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md w-[95vw] mx-auto">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-lg md:text-xl">
             {mode === 'login' ? 'Welcome Back' : 'Create Account'}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           {mode === 'register' && (
             <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="fullName" className="text-sm md:text-base">Full Name</Label>
               <Input
                 id="fullName"
                 type="text"
@@ -65,11 +65,12 @@ export const AuthDialog = ({ open, onOpenChange, mode }: AuthDialogProps) => {
                 onChange={(e) => setFullName(e.target.value)}
                 required
                 placeholder="Enter your full name"
+                className="text-sm md:text-base"
               />
             </div>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-sm md:text-base">Email</Label>
             <Input
               id="email"
               type="email"
@@ -77,10 +78,11 @@ export const AuthDialog = ({ open, onOpenChange, mode }: AuthDialogProps) => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your email"
+              className="text-sm md:text-base"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-sm md:text-base">Password</Label>
             <Input
               id="password"
               type="password"
@@ -89,9 +91,14 @@ export const AuthDialog = ({ open, onOpenChange, mode }: AuthDialogProps) => {
               required
               placeholder="Enter your password"
               minLength={6}
+              className="text-sm md:text-base"
             />
           </div>
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button 
+            type="submit" 
+            className="w-full text-sm md:text-base py-2 md:py-3" 
+            disabled={loading}
+          >
             {loading 
               ? 'Loading...' 
               : mode === 'login' 

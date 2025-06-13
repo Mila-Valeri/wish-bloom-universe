@@ -21,7 +21,6 @@ interface UserProfile {
 interface HeaderProps {
   isAuthenticated?: boolean;
   onLogin?: () => void;
-  onRegister?: () => void;
   onLanguageChange?: (lang: string) => void;
   onThemeToggle?: () => void;
   onSignOut?: () => void;
@@ -33,7 +32,6 @@ interface HeaderProps {
 const Header = ({ 
   isAuthenticated = false, 
   onLogin, 
-  onRegister, 
   onLanguageChange,
   onThemeToggle,
   onSignOut,
@@ -71,9 +69,9 @@ const Header = ({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Theme Toggle - показуємо протилежну іконку поточній темі */}
+          {/* Theme Toggle - показуємо іконку поточної теми */}
           <Button variant="ghost" size="icon" onClick={onThemeToggle} className="h-8 w-8 md:h-10 md:w-10">
-            {isDarkTheme ? <Sun className="h-4 w-4 md:h-5 md:w-5" /> : <Moon className="h-4 w-4 md:h-5 md:w-5" />}
+            {isDarkTheme ? <Moon className="h-4 w-4 md:h-5 md:w-5" /> : <Sun className="h-4 w-4 md:h-5 md:w-5" />}
           </Button>
 
           {isAuthenticated ? (
@@ -113,11 +111,8 @@ const Header = ({
             </DropdownMenu>
           ) : (
             <div className="flex items-center space-x-1 md:space-x-2">
-              <Button variant="ghost" onClick={onLogin} className="text-sm md:text-base px-2 md:px-4">
+              <Button onClick={onLogin} className="text-sm md:text-base px-2 md:px-4">
                 Login
-              </Button>
-              <Button onClick={onRegister} className="text-sm md:text-base px-2 md:px-4">
-                Sign Up
               </Button>
             </div>
           )}

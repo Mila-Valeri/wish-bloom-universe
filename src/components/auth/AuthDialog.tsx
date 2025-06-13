@@ -14,31 +14,24 @@ import { useAuth } from '@/hooks/useAuth';
 interface AuthDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  mode: 'login' | 'register';
 }
 
-export const AuthDialog = ({ open, onOpenChange, mode }: AuthDialogProps) => {
+export const AuthDialog = ({ open, onOpenChange }: AuthDialogProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp } = useAuth();
+  const { signIn } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      if (mode === 'login') {
-        await signIn(email, password);
-      } else {
-        await signUp(email, password, fullName);
-      }
+      await signIn(email, password);
       onOpenChange(false);
       // Reset form
       setEmail('');
       setPassword('');
-      setFullName('');
     } catch (error) {
       // Error is handled in the auth hook
     } finally {
@@ -51,24 +44,10 @@ export const AuthDialog = ({ open, onOpenChange, mode }: AuthDialogProps) => {
       <DialogContent className="sm:max-w-md w-[95vw] mx-auto">
         <DialogHeader>
           <DialogTitle className="text-lg md:text-xl">
-            {mode === 'login' ? 'Welcome Back' : 'Create Account'}
+            Welcome Back
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === 'register' && (
-            <div className="space-y-2">
-              <Label htmlFor="fullName" className="text-sm md:text-base">Full Name</Label>
-              <Input
-                id="fullName"
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-                placeholder="Enter your full name"
-                className="text-sm md:text-base"
-              />
-            </div>
-          )}
           <div className="space-y-2">
             <Label htmlFor="email" className="text-sm md:text-base">Email</Label>
             <Input
@@ -99,12 +78,7 @@ export const AuthDialog = ({ open, onOpenChange, mode }: AuthDialogProps) => {
             className="w-full text-sm md:text-base py-2 md:py-3" 
             disabled={loading}
           >
-            {loading 
-              ? 'Loading...' 
-              : mode === 'login' 
-                ? 'Sign In' 
-                : 'Create Account'
-            }
+            {loading ? 'Loading...' : 'Sign In'}
           </Button>
         </form>
       </DialogContent>

@@ -10,10 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useWishes } from '@/hooks/useWishes';
 
 const Index = () => {
-  const [authDialog, setAuthDialog] = useState<{open: boolean, mode: 'login' | 'register'}>({
-    open: false,
-    mode: 'login'
-  });
+  const [authDialog, setAuthDialog] = useState(false);
   const [createWishDialog, setCreateWishDialog] = useState(false);
   const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
   const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishes();
@@ -26,18 +23,14 @@ const Index = () => {
   }, [profile?.theme_preference]);
 
   const handleLogin = () => {
-    setAuthDialog({ open: true, mode: 'login' });
-  };
-
-  const handleRegister = () => {
-    setAuthDialog({ open: true, mode: 'register' });
+    setAuthDialog(true);
   };
 
   const handleGetStarted = () => {
     if (user) {
       document.getElementById('wish-grid')?.scrollIntoView({ behavior: 'smooth' });
     } else {
-      handleRegister();
+      handleLogin();
     }
   };
 
@@ -65,7 +58,7 @@ const Index = () => {
     if (user) {
       setCreateWishDialog(true);
     } else {
-      handleRegister();
+      handleLogin();
     }
   };
 
@@ -127,7 +120,6 @@ const Index = () => {
       <Header
         isAuthenticated={!!user}
         onLogin={handleLogin}
-        onRegister={handleRegister}
         onLanguageChange={handleLanguageChange}
         onThemeToggle={handleThemeToggle}
         currentLanguage={profile?.language_preference || 'en'}
@@ -174,9 +166,8 @@ const Index = () => {
       <ScrollToTop />
 
       <AuthDialog
-        open={authDialog.open}
-        onOpenChange={(open) => setAuthDialog(prev => ({ ...prev, open }))}
-        mode={authDialog.mode}
+        open={authDialog}
+        onOpenChange={setAuthDialog}
       />
 
       <CreateWishDialog

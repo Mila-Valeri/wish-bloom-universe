@@ -69,9 +69,9 @@ const Header = ({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Theme Toggle - показуємо іконку поточної теми */}
+          {/* Theme Toggle - показуємо протилежну іконку від поточної теми */}
           <Button variant="ghost" size="icon" onClick={onThemeToggle} className="h-8 w-8 md:h-10 md:w-10">
-            {isDarkTheme ? <Moon className="h-4 w-4 md:h-5 md:w-5" /> : <Sun className="h-4 w-4 md:h-5 md:w-5" />}
+            {isDarkTheme ? <Sun className="h-4 w-4 md:h-5 md:w-5" /> : <Moon className="h-4 w-4 md:h-5 md:w-5" />}
           </Button>
 
           {isAuthenticated ? (

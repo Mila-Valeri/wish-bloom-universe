@@ -74,7 +74,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .single();
 
       if (error) throw error;
-      setProfile(data);
+      
+      // Ensure type safety for theme_preference and language_preference
+      const profileData: Profile = {
+        ...data,
+        theme_preference: (data.theme_preference === 'dark' ? 'dark' : 'light') as 'light' | 'dark',
+        language_preference: (data.language_preference === 'ua' ? 'ua' : 'en') as 'en' | 'ua'
+      };
+      
+      setProfile(profileData);
     } catch (error) {
       console.error('Error fetching profile:', error);
     } finally {

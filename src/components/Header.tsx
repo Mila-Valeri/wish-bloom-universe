@@ -38,8 +38,11 @@ const Header = ({
   const [isDark, setIsDark] = useState(document.body.classList.contains('dark'));
 
   const handleThemeToggle = () => {
-    document.body.classList.toggle('dark');
-    setIsDark(document.body.classList.contains('dark'));
+    const checkbox = document.getElementById("checkbox") as HTMLInputElement;
+    if (checkbox) {
+      document.body.classList.toggle("dark");
+      setIsDark(document.body.classList.contains('dark'));
+    }
   };
 
   return (
@@ -72,7 +75,7 @@ const Header = ({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Theme Toggle Checkbox */}
+          {/* Theme Toggle */}
           <div className="flex items-center">
             <input 
               id="checkbox" 
@@ -110,16 +113,20 @@ const Header = ({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-background">
                 <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                  <a href="/profile" className="flex items-center w-full">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Plus className="mr-2 h-4 w-4" />
                   <span>Create Wish</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                  <a href="/settings" className="flex items-center w-full">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </a>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onSignOut}>

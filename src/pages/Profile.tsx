@@ -1,0 +1,159 @@
+
+import { useState } from 'react';
+import { Edit2, User, Save } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
+import Header from '@/components/Header';
+
+const Profile = () => {
+  const { user, profile, signOut, updateProfile } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState(profile?.full_name || '');
+  const [nameError, setNameError] = useState('');
+
+  const validateName = (name: string) => {
+    if (name.length < 2) {
+      return 'Name must be at least 2 characters';
+    }
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+      return 'Name can only contain letters and spaces';
+    }
+    return '';
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setEditedName(profile?.full_name || '');
+    setNameError('');
+  };
+
+  const handleSave = async () => {
+    const error = validateName(editedName);
+    if (error) {
+      setNameError(error);
+      return;
+    }
+
+    try {
+      await updateProfile({ full_name: editedName });
+      setIsEditing(false);
+      setNameError('');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedName(profile?.full_name || '');
+    setNameError('');
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header
+        isAuthenticated={!!user}
+        onSignOut={signOut}
+        userProfile={profile}
+      />
+      
+      <div className="container mx-auto px-4 py-8 animate-fade-in">
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+            Profile
+          </h1>
+          
+          <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg animate-scale-in">
+            <CardHeader className="text-center">
+              <div className="mx-auto w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center mb-4 animate-pulse">
+                {profile?.avatar_url ? (
+                  <img 
+                    src={profile.avatar_url} 
+                    alt="Profile" 
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <User className="w-12 h-12 text-white" />
+                )}
+              </div>
+              <CardTitle className="text-2xl">Welcome to your Profile</CardTitle>
+              <CardDescription>Manage your personal information</CardDescription>
+            </CardHeader>
+            
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={user?.email || ''}
+                    disabled
+                    className="bg-muted/50"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  {isEditing ? (
+                    <div className="space-y-2">
+                      <Input
+                        id="name"
+                        type="text"
+                        value={editedName}
+                        onChange={(e) => setEditedName(e.target.value)}
+                        placeholder="Enter your full name"
+                        className={nameError ? 'border-destructive' : ''}
+                      />
+                      {nameError && (
+                        <p className="text-sm text-destructive">{nameError}</p>
+                      )}
+                      <div className="flex gap-2">
+                        <Button onClick={handleSave} className="hover:scale-105 transition-transform">
+                          <Save className="w-4 h-4 mr-2" />
+                          Save
+                        </Button>
+                        <Button variant="outline" onClick={handleCancel}>
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                      <span className="font-medium">
+                        {profile?.full_name || 'No name set'}
+                      </span>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={handleEdit}
+                        className="hover:scale-105 transition-transform"
+                      >
+                        <Edit2 className="w-4 h-4 mr-2" />
+                        Edit name
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Member Since</Label>
+                  <div className="p-3 bg-muted/50 rounded-lg">
+                    <span className="text-sm text-muted-foreground">
+                      {profile?.created_at ? new Date(profile.created_at).toLocaleDateString() : 'Unknown'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Profile;

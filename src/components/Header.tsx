@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Heart, User, Settings, LogOut, Plus, Globe, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
+import ThemeToggle from './ThemeToggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,14 +39,8 @@ const Header = ({
   userProfile,
   showBackButton = false
 }: HeaderProps) => {
-  const [isDark, setIsDark] = useState(document.body.classList.contains('dark'));
   const navigate = useNavigate();
   const location = useLocation();
-
-  const handleThemeToggle = () => {
-    document.body.classList.toggle("dark");
-    setIsDark(document.body.classList.contains('dark'));
-  };
 
   const handleLogoClick = () => {
     if (isAuthenticated) {
@@ -110,25 +105,7 @@ const Header = ({
           </DropdownMenu>
 
           {/* Theme Toggle */}
-          <div className="flex items-center">
-            <input 
-              id="checkbox" 
-              type="checkbox" 
-              checked={isDark}
-              onChange={handleThemeToggle}
-              className="sr-only"
-            />
-            <label 
-              htmlFor="checkbox" 
-              className="cursor-pointer flex items-center justify-center h-8 w-8 md:h-10 md:w-10 rounded-md hover:bg-accent transition-colors"
-            >
-              {isDark ? (
-                <span className="text-lg">☀️</span>
-              ) : (
-                <span className="text-lg">🌙</span>
-              )}
-            </label>
-          </div>
+          <ThemeToggle />
 
           {isAuthenticated ? (
             <DropdownMenu>

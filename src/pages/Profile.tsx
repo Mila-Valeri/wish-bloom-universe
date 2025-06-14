@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Edit2, User, Save } from 'lucide-react';
+import { Edit2, User, Save, Heart, Sparkles } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -53,22 +53,44 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background dream-bg">
       <Header
         isAuthenticated={!!user}
         onSignOut={signOut}
         userProfile={profile}
       />
       
-      <div className="container mx-auto px-4 py-8 animate-fade-in">
+      {/* Floating hearts animation */}
+      <div className="floating-hearts">
+        <Heart className="h-6 w-6 text-pink-400 fill-current" />
+      </div>
+      <div className="floating-hearts">
+        <Heart className="h-4 w-4 text-purple-400 fill-current" />
+      </div>
+      <div className="floating-hearts">
+        <Heart className="h-5 w-5 text-primary fill-current" />
+      </div>
+      
+      <div className="container mx-auto px-4 py-8 animate-fade-in relative">
+        {/* Decorative sparkles */}
+        <div className="absolute top-20 right-10 sparkle">
+          <Sparkles className="h-8 w-8 text-primary/30" />
+        </div>
+        <div className="absolute top-40 right-20 sparkle" style={{ animationDelay: '1s' }}>
+          <Sparkles className="h-6 w-6 text-purple-400/30" />
+        </div>
+        <div className="absolute top-60 right-32 sparkle" style={{ animationDelay: '2s' }}>
+          <Sparkles className="h-10 w-10 text-pink-400/30" />
+        </div>
+        
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent profile-shine">
             Profile
           </h1>
           
-          <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg animate-scale-in">
+          <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg animate-scale-in wish-glow">
             <CardHeader className="text-center">
-              <div className="mx-auto w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center mb-4 animate-pulse">
+              <div className="mx-auto w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center mb-4 heart-pulse">
                 {profile?.avatar_url ? (
                   <img 
                     src={profile.avatar_url} 

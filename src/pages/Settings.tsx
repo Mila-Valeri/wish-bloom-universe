@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Settings as SettingsIcon, Shield, Trash2, Sparkles } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -48,16 +48,29 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background dream-bg">
       <Header
         isAuthenticated={!!user}
         onSignOut={signOut}
         userProfile={profile}
       />
       
-      <div className="container mx-auto px-4 py-8 animate-fade-in">
+      <div className="container mx-auto px-4 py-8 animate-fade-in relative">
+        {/* Main settings animation */}
+        <div className="absolute top-10 right-10 settings-rotate opacity-20">
+          <SettingsIcon className="h-20 w-20 text-primary" />
+        </div>
+        
+        {/* Decorative sparkles */}
+        <div className="absolute top-32 left-10 sparkle">
+          <Sparkles className="h-6 w-6 text-primary/30" />
+        </div>
+        <div className="absolute top-48 left-20 sparkle" style={{ animationDelay: '1.5s' }}>
+          <Sparkles className="h-8 w-8 text-purple-400/30" />
+        </div>
+        
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent profile-shine">
             Settings
           </h1>
           
@@ -71,10 +84,15 @@ const Settings = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="login" className="animate-scale-in">
+            <TabsContent value="login" className="animate-scale-in relative">
+              {/* Security animation */}
+              <div className="absolute top-4 right-4 shield-glow">
+                <Shield className="h-16 w-16 text-primary/40" />
+              </div>
+              
               <div className="space-y-6">
                 {/* Email Section */}
-                <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg">
+                <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg wish-glow">
                   <CardHeader>
                     <CardTitle className="text-xl">Email Address</CardTitle>
                     <CardDescription>Manage your email address</CardDescription>
@@ -101,7 +119,7 @@ const Settings = () => {
                 </Card>
 
                 {/* Password Section */}
-                <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg">
+                <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg wish-glow">
                   <CardHeader>
                     <CardTitle className="text-xl">Password</CardTitle>
                     <CardDescription>Change your password</CardDescription>
@@ -186,7 +204,12 @@ const Settings = () => {
               </div>
             </TabsContent>
             
-            <TabsContent value="account" className="animate-scale-in">
+            <TabsContent value="account" className="animate-scale-in relative">
+              {/* Account management animation */}
+              <div className="absolute top-4 right-4 float-away opacity-60">
+                <Trash2 className="h-16 w-16 text-destructive/40" />
+              </div>
+              
               <Card className="backdrop-blur-sm bg-card/50 border-2 border-destructive/10 shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-xl text-destructive">Delete Account</CardTitle>

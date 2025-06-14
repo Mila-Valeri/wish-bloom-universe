@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -9,11 +8,17 @@ import { CreateWishDialog } from '@/components/wishes/CreateWishDialog';
 import { useAuth } from '@/hooks/useAuth';
 import { useWishes } from '@/hooks/useWishes';
 
+// Define the admin email
+const ADMIN_EMAIL = 'admin@wishboard.com';
+
 const Index = () => {
   const [authDialog, setAuthDialog] = useState(false);
   const [createWishDialog, setCreateWishDialog] = useState(false);
   const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
   const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishes();
+
+  // Check if current user is admin
+  const isAdmin = user?.email === ADMIN_EMAIL;
 
   // Update document theme and language when profile changes
   useEffect(() => {
@@ -44,18 +49,8 @@ const Index = () => {
     }
   };
 
-  const handleThemeToggle = () => {
-    if (user && profile) {
-      const newTheme = profile.theme_preference === 'light' ? 'dark' : 'light';
-      updateProfile({ theme_preference: newTheme });
-    } else {
-      // For non-authenticated users, just toggle the class
-      document.documentElement.classList.toggle('dark');
-    }
-  };
-
   const handleAddWish = () => {
-    if (user) {
+    if (isAdmin) {
       setCreateWishDialog(true);
     } else {
       handleLogin();
@@ -121,9 +116,7 @@ const Index = () => {
         isAuthenticated={!!user}
         onLogin={handleLogin}
         onLanguageChange={handleLanguageChange}
-        onThemeToggle={handleThemeToggle}
         currentLanguage={profile?.language_preference || 'en'}
-        isDarkTheme={profile?.theme_preference === 'dark'}
         onSignOut={signOut}
         userProfile={profile}
       />
@@ -144,6 +137,7 @@ const Index = () => {
           onMessage={handleMessage}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          isAdmin={isAdmin}
         />
       </div>
 

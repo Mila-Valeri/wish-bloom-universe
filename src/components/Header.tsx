@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Heart, User, Settings, LogOut, Plus, Globe, Moon, Sun, ArrowUp } from 'lucide-react';
+import { Heart, User, Settings, LogOut, Plus, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -22,10 +22,8 @@ interface HeaderProps {
   isAuthenticated?: boolean;
   onLogin?: () => void;
   onLanguageChange?: (lang: string) => void;
-  onThemeToggle?: () => void;
   onSignOut?: () => void;
   currentLanguage?: string;
-  isDarkTheme?: boolean;
   userProfile?: UserProfile | null;
 }
 
@@ -33,12 +31,17 @@ const Header = ({
   isAuthenticated = false, 
   onLogin, 
   onLanguageChange,
-  onThemeToggle,
   onSignOut,
   currentLanguage = 'en',
-  isDarkTheme = false,
   userProfile
 }: HeaderProps) => {
+  const [isDark, setIsDark] = useState(document.body.classList.contains('dark'));
+
+  const handleThemeToggle = () => {
+    document.body.classList.toggle('dark');
+    setIsDark(document.body.classList.contains('dark'));
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 md:h-16 items-center justify-between px-2 md:px-4">
@@ -69,10 +72,26 @@ const Header = ({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Theme Toggle - показуємо іконку протилежної теми */}
-          <Button variant="ghost" size="icon" onClick={onThemeToggle} className="h-8 w-8 md:h-10 md:w-10">
-            {isDarkTheme ? <Sun className="h-4 w-4 md:h-5 md:w-5" /> : <Moon className="h-4 w-4 md:h-5 md:w-5" />}
-          </Button>
+          {/* Theme Toggle Checkbox */}
+          <div className="flex items-center">
+            <input 
+              id="checkbox" 
+              type="checkbox" 
+              checked={isDark}
+              onChange={handleThemeToggle}
+              className="sr-only"
+            />
+            <label 
+              htmlFor="checkbox" 
+              className="cursor-pointer flex items-center justify-center h-8 w-8 md:h-10 md:w-10 rounded-md hover:bg-accent transition-colors"
+            >
+              {isDark ? (
+                <span className="text-lg">☀️</span>
+              ) : (
+                <span className="text-lg">🌙</span>
+              )}
+            </label>
+          </div>
 
           {isAuthenticated ? (
             <DropdownMenu>

@@ -39,6 +39,7 @@ interface WishGridProps {
   onMessage?: (authorName: string) => void;
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
+  isAdmin?: boolean;
 }
 
 const WishGrid = ({
@@ -51,6 +52,7 @@ const WishGrid = ({
   onMessage,
   onEdit,
   onDelete,
+  isAdmin = false,
 }: WishGridProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -150,10 +152,11 @@ const WishGrid = ({
                   </Button>
                 )}
                 
-                {showAddButton && (
+                {/* Only show Add button if admin is logged in */}
+                {showAddButton && isAdmin && (
                   <Button onClick={onAddWish} className="flex items-center gap-2 text-sm md:text-base">
                     <Plus className="h-4 w-4" />
-                    {isAuthenticated ? 'Add Wish' : 'Log in to add'}
+                    Add Wish
                   </Button>
                 )}
               </div>

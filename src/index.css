@@ -103,6 +103,12 @@
     animation: float-fast 2s ease-in-out infinite;
   }
 
+  .animate-fade-pop {
+    animation: fade-pop 0.8s ease both;
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
   .dream-bg {
     background: linear-gradient(135deg, 
       hsl(var(--background)) 0%, 
@@ -180,7 +186,27 @@
     animation: hero-entrance 0.85s cubic-bezier(0.38,0.62,0.29,0.99) forwards;
     opacity: 0;
   }
+
+  .hero-gel-highlight {
+    position: relative;
+    /* For pseudo-element below */
+  }
+  .hero-gel-highlight::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.13) 0%,  /* top highlight */
+      rgba(255,255,255,0.06) 55%,
+      rgba(87,52,192,0.09) 87%,
+      rgba(0,0,0,0.08) 100%);
+    mix-blend-mode: lighten;
+    border-radius: 1rem;
+  }
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -360,4 +386,19 @@
 }
 .animate-float-fast {
   animation: float-fast 2s ease-in-out infinite;
+}
+
+@keyframes fade-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.94);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
 }

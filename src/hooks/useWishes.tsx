@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -15,6 +14,7 @@ export interface Wish {
   created_at: string;
   updated_at: string;
   user_id: string;
+  status: string | null;
   profiles: {
     full_name: string | null;
     avatar_url: string | null;
@@ -72,6 +72,7 @@ export const useWishes = () => {
     image_url?: string;
     link?: string;
     tags?: string[];
+    status?: string;
   }) => {
     if (!user) return;
 

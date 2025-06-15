@@ -1,4 +1,6 @@
-import { useState, useNavigate } from 'react';
+
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Heart, ExternalLink, MessageSquare, MoreVertical, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';

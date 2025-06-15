@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, Sparkles, Star } from 'lucide-react';
-import HeroTitle from "./HeroTitle";
+import DreamStars from "./DreamStars";
+import HeroTitleMain from "./HeroTitleMain";
 
 interface HeroProps {
   onGetStarted: () => void;
@@ -32,27 +33,9 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center px-4 py-12 md:py-20 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 animate-bounce">
-          <Heart className="h-8 w-8 text-primary/30 fill-current" />
-        </div>
-        <div className="absolute top-40 right-20 animate-pulse">
-          <Sparkles className="h-6 w-6 text-purple-400/40" />
-        </div>
-        <div className="absolute bottom-32 left-20 animate-spin" style={{ animationDuration: '3s' }}>
-          <Star className="h-5 w-5 text-pink-400/30" />
-        </div>
-        <div className="absolute top-60 right-40 animate-bounce" style={{ animationDelay: '1s' }}>
-          <Heart className="h-4 w-4 text-primary/20 fill-current" />
-        </div>
-      </div>
-
-      <div className="relative z-10 text-center max-w-4xl mx-auto">
-        {/* Modern animated headline */}
-        <HeroTitle>
-          {t.headline}
-        </HeroTitle>
+      <DreamStars />
+      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+        <HeroTitleMain />
         {/* Subtitle stays below with animation and spacing */}
         <p
           className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto animate-fade-in"

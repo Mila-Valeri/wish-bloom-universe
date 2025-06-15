@@ -149,6 +149,7 @@ const Index = () => {
     },
     isLiked: wish.isLiked,
     isOwner: wish.isOwner,
+    status: wish.status,
   }));
 
   const t = texts[currentLanguage as keyof typeof texts] || texts.en;

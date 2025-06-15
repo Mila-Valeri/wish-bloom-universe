@@ -1,5 +1,5 @@
 
-import { supabase } from '@/integrations/supabase/client';
+import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '../useAuth';
 import { Wish } from './useWishesData';
@@ -21,27 +21,25 @@ export const useWishMutations = (
     if (!user) return;
 
     try {
-      const { data, error } = await supabase
-        .from('wishes')
-        .insert([{
+      const newWish = await apiRequest('/api/wishes', {
+        method: 'POST',
+        body: JSON.stringify({
           ...wishData,
           user_id: user.id,
-        }])
-        .select(`
-          *,
-          profiles (full_name, avatar_url)
-        `)
-        .single();
+        }),
+      });
 
-      if (error) throw error;
-
-      const newWish = {
-        ...data,
+      const wishWithMetadata = {
+        ...newWish,
+        profiles: {
+          full_name: user.email === 'admin@wishboard.com' ? 'Demo Admin' : 'Demo User',
+          avatar_url: null,
+        },
         isLiked: false,
         isOwner: true,
       };
 
-      setWishes(prev => [newWish, ...prev]);
+      setWishes(prev => [wishWithMetadata, ...prev]);
       
       toast({
         title: "Wish created!",
@@ -61,12 +59,10 @@ export const useWishMutations = (
 
   const updateWish = async (id: string, updates: Partial<Wish>) => {
     try {
-      const { error } = await supabase
-        .from('wishes')
-        .update(updates)
-        .eq('id', id);
-
-      if (error) throw error;
+      await apiRequest(`/api/wishes/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(updates),
+      });
 
       setWishes(prev => prev.map(wish => 
         wish.id === id ? { ...wish, ...updates } : wish
@@ -88,12 +84,9 @@ export const useWishMutations = (
 
   const deleteWish = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('wishes')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
+      await apiRequest(`/api/wishes/${id}`, {
+        method: 'DELETE',
+      });
 
       setWishes(prev => prev.filter(wish => wish.id !== id));
       

@@ -1,5 +1,5 @@
 
-import { supabase } from '@/integrations/supabase/client';
+import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '../useAuth';
 
@@ -11,20 +11,16 @@ export const useImageUpload = () => {
     if (!user) return null;
 
     try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}/${Math.random()}.${fileExt}`;
+      const formData = new FormData();
+      formData.append('image', file);
 
-      const { error: uploadError } = await supabase.storage
-        .from('wish-images')
-        .upload(fileName, file);
+      const response = await apiRequest('/api/upload', {
+        method: 'POST',
+        body: formData,
+        headers: {}, // Remove Content-Type to let browser set it with boundary
+      });
 
-      if (uploadError) throw uploadError;
-
-      const { data } = supabase.storage
-        .from('wish-images')
-        .getPublicUrl(fileName);
-
-      return data.publicUrl;
+      return response.url;
     } catch (error: any) {
       toast({
         title: "Error",

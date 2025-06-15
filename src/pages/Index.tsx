@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -16,22 +17,9 @@ const Index = () => {
   const [authDialog, setAuthDialog] = useState(false);
   const [createWishDialog, setCreateWishDialog] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [forceRender, setForceRender] = useState(false);
   const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
   const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishes();
   const navigate = useNavigate();
-
-  // Force render after 3 seconds if still loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (authLoading) {
-        console.log('Forcing render due to loading timeout');
-        setForceRender(true);
-      }
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [authLoading]);
 
   // Check if current user is admin
   const isAdmin = user?.email === ADMIN_EMAIL;
@@ -166,8 +154,8 @@ const Index = () => {
 
   const t = texts[currentLanguage as keyof typeof texts] || texts.en;
 
-  // Only show loading if auth is still loading AND we haven't forced render yet
-  if (authLoading && !forceRender) {
+  // Show loading only for a brief moment
+  if (authLoading && wishes.length === 0 && wishesLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">

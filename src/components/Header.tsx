@@ -113,33 +113,6 @@ const Header = ({
         </div>
 
         <div className="flex items-center space-x-2 md:space-x-4">
-          {/* Navigation for authenticated users */}
-          {isAuthenticated && (
-            <nav className="hidden md:flex items-center space-x-1">
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/profile')}
-                className="text-sm"
-              >
-                {t.profile}
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={onCreateWish}
-                className="text-sm"
-              >
-                {t.createWish}
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/settings')}
-                className="text-sm"
-              >
-                {t.settings}
-              </Button>
-            </nav>
-          )}
-
           {/* Language Selector */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

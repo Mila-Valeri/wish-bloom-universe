@@ -1,9 +1,18 @@
 
+import React, { memo } from 'react';
 import Sparkle from './Sparkle';
 
-const SparkleField = () => {
+const SparkleField = memo(() => {
   return (
-    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
+    <div 
+      style={{ 
+        position: 'absolute', 
+        inset: 0, 
+        pointerEvents: 'none', 
+        zIndex: 0,
+        willChange: 'transform' // Оптимизация для анимаций
+      }}
+    >
       <Sparkle top="10%" left="15%" size="28px" />
       <Sparkle top="23%" left="28%" size="33px" />
       <Sparkle top="18%" left="67%" size="36px" />
@@ -16,6 +25,8 @@ const SparkleField = () => {
       <Sparkle top="50%" left="86%" size="33px" />
     </div>
   );
-};
+});
+
+SparkleField.displayName = 'SparkleField';
 
 export default SparkleField;

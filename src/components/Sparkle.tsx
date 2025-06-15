@@ -1,8 +1,14 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 import './Sparkle.css';
 
-const Sparkle = ({ top, left, size = '30px' }: { top: string; left: string; size?: string }) => {
+interface SparkleProps {
+  top: string;
+  left: string;
+  size?: string;
+}
+
+const Sparkle = memo(({ top, left, size = '30px' }: SparkleProps) => {
   return (
     <div
       className="sparkle"
@@ -32,6 +38,8 @@ const Sparkle = ({ top, left, size = '30px' }: { top: string; left: string; size
       </svg>
     </div>
   );
-};
+});
+
+Sparkle.displayName = 'Sparkle';
 
 export default Sparkle;

@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import WishCard from './WishCard';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Author {
   name: string;
@@ -178,17 +179,30 @@ const WishGrid = ({
 
         {filteredWishes.length === 0 ? (
           <div className="text-center py-12 md:py-20">
-            <div 
-              className={`w-16 h-16 md:w-24 md:h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center transition-colors ${
-                isAdmin ? 'cursor-pointer hover:bg-muted/80' : 'cursor-pointer hover:bg-muted/80'
-              }`} 
-              onClick={() => {
-                if (onAddWish) onAddWish();
-              }}
-              data-testid="add-wish-plus"
-            >
-              <Plus className="w-8 h-8 md:w-12 md:h-12 text-muted-foreground" />
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    className={`w-16 h-16 md:w-24 md:h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center transition-colors ${
+                      isAdmin
+                        ? "cursor-pointer hover:bg-muted/80"
+                        : "cursor-not-allowed opacity-70"
+                    }`}
+                    onClick={() => {
+                      if (isAdmin && onAddWish) onAddWish();
+                    }}
+                    data-testid="add-wish-plus"
+                  >
+                    <Plus className="w-8 h-8 md:w-12 md:h-12 text-muted-foreground" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="text-center">
+                  {isAdmin
+                    ? (t.addWish || "Add Wish")
+                    : "Только для администратора. Войдите как администратор, чтобы добавить желание."}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <h3 className="text-lg md:text-2xl font-semibold mb-4">
               {hasActiveFilters ? t.noWishesMatch : t.noWishesYet}
             </h3>

@@ -126,8 +126,7 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .select()
       .from(wish_likes)
-      .where(eq(wish_likes.wish_id, wishId))
-      .where(eq(wish_likes.user_id, userId))
+      .where(and(eq(wish_likes.wish_id, wishId), eq(wish_likes.user_id, userId)))
       .limit(1);
     return result.length > 0;
   }
@@ -136,16 +135,14 @@ export class DatabaseStorage implements IStorage {
     const existing = await db
       .select()
       .from(wish_likes)
-      .where(eq(wish_likes.wish_id, wishId))
-      .where(eq(wish_likes.user_id, userId))
+      .where(and(eq(wish_likes.wish_id, wishId), eq(wish_likes.user_id, userId)))
       .limit(1);
 
     if (existing.length > 0) {
       // Unlike
       await db
         .delete(wish_likes)
-        .where(eq(wish_likes.wish_id, wishId))
-        .where(eq(wish_likes.user_id, userId));
+        .where(and(eq(wish_likes.wish_id, wishId), eq(wish_likes.user_id, userId)));
       
       // Decrement likes count
       await db

@@ -86,6 +86,7 @@ export type Database = {
           image_url: string | null
           likes: number | null
           link: string | null
+          status: string | null
           tags: string[] | null
           title: string
           updated_at: string | null
@@ -98,6 +99,7 @@ export type Database = {
           image_url?: string | null
           likes?: number | null
           link?: string | null
+          status?: string | null
           tags?: string[] | null
           title: string
           updated_at?: string | null
@@ -110,6 +112,7 @@ export type Database = {
           image_url?: string | null
           likes?: number | null
           link?: string | null
+          status?: string | null
           tags?: string[] | null
           title?: string
           updated_at?: string | null

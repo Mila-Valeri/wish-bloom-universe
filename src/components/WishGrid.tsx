@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import WishCard from './WishCard';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Author {
   name: string;
@@ -27,6 +28,7 @@ interface Wish {
   author: Author;
   isLiked?: boolean;
   isOwner?: boolean;
+  status?: string;
 }
 
 interface WishGridProps {
@@ -44,6 +46,12 @@ interface WishGridProps {
   texts?: any;
 }
 
+const WISH_STATUS = [
+  { label: "All wishes", value: "all" },
+  { label: "Priority wishes", value: "priority" },
+  { label: "Completed wishes", value: "completed" },
+  { label: "Unfulfilled wishes", value: "unfulfilled" },
+];
 const WishGrid = ({
   wishes,
   isAuthenticated = false,
@@ -58,8 +66,7 @@ const WishGrid = ({
   currentLanguage = 'en',
   texts
 }: WishGridProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string>("all");
 
   // Default texts if not provided
   const defaultTexts = {
@@ -78,25 +85,16 @@ const WishGrid = ({
 
   const t = texts || defaultTexts;
 
-  // Get all unique tags from wishes
-  const allTags = Array.from(
-    new Set(wishes.flatMap(wish => wish.tags || []))
-  ).sort();
-
-  // Filter wishes based on search term and selected tag
-  const filteredWishes = wishes.filter(wish => {
-    const matchesSearch = wish.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         wish.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTag = !selectedTag || (wish.tags && wish.tags.includes(selectedTag));
-    return matchesSearch && matchesTag;
+  // Обновляем фильтрацию по статусу:
+  const filteredWishes = wishes.filter((wish) => {
+    if (selectedStatus === "all") return true;
+    return typeof wish.status === "string" ? wish.status === selectedStatus : false;
   });
 
   const clearFilters = () => {
-    setSearchTerm('');
-    setSelectedTag(null);
   };
 
-  const hasActiveFilters = searchTerm || selectedTag;
+  const hasActiveFilters = false;
 
   if (loading) {
     return (
@@ -122,57 +120,26 @@ const WishGrid = ({
       <div className="container mx-auto">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-2xl md:text-4xl font-bold mb-4">{t.wishCollection}</h2>
-          <p className="text-muted-foreground text-sm md:text-lg mb-6 md:mb-8">
-            {t.discoverDreams}
-          </p>
-          
-          {/* Search and Filter Controls - only show if there are wishes */}
+          <p className="text-muted-foreground text-sm md:text-lg mb-6 md:mb-8">{t.discoverDreams}</p>
+
           {wishes.length > 0 && (
-            <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto mb-6 md:mb-8">
-              <div className="relative flex-1">
-                <Input
-                  placeholder={t.searchWishes}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-4 text-sm md:text-base"
-                />
-              </div>
-              
-              <div className="flex gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="flex items-center gap-2 text-sm md:text-base">
-                      <Filter className="h-4 w-4" />
-                      {t.filter}
-                      {selectedTag && (
-                        <span className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs">
-                          {selectedTag}
-                        </span>
-                      )}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="bg-background">
-                    <DropdownMenuItem onClick={() => setSelectedTag(null)}>
-                      All Tags
-                    </DropdownMenuItem>
-                    {allTags.map((tag) => (
-                      <DropdownMenuItem 
-                        key={tag} 
-                        onClick={() => setSelectedTag(tag)}
-                      >
-                        {tag}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                
-                {hasActiveFilters && (
-                  <Button variant="ghost" onClick={clearFilters} className="flex items-center gap-2">
-                    <X className="h-4 w-4" />
-                    {t.clear}
-                  </Button>
-                )}
-              </div>
+            <div className="flex justify-center mb-6 md:mb-8">
+              <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+                <SelectTrigger className="w-48 rounded-xl shadow bg-gradient-to-r from-indigo-500/75 to-sky-500/75 dark:from-slate-800 dark:to-purple-800 text-white dark:text-white focus:ring-2 focus:ring-violet-300 transition-all">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="rounded-xl shadow-2xl border-0 p-2 bg-white dark:bg-neutral-900 transition-all">
+                  {WISH_STATUS.map((opt) => (
+                    <SelectItem
+                      key={opt.value}
+                      value={opt.value}
+                      className="rounded-lg px-3 py-2 cursor-pointer font-medium hover:bg-indigo-50 dark:hover:bg-slate-700 transition"
+                    >
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           )}
         </div>

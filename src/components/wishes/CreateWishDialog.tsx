@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,21 +11,28 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useWishes } from '@/hooks/useWishes';
 import { Upload, X } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface CreateWishDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
+const STATUS_OPTIONS = [
+  { label: "Priority", value: "priority" },
+  { label: "Completed", value: "completed" },
+  { label: "Unfulfilled", value: "unfulfilled" }
+];
+
 export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
-  // Удаляем tags
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { createWish, uploadImage } = useWishes();
+  const [status, setStatus] = useState("unfulfilled");
 
   // Character limit for description
   const DESCRIPTION_LIMIT = 1000;
@@ -64,13 +70,14 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
         description: description || undefined,
         image_url: imageUrl || undefined,
         link: link || undefined,
-        // Удалено поле tags
+        status,
       });
 
       // Reset form
       setTitle('');
       setDescription('');
       setLink('');
+      setStatus("unfulfilled");
       removeImage();
       onOpenChange(false);
     } catch (error) {
@@ -132,7 +139,19 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
             />
           </div>
 
-          {/* Блок Tags полностью удалён */}
+          <div className="space-y-2">
+            <Label htmlFor="status" className="text-sm md:text-base">Status</Label>
+            <Select value={status} onValueChange={setStatus}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                {STATUS_OPTIONS.map(opt => (
+                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           <div className="space-y-2">
             <Label className="text-sm md:text-base">Image</Label>

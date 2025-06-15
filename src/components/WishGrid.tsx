@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Plus, Filter, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -181,9 +180,12 @@ const WishGrid = ({
           <div className="text-center py-12 md:py-20">
             <div 
               className={`w-16 h-16 md:w-24 md:h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center transition-colors ${
-                isAdmin ? 'cursor-pointer hover:bg-muted/80' : 'cursor-default'
+                isAdmin ? 'cursor-pointer hover:bg-muted/80' : 'cursor-pointer hover:bg-muted/80'
               }`} 
-              onClick={isAdmin ? onAddWish : undefined}
+              onClick={() => {
+                if (onAddWish) onAddWish();
+              }}
+              data-testid="add-wish-plus"
             >
               <Plus className="w-8 h-8 md:w-12 md:h-12 text-muted-foreground" />
             </div>

@@ -1,0 +1,35 @@
+
+@keyframes animatedStarFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-12px) scale(1.07);
+    opacity: 0.8;
+  }
+}
+
+@keyframes animatedStarTwinkle {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 0 8px #ffd83566);
+  }
+  36% {
+    filter: brightness(1.18) drop-shadow(0 0 18px #ffc107a0);
+  }
+  67% {
+    filter: brightness(0.85) drop-shadow(0 0 7px #ffb30060);
+  }
+}
+
+.animated-star {
+  animation:
+    animatedStarFloat 3.8s ease-in-out infinite,
+    animatedStarTwinkle 2.5s linear infinite;
+  filter: drop-shadow(0 0 7px #ffd83588);
+  transition: transform 0.25s cubic-bezier(0.62,0,0.47,1);
+  z-index: 0;
+  will-change: filter, transform, opacity;
+  user-select: none;
+  pointer-events: none;
+}

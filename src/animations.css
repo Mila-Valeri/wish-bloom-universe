@@ -1,4 +1,3 @@
-
 /* Анимации, float, эффекты — вынесены из index.css для чистоты поддерживаемости */
 
 /* Ключевые кадры для "плавания" */
@@ -239,3 +238,37 @@
   }
 }
 
+/* Дополнительные анимации для звездочек WishBoard */
+
+/* Мягкое вертикальное плавание (вариант специально для stars) */
+@keyframes dreamStarFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-10px) scale(1.03); }
+  50% { transform: translateY(-17px) scale(0.98); }
+  65% { transform: translateY(-10px) scale(1.05);}
+}
+
+@keyframes dreamStarTwinkle {
+  0%, 100% { opacity: 0.78; filter: brightness(1) drop-shadow(0 5px 12px #F6E05E33);}
+  32% { opacity: 1; filter: brightness(1.30) drop-shadow(0 8px 16px #FBBF24AA);}
+  60% { opacity: 0.46; filter: brightness(1.1);}
+  81% { opacity: 0.93; filter: brightness(1.23);}
+}
+
+/* Класс для декоративной жёлтой звезды */
+.dream-star {
+  position: absolute;
+  color: #FCD34D; /* Tailwind yellow-300 */
+  text-shadow:
+    0 0px 8px #fde68a99, 
+    0 2px 14px #fde68a55;
+  animation: dreamStarFloat 6.8s ease-in-out infinite, dreamStarTwinkle 3.1s linear infinite;
+  pointer-events: none;
+  user-select: none;
+  /* opacity, size, delay - через inline-style */
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .dream-star { font-size: 16px !important;}
+}

@@ -18,35 +18,16 @@ export const useWishLikes = (
       const wish = wishes.find(w => w.id === wishId);
       if (!wish) return;
 
-      if (wish.isLiked) {
-        // Remove like
-        const { error } = await supabase
-          .from('wish_likes')
-          .delete()
-          .eq('wish_id', wishId)
-          .eq('user_id', user.id);
+      const result = await apiRequest(`/api/wishes/${wishId}/likes`, {
+        method: 'POST',
+        body: JSON.stringify({ userId: user.id }),
+      });
 
-        if (error) throw error;
-
-        setWishes(prev => prev.map(w => 
-          w.id === wishId 
-            ? { ...w, likes: w.likes - 1, isLiked: false }
-            : w
-        ));
-      } else {
-        // Add like
-        const { error } = await supabase
-          .from('wish_likes')
-          .insert([{ wish_id: wishId, user_id: user.id }]);
-
-        if (error) throw error;
-
-        setWishes(prev => prev.map(w => 
-          w.id === wishId 
-            ? { ...w, likes: w.likes + 1, isLiked: true }
-            : w
-        ));
-      }
+      setWishes(prev => prev.map(w => 
+        w.id === wishId 
+          ? { ...w, likes: result.totalLikes, isLiked: result.isLiked }
+          : w
+      ));
     } catch (error: any) {
       toast({
         title: "Error",

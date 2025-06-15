@@ -40,6 +40,8 @@ interface WishGridProps {
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
   isAdmin?: boolean;
+  currentLanguage?: string;
+  texts?: any;
 }
 
 const WishGrid = ({
@@ -53,9 +55,28 @@ const WishGrid = ({
   onEdit,
   onDelete,
   isAdmin = false,
+  currentLanguage = 'en',
+  texts
 }: WishGridProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  // Default texts if not provided
+  const defaultTexts = {
+    wishCollection: 'Wish Collection',
+    discoverDreams: 'Discover amazing dreams and aspirations',
+    searchWishes: 'Search wishes...',
+    filter: 'Filter',
+    clear: 'Clear',
+    addWish: 'Add Wish',
+    noWishesMatch: 'No wishes match your filters',
+    tryAdjusting: 'Try adjusting your search or filter criteria',
+    noWishesYet: 'No wishes yet',
+    beFirst: 'Be the first to share your dreams!',
+    loading: 'Loading...'
+  };
+
+  const t = texts || defaultTexts;
 
   // Get all unique tags from wishes
   const allTags = Array.from(
@@ -82,9 +103,9 @@ const WishGrid = ({
       <section className="py-8 md:py-16 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-4xl font-bold mb-4">Wish Collection</h2>
+            <h2 className="text-2xl md:text-4xl font-bold mb-4">{t.wishCollection}</h2>
             <p className="text-muted-foreground text-sm md:text-lg mb-6 md:mb-8">
-              Discover amazing dreams and aspirations
+              {t.discoverDreams}
             </p>
           </div>
           
@@ -100,9 +121,9 @@ const WishGrid = ({
     <section className="py-8 md:py-16 px-4">
       <div className="container mx-auto">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-4xl font-bold mb-4">Wish Collection</h2>
+          <h2 className="text-2xl md:text-4xl font-bold mb-4">{t.wishCollection}</h2>
           <p className="text-muted-foreground text-sm md:text-lg mb-6 md:mb-8">
-            Discover amazing dreams and aspirations
+            {t.discoverDreams}
           </p>
           
           {/* Search and Filter Controls - only show if there are wishes */}
@@ -110,7 +131,7 @@ const WishGrid = ({
             <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto mb-6 md:mb-8">
               <div className="relative flex-1">
                 <Input
-                  placeholder="Search wishes..."
+                  placeholder={t.searchWishes}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-4 text-sm md:text-base"
@@ -122,7 +143,7 @@ const WishGrid = ({
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="flex items-center gap-2 text-sm md:text-base">
                       <Filter className="h-4 w-4" />
-                      Filter
+                      {t.filter}
                       {selectedTag && (
                         <span className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs">
                           {selectedTag}
@@ -148,15 +169,15 @@ const WishGrid = ({
                 {hasActiveFilters && (
                   <Button variant="ghost" onClick={clearFilters} className="flex items-center gap-2">
                     <X className="h-4 w-4" />
-                    Clear
+                    {t.clear}
                   </Button>
                 )}
                 
-                {/* Only show Add button if admin is logged in */}
-                {showAddButton && isAdmin && (
+                {/* Only show Add button if user is authenticated */}
+                {showAddButton && isAuthenticated && (
                   <Button onClick={onAddWish} className="flex items-center gap-2 text-sm md:text-base">
                     <Plus className="h-4 w-4" />
-                    Add Wish
+                    {t.addWish}
                   </Button>
                 )}
               </div>
@@ -166,18 +187,24 @@ const WishGrid = ({
 
         {filteredWishes.length === 0 ? (
           <div className="text-center py-12 md:py-20">
-            <div className="w-16 h-16 md:w-24 md:h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 md:w-24 md:h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center cursor-pointer hover:bg-muted/80 transition-colors" onClick={onAddWish}>
               <Plus className="w-8 h-8 md:w-12 md:h-12 text-muted-foreground" />
             </div>
             <h3 className="text-lg md:text-2xl font-semibold mb-4">
-              {hasActiveFilters ? 'No wishes match your filters' : 'No wishes yet'}
+              {hasActiveFilters ? t.noWishesMatch : t.noWishesYet}
             </h3>
             <p className="text-muted-foreground mb-6 md:mb-8 text-sm md:text-base">
               {hasActiveFilters 
-                ? 'Try adjusting your search or filter criteria'
-                : 'Be the first to share your dreams!'
+                ? t.tryAdjusting
+                : t.beFirst
               }
             </p>
+            {!hasActiveFilters && isAuthenticated && (
+              <Button onClick={onAddWish} className="flex items-center gap-2 mx-auto">
+                <Plus className="h-4 w-4" />
+                {t.addWish}
+              </Button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">

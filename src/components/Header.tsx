@@ -25,6 +25,7 @@ interface HeaderProps {
   onLogin?: () => void;
   onLanguageChange?: (lang: string) => void;
   onSignOut?: () => void;
+  onCreateWish?: () => void;
   currentLanguage?: string;
   userProfile?: UserProfile | null;
   showBackButton?: boolean;
@@ -35,6 +36,7 @@ const Header = ({
   onLogin, 
   onLanguageChange,
   onSignOut,
+  onCreateWish,
   currentLanguage = 'en',
   userProfile,
   showBackButton = false
@@ -56,6 +58,30 @@ const Header = ({
 
   // Check if we're on profile or settings pages
   const isOnProfileOrSettings = location.pathname === '/profile' || location.pathname === '/settings';
+
+  // Text translations
+  const texts = {
+    en: {
+      profile: 'Profile',
+      createWish: 'Create Wish',
+      settings: 'Settings',
+      logout: 'Logout',
+      login: 'Login',
+      english: 'English',
+      ukrainian: 'Українська'
+    },
+    ua: {
+      profile: 'Профіль',
+      createWish: 'Створити бажання',
+      settings: 'Налаштування',
+      logout: 'Вийти',
+      login: 'Увійти',
+      english: 'English',
+      ukrainian: 'Українська'
+    }
+  };
+
+  const t = texts[currentLanguage as keyof typeof texts] || texts.en;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -87,6 +113,33 @@ const Header = ({
         </div>
 
         <div className="flex items-center space-x-2 md:space-x-4">
+          {/* Navigation for authenticated users */}
+          {isAuthenticated && (
+            <nav className="hidden md:flex items-center space-x-1">
+              <Button
+                variant="ghost"
+                onClick={() => navigate('/profile')}
+                className="text-sm"
+              >
+                {t.profile}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={onCreateWish}
+                className="text-sm"
+              >
+                {t.createWish}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => navigate('/settings')}
+                className="text-sm"
+              >
+                {t.settings}
+              </Button>
+            </nav>
+          )}
+
           {/* Language Selector */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -96,10 +149,10 @@ const Header = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-background">
               <DropdownMenuItem onClick={() => onLanguageChange?.('en')}>
-                English
+                {t.english}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLanguageChange?.('ua')}>
-                Українська
+                {t.ukrainian}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -125,27 +178,27 @@ const Header = ({
               <DropdownMenuContent align="end" className="w-56 bg-background">
                 <DropdownMenuItem onClick={() => navigate('/profile')}>
                   <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                  <span>{t.profile}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={onCreateWish}>
                   <Plus className="mr-2 h-4 w-4" />
-                  <span>Create Wish</span>
+                  <span>{t.createWish}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate('/settings')}>
                   <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                  <span>{t.settings}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Logout</span>
+                  <span>{t.logout}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <div className="flex items-center space-x-1 md:space-x-2">
               <Button onClick={onLogin} className="text-sm md:text-base px-2 md:px-4">
-                Login
+                {t.login}
               </Button>
             </div>
           )}

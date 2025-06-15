@@ -28,6 +28,10 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [loading, setLoading] = useState(false);
   const { createWish, uploadImage } = useWishes();
 
+  // Character limit for description
+  const DESCRIPTION_LIMIT = 1000;
+  const remainingChars = DESCRIPTION_LIMIT - description.length;
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -97,13 +101,22 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-sm md:text-base">Description</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="description" className="text-sm md:text-base">Description</Label>
+              <span className={`text-xs ${remainingChars < 100 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                {remainingChars}/{DESCRIPTION_LIMIT}
+              </span>
+            </div>
             <Textarea
               id="description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Tell us more about your wish..."
-              rows={3}
+              onChange={(e) => {
+                if (e.target.value.length <= DESCRIPTION_LIMIT) {
+                  setDescription(e.target.value);
+                }
+              }}
+              placeholder="Tell us more about your wish... (up to 1000 characters)"
+              rows={4}
               className="text-sm md:text-base resize-none"
             />
           </div>
@@ -115,7 +128,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
               type="url"
               value={link}
               onChange={(e) => setLink(e.target.value)}
-              placeholder="https://example.com"
+              placeholder="https://example.com (opens in new tab)"
               className="text-sm md:text-base"
             />
           </div>
@@ -138,23 +151,23 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="w-full h-24 md:h-32 object-cover rounded-md"
+                  className="w-full h-32 md:h-40 object-cover rounded-md border-2 border-dashed border-muted-foreground/25"
                 />
                 <Button
                   type="button"
                   variant="destructive"
                   size="icon"
-                  className="absolute top-1 right-1 md:top-2 md:right-2 h-6 w-6 md:h-8 md:w-8"
+                  className="absolute top-2 right-2 h-8 w-8 rounded-full shadow-lg"
                   onClick={removeImage}
                 >
-                  <X className="h-3 w-3 md:h-4 md:w-4" />
+                  <X className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
-              <div className="border-2 border-dashed border-muted-foreground/25 rounded-md p-4 md:p-6 text-center">
-                <Upload className="h-6 w-6 md:h-8 md:w-8 mx-auto mb-2 text-muted-foreground" />
+              <div className="border-2 border-dashed border-muted-foreground/25 rounded-md p-6 text-center hover:border-muted-foreground/50 transition-colors">
+                <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                 <Label htmlFor="image" className="cursor-pointer">
-                  <span className="text-xs md:text-sm text-muted-foreground">
+                  <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                     Click to upload an image
                   </span>
                   <Input
@@ -165,13 +178,16 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
                     className="hidden"
                   />
                 </Label>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Image will be automatically resized to fit
+                </p>
               </div>
             )}
           </div>
 
           <Button 
             type="submit" 
-            className="w-full text-sm md:text-base py-2 md:py-3" 
+            className="w-full text-sm md:text-base py-3" 
             disabled={loading || !title}
           >
             {loading ? 'Creating...' : 'Create Wish'}

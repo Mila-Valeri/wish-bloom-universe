@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -14,18 +15,58 @@ const ADMIN_EMAIL = 'admin@wishboard.com';
 const Index = () => {
   const [authDialog, setAuthDialog] = useState(false);
   const [createWishDialog, setCreateWishDialog] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState('en');
   const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
   const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishes();
 
   // Check if current user is admin
   const isAdmin = user?.email === ADMIN_EMAIL;
 
+  // Text translations
+  const texts = {
+    en: {
+      wishCollection: 'Wish Collection',
+      discoverDreams: 'Discover amazing dreams and aspirations',
+      searchWishes: 'Search wishes...',
+      filter: 'Filter',
+      clear: 'Clear',
+      addWish: 'Add Wish',
+      noWishesMatch: 'No wishes match your filters',
+      tryAdjusting: 'Try adjusting your search or filter criteria',
+      noWishesYet: 'No wishes yet',
+      beFirst: 'Be the first to share your dreams!',
+      readyToStart: 'Ready to start your wish journey?',
+      joinThousands: 'Join thousands of dreamers who are making their wishes come true',
+      getStartedToday: 'Get Started Today',
+      loading: 'Loading...'
+    },
+    ua: {
+      wishCollection: 'Колекція бажань',
+      discoverDreams: 'Відкрийте дивовижні мрії та прагнення',
+      searchWishes: 'Пошук бажань...',
+      filter: 'Фільтр',
+      clear: 'Очистити',
+      addWish: 'Додати бажання',
+      noWishesMatch: 'Жодне бажання не відповідає вашим фільтрам',
+      tryAdjusting: 'Спробуйте змінити критерії пошуку або фільтру',
+      noWishesYet: 'Бажань поки немає',
+      beFirst: 'Будьте першим, хто поділиться своїми мріями!',
+      readyToStart: 'Готові розпочати свою подорож бажань?',
+      joinThousands: 'Приєднуйтесь до тисяч мрійників, які втілюють свої бажання в реальність',
+      getStartedToday: 'Почніть сьогодні',
+      loading: 'Завантаження...'
+    }
+  };
+
   // Update document theme and language when profile changes
   useEffect(() => {
     if (profile?.theme_preference) {
       document.documentElement.classList.toggle('dark', profile.theme_preference === 'dark');
     }
-  }, [profile?.theme_preference]);
+    if (profile?.language_preference) {
+      setCurrentLanguage(profile.language_preference);
+    }
+  }, [profile?.theme_preference, profile?.language_preference]);
 
   const handleLogin = () => {
     setAuthDialog(true);
@@ -44,6 +85,7 @@ const Index = () => {
   };
 
   const handleLanguageChange = (lang: string) => {
+    setCurrentLanguage(lang);
     if (user && profile) {
       updateProfile({ language_preference: lang as 'en' | 'ua' });
     }
@@ -57,11 +99,20 @@ const Index = () => {
     }
   };
 
+  const handleCreateWish = () => {
+    if (user) {
+      setCreateWishDialog(true);
+    } else {
+      handleLogin();
+    }
+  };
+
   const handleLike = (id: string) => {
     if (user) {
       toggleLike(id);
     } else {
-      handleLogin();
+      // Allow non-authenticated users to like (stored locally)
+      toggleLike(id);
     }
   };
 
@@ -99,12 +150,14 @@ const Index = () => {
     isOwner: wish.isOwner,
   }));
 
+  const t = texts[currentLanguage as keyof typeof texts] || texts.en;
+
   if (authLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 md:h-12 md:w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground text-sm md:text-base">Loading...</p>
+          <p className="text-muted-foreground text-sm md:text-base">{t.loading}</p>
         </div>
       </div>
     );
@@ -116,14 +169,16 @@ const Index = () => {
         isAuthenticated={!!user}
         onLogin={handleLogin}
         onLanguageChange={handleLanguageChange}
-        currentLanguage={profile?.language_preference || 'en'}
+        currentLanguage={currentLanguage}
         onSignOut={signOut}
+        onCreateWish={handleCreateWish}
         userProfile={profile}
       />
 
       <Hero
         onGetStarted={handleGetStarted}
         onExplore={handleExplore}
+        currentLanguage={currentLanguage}
       />
 
       <div id="wish-grid">
@@ -138,20 +193,22 @@ const Index = () => {
           onEdit={handleEdit}
           onDelete={handleDelete}
           isAdmin={isAdmin}
+          currentLanguage={currentLanguage}
+          texts={t}
         />
       </div>
 
       <footer className="bg-muted/30 py-8 md:py-12 px-4 mt-16">
         <div className="container mx-auto text-center">
-          <h3 className="text-base md:text-lg font-semibold mb-2">Ready to start your wish journey?</h3>
+          <h3 className="text-base md:text-lg font-semibold mb-2">{t.readyToStart}</h3>
           <p className="text-muted-foreground mb-4 md:mb-6 text-sm md:text-base">
-            Join thousands of dreamers who are making their wishes come true
+            {t.joinThousands}
           </p>
           <button 
             onClick={handleGetStarted}
             className="bg-primary text-primary-foreground px-4 md:px-6 py-2 md:py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors text-sm md:text-base"
           >
-            Get Started Today
+            {t.getStartedToday}
           </button>
         </div>
       </footer>

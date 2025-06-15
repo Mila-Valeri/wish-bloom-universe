@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Edit2, User, Save, Heart, Sparkles } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -11,8 +10,14 @@ import Header from '@/components/Header';
 const Profile = () => {
   const { user, profile, signOut, updateProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
-  const [editedName, setEditedName] = useState(profile?.full_name || '');
+  const [editedName, setEditedName] = useState('');
   const [nameError, setNameError] = useState('');
+
+  useEffect(() => {
+    if (profile?.full_name) {
+      setEditedName(profile.full_name);
+    }
+  }, [profile?.full_name]);
 
   const validateName = (name: string) => {
     if (name.length < 2) {

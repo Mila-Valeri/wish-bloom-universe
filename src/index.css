@@ -1,5 +1,4 @@
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -155,8 +154,21 @@
   .management-pulse {
     animation: managementPulse 4s ease-in-out infinite;
   }
-}
 
+  .hero-headline {
+    @apply font-poppins font-bold leading-tight text-center;
+    line-height: 1.25;
+    text-shadow: 0px 2px 8px rgba(168, 85, 247, 0.25);
+    background: linear-gradient(to right, #A855F7, #6366F1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-fade-in {
+    animation: hero-entrance 0.85s cubic-bezier(0.38,0.62,0.29,0.99) forwards;
+    opacity: 0;
+  }
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -272,5 +284,20 @@
   50% {
     opacity: 1;
     transform: scale(1.1);
+  }
+}
+
+@keyframes hero-entrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.97) translateY(30px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.03) translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }

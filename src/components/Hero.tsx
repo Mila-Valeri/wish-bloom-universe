@@ -12,19 +12,17 @@ interface HeroProps {
 const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Text translations
+  // Text translations (updated for new headline)
   const texts = {
     en: {
-      makeYour: 'Make Your',
-      wishesVisible: 'Wishes Visible',
-      shareYour: 'Share your dreams with the world and inspire others to chase theirs',
+      headline: "Bring your dreams to life",
+      sub: "Share your dreams with the world and inspire others to chase theirs",
       getStarted: 'Get Started',
       explore: 'Explore Dreams'
     },
     ua: {
-      makeYour: 'Зробіть свої',
-      wishesVisible: 'бажання видимими',
-      shareYour: 'Поділіться своїми мріями зі світом та надихніть інших втілювати свої',
+      headline: "Втілюй свої мрії в життя",
+      sub: "Поділися своїми мріями зі світом та надихай інших здійснювати свої",
       getStarted: 'Почати',
       explore: 'Дослідити мрії'
     }
@@ -52,23 +50,27 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <div className="mb-8 md:mb-12">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6">
-            <span className="block bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              {t.makeYour}
-            </span>
-            <span className="block bg-gradient-to-r from-pink-600 via-purple-600 to-primary bg-clip-text text-transparent" style={{ animationDelay: '0.2s' }}>
-              {t.wishesVisible}
-            </span>
+          <h1
+            className="hero-headline hero-fade-in text-4xl md:text-6xl lg:text-7xl mb-4 md:mb-6"
+            style={{
+              animationDelay: '0.04s'
+            }}
+          >
+            {t.headline}
           </h1>
-          
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto" style={{ animationDelay: '0.4s' }}>
-            {t.shareYour}
+          <p
+            className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto"
+            style={{
+              animation: 'hero-entrance 0.7s 0.28s cubic-bezier(0.38,0.62,0.29,0.99) both'
+            }}
+          >
+            {t.sub}
           </p>
         </div>
 
         <div 
           className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
-          style={{ animationDelay: '0.6s' }}
+          style={{ animation: 'hero-entrance 0.5s 0.5s cubic-bezier(0.38,0.62,0.29,0.99) both' }}
         >
           <Button
             onClick={onGetStarted}
@@ -80,7 +82,6 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
             <Heart className={`mr-2 h-5 w-5 transition-transform duration-300 ${isHovered ? 'scale-110 fill-current' : ''}`} />
             {t.getStarted}
           </Button>
-          
           <Button
             onClick={onExplore}
             variant="outline"

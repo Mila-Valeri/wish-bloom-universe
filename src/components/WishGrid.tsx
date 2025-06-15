@@ -172,14 +172,6 @@ const WishGrid = ({
                     {t.clear}
                   </Button>
                 )}
-                
-                {/* Only show Add button if user is authenticated */}
-                {showAddButton && isAuthenticated && (
-                  <Button onClick={onAddWish} className="flex items-center gap-2 text-sm md:text-base">
-                    <Plus className="h-4 w-4" />
-                    {t.addWish}
-                  </Button>
-                )}
               </div>
             </div>
           )}
@@ -187,7 +179,12 @@ const WishGrid = ({
 
         {filteredWishes.length === 0 ? (
           <div className="text-center py-12 md:py-20">
-            <div className="w-16 h-16 md:w-24 md:h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center cursor-pointer hover:bg-muted/80 transition-colors" onClick={onAddWish}>
+            <div 
+              className={`w-16 h-16 md:w-24 md:h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center transition-colors ${
+                isAdmin ? 'cursor-pointer hover:bg-muted/80' : 'cursor-default'
+              }`} 
+              onClick={isAdmin ? onAddWish : undefined}
+            >
               <Plus className="w-8 h-8 md:w-12 md:h-12 text-muted-foreground" />
             </div>
             <h3 className="text-lg md:text-2xl font-semibold mb-4">
@@ -199,12 +196,6 @@ const WishGrid = ({
                 : t.beFirst
               }
             </p>
-            {!hasActiveFilters && isAuthenticated && (
-              <Button onClick={onAddWish} className="flex items-center gap-2 mx-auto">
-                <Plus className="h-4 w-4" />
-                {t.addWish}
-              </Button>
-            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">

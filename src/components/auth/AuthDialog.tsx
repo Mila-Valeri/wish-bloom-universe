@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { ForgotPasswordDialog } from './ForgotPasswordDialog';
 
 interface AuthDialogProps {
   open: boolean;
@@ -22,6 +23,7 @@ export const AuthDialog = ({ open, onOpenChange }: AuthDialogProps) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { signIn } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,10 +99,7 @@ export const AuthDialog = ({ open, onOpenChange }: AuthDialogProps) => {
             <button
               type="button"
               className="text-sm text-primary hover:text-primary/80 transition-colors"
-              onClick={() => {
-                // TODO: Implement forgot password functionality
-                console.log('Forgot password clicked');
-              }}
+              onClick={() => setShowForgotPassword(true)}
             >
               Forgot password?
             </button>
@@ -115,6 +114,10 @@ export const AuthDialog = ({ open, onOpenChange }: AuthDialogProps) => {
           </Button>
         </form>
       </DialogContent>
+      <ForgotPasswordDialog 
+        open={showForgotPassword} 
+        onOpenChange={setShowForgotPassword} 
+      />
     </Dialog>
   );
 };

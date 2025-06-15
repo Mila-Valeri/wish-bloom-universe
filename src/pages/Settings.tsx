@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Eye, EyeOff, Settings as SettingsIcon, Shield, Trash2, Sparkles } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -55,7 +54,7 @@ const Settings = () => {
         userProfile={profile}
       />
       
-      <div className="container mx-auto px-4 py-8 animate-fade-in relative">
+      <div className="container mx-auto px-4 py-8 relative">
         {/* Main settings animation */}
         <div className="absolute top-10 right-10 settings-rotate opacity-20">
           <SettingsIcon className="h-20 w-20 text-primary" />
@@ -84,7 +83,7 @@ const Settings = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="login" className="animate-scale-in relative">
+            <TabsContent value="login" className="relative">
               {/* Security animation */}
               <div className="absolute top-4 right-4 shield-glow">
                 <Shield className="h-16 w-16 text-primary/40" />
@@ -204,7 +203,7 @@ const Settings = () => {
               </div>
             </TabsContent>
             
-            <TabsContent value="account" className="animate-scale-in relative">
+            <TabsContent value="account" className="relative">
               {/* Account management animation */}
               <div className="absolute top-4 right-4 float-away opacity-60">
                 <Trash2 className="h-16 w-16 text-destructive/40" />

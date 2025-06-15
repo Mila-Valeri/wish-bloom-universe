@@ -53,21 +53,21 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <div className="mb-8 md:mb-12">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6">
-            <span className="block bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent animate-fade-in">
+            <span className="block bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
               {t.makeYour}
             </span>
-            <span className="block bg-gradient-to-r from-pink-600 via-purple-600 to-primary bg-clip-text text-transparent animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <span className="block bg-gradient-to-r from-pink-600 via-purple-600 to-primary bg-clip-text text-transparent" style={{ animationDelay: '0.2s' }}>
               {t.wishesVisible}
             </span>
           </h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto" style={{ animationDelay: '0.4s' }}>
             {t.shareYour}
           </p>
         </div>
 
         <div 
-          className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center animate-fade-in"
+          className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
           style={{ animationDelay: '0.6s' }}
         >
           <Button

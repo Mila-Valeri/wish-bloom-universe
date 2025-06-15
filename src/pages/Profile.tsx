@@ -76,7 +76,7 @@ const Profile = () => {
         <Heart className="h-5 w-5 text-primary fill-current" />
       </div>
       
-      <div className="container mx-auto px-4 py-8 animate-fade-in relative">
+      <div className="container mx-auto px-4 py-8 relative">
         {/* Decorative sparkles */}
         <div className="absolute top-20 right-10 sparkle">
           <Sparkles className="h-8 w-8 text-primary/30" />
@@ -93,7 +93,7 @@ const Profile = () => {
             Profile
           </h1>
           
-          <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg animate-scale-in wish-glow">
+          <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg wish-glow">
             <CardHeader className="text-center">
               <div className="mx-auto w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center mb-4 heart-pulse">
                 {profile?.avatar_url ? (

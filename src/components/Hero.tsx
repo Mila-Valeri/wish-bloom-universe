@@ -1,8 +1,10 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, Sparkles, Star } from 'lucide-react';
+import { Heart, Sparkles } from 'lucide-react';
 import DreamStars from "./DreamStars";
 import HeroTitleMain from "./HeroTitleMain";
+import Sparkle from "./Sparkle"; // Добавлен импорт Sparkle
 
 interface HeroProps {
   onGetStarted: () => void;
@@ -33,10 +35,25 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center px-4 py-12 md:py-20 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
-      <DreamStars />
+      {/* SVG-ЗВЁЗДОЧКИ */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
+        <Sparkle top="10%" left="15%" size="28px" />
+        <Sparkle top="23%" left="28%" size="33px" />
+        <Sparkle top="18%" left="67%" size="36px" />
+        <Sparkle top="8%" left="82%" size="29px" />
+        <Sparkle top="70%" left="65%" size="45px" />
+        <Sparkle top="60%" left="18%" size="39px" />
+        <Sparkle top="44%" left="48%" size="40px" />
+        <Sparkle top="78%" left="80%" size="27px" />
+        <Sparkle top="85%" left="22%" size="35px" />
+        <Sparkle top="50%" left="86%" size="33px" />
+      </div>
+
+      {/* (DreamStars можно оставить для других декоративных слоёв, если нужно — иначе уберите импорт/вызов) */}
+      {/* <DreamStars /> */}
+
       <div className="relative z-10 w-full flex flex-col items-center justify-center">
         <HeroTitleMain />
-        {/* Subtitle stays below with animation and spacing */}
         <p
           className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto animate-fade-in"
           style={{
@@ -91,3 +108,4 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
 };
 
 export default Hero;
+

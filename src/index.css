@@ -301,3 +301,23 @@
     transform: scale(1) translateY(0);
   }
 }
+
+/* FADE-IN utility (for Hero, subtitle, etc.) */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+/* Ensure we have proper font fallback and correct h1 headline styling */
+.hero-headline, .font-poppins {
+  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+}

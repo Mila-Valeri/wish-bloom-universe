@@ -1,7 +1,7 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, Sparkles, Star } from 'lucide-react';
+import HeroTitle from "./HeroTitle";
 
 interface HeroProps {
   onGetStarted: () => void;
@@ -49,28 +49,25 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
       </div>
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
-        <div className="mb-8 md:mb-12">
-          <h1
-            className="hero-headline hero-fade-in text-4xl md:text-6xl lg:text-7xl mb-4 md:mb-6"
-            style={{
-              animationDelay: '0.04s'
-            }}
-          >
-            {t.headline}
-          </h1>
-          <p
-            className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto"
-            style={{
-              animation: 'hero-entrance 0.7s 0.28s cubic-bezier(0.38,0.62,0.29,0.99) both'
-            }}
-          >
-            {t.sub}
-          </p>
-        </div>
-
-        <div 
+        {/* Modern animated headline */}
+        <HeroTitle>
+          {t.headline}
+        </HeroTitle>
+        {/* Subtitle stays below with animation and spacing */}
+        <p
+          className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto animate-fade-in"
+          style={{
+            animationDelay: '0.15s',
+            animationFillMode: 'both'
+          }}
+        >
+          {t.sub}
+        </p>
+        <div
           className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
-          style={{ animation: 'hero-entrance 0.5s 0.5s cubic-bezier(0.38,0.62,0.29,0.99) both' }}
+          style={{
+            animation: 'fade-in 0.5s 0.28s cubic-bezier(0.38,0.62,0.29,0.99) both'
+          }}
         >
           <Button
             onClick={onGetStarted}

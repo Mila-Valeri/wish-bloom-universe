@@ -56,8 +56,9 @@ const Header = ({
     }
   };
 
-  // Check if we're on profile or settings pages
+  // Check if we're on profile, settings, or edit wish pages
   const isOnProfileOrSettings = location.pathname === '/profile' || location.pathname === '/settings';
+  const isOnEditWish = location.pathname.startsWith('/edit-wish/');
 
   // Text translations
   const texts = {
@@ -87,8 +88,8 @@ const Header = ({
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 md:h-16 items-center justify-between px-2 md:px-4">
         <div className="flex items-center space-x-2 md:space-x-4">
-          {/* Back button for Profile and Settings pages - only for authenticated users */}
-          {isOnProfileOrSettings && isAuthenticated && (
+          {/* Back button for Profile, Settings, and Edit Wish pages - only for authenticated users */}
+          {(isOnProfileOrSettings || isOnEditWish) && isAuthenticated && (
             <Button 
               variant="ghost" 
               size="icon" 

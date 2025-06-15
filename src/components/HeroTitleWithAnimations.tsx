@@ -8,6 +8,7 @@ const floatVariants = [
   "animate-float-fast"
 ];
 
+// Hearts/stars: diverse, with float+fade, balanced for visual harmony
 const heartsAndStars = [
   // Orig 5, visually pleasing random placements and sizes
   { emoji: "⭐", className: "text-yellow-400 text-xl left-8 top-8", float: floatVariants[0], delay: "delay-[0ms]" },
@@ -65,4 +66,3 @@ const HeroTitleWithAnimations = () => {
 };
 
 export default HeroTitleWithAnimations;
-

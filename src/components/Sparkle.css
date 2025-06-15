@@ -6,9 +6,9 @@
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  50% { opacity: 0.5; }
 }
 
 .sparkle {
-  z-index: 0;
+  animation: jump 3s ease-in-out infinite, blink 4s ease-in-out infinite;
 }

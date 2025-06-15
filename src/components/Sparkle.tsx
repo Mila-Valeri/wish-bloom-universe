@@ -1,33 +1,36 @@
 
 import React from 'react';
-import sparkle from '../assets/sparkle.png';
 import './Sparkle.css';
 
-interface SparkleProps {
-  top: string;
-  left: string;
-  size?: string;
-  style?: React.CSSProperties;
-}
-
-const Sparkle: React.FC<SparkleProps> = ({ top, left, size = '30px', style }) => {
+const Sparkle = ({ top, left, size = '30px' }: { top: string; left: string; size?: string }) => {
   return (
-    <img
-      src={sparkle}
-      alt="sparkle"
+    <div
       className="sparkle"
       style={{
+        position: 'absolute',
         top,
         left,
         width: size,
         height: size,
-        position: 'absolute',
         pointerEvents: 'none',
-        animation: 'jump 3s ease-in-out infinite, blink 4s ease-in-out infinite',
-        ...style,
+        zIndex: 0,
       }}
-      draggable={false}
-    />
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="url(#grad)"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ width: '100%', height: '100%' }}
+      >
+        <defs>
+          <radialGradient id="grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#fff17a" />
+            <stop offset="100%" stopColor="#ffa600" />
+          </radialGradient>
+        </defs>
+        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
+      </svg>
+    </div>
   );
 };
 

@@ -91,6 +91,18 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  .animate-float-slow {
+    animation: float-slow 5s ease-in-out infinite;
+  }
+
+  .animate-float-medium {
+    animation: float-medium 3.5s ease-in-out infinite;
+  }
+
+  .animate-float-fast {
+    animation: float-fast 2s ease-in-out infinite;
+  }
+
   .dream-bg {
     background: linear-gradient(135deg, 
       hsl(var(--background)) 0%, 
@@ -320,4 +332,32 @@
 /* Ensure we have proper font fallback and correct h1 headline styling */
 .hero-headline, .font-poppins {
   font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+}
+
+@keyframes float-slow {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes float-medium {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes float-fast {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+.animate-float-medium {
+  animation: float-medium 3.5s ease-in-out infinite;
+}
+.animate-float-fast {
+  animation: float-fast 2s ease-in-out infinite;
 }

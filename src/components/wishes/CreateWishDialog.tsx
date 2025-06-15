@@ -22,7 +22,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
-  const [tags, setTags] = useState('');
+  // Удаляем tags
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -64,14 +64,13 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
         description: description || undefined,
         image_url: imageUrl || undefined,
         link: link || undefined,
-        tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+        // Удалено поле tags
       });
 
       // Reset form
       setTitle('');
       setDescription('');
       setLink('');
-      setTags('');
       removeImage();
       onOpenChange(false);
     } catch (error) {
@@ -133,16 +132,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="tags" className="text-sm md:text-base">Tags</Label>
-            <Input
-              id="tags"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              placeholder="travel, books, gadgets (comma separated)"
-              className="text-sm md:text-base"
-            />
-          </div>
+          {/* Блок Tags полностью удалён */}
 
           <div className="space-y-2">
             <Label className="text-sm md:text-base">Image</Label>

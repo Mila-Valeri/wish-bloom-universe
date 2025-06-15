@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -7,8 +8,7 @@ import { AuthDialog } from '@/components/auth/AuthDialog';
 import { CreateWishDialog } from '@/components/wishes/CreateWishDialog';
 import { useAuth } from '@/hooks/useAuth';
 import { useWishes } from '@/hooks/useWishes';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import EditWishPage from "./EditWish";
+import { useNavigate } from "react-router-dom";
 
 // Define the admin email
 const ADMIN_EMAIL = 'admin@wishboard.com';
@@ -19,6 +19,7 @@ const Index = () => {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
   const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishes();
+  const navigate = useNavigate();
 
   // Check if current user is admin
   const isAdmin = user?.email === ADMIN_EMAIL;
@@ -127,8 +128,7 @@ const Index = () => {
   };
 
   const handleEdit = (id: string) => {
-    // TODO: Implement edit functionality
-    console.log('Edit wish:', id);
+    navigate(`/edit-wish/${id}`);
   };
 
   const handleDelete = (id: string) => {

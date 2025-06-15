@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Heart, ExternalLink, MessageSquare, MoreVertical, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -52,7 +51,6 @@ const WishCard = ({
 }: WishCardProps) => {
   const [liked, setLiked] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
-  const navigate = useNavigate();
 
   const handleLike = () => {
     if (!liked) {
@@ -102,7 +100,7 @@ const WishCard = ({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-background">
-                <DropdownMenuItem onClick={() => navigate(`/edit-wish/${id}`)}>
+                <DropdownMenuItem onClick={() => onEdit?.(id)}>
                   <Edit className="mr-2 h-4 w-4" />
                   Edit
                 </DropdownMenuItem>

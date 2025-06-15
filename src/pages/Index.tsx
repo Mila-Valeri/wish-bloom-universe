@@ -166,75 +166,68 @@ const Index = () => {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={
-          <div className="min-h-screen bg-background">
-            <Header
-              isAuthenticated={!!user}
-              onLogin={handleLogin}
-              onLanguageChange={handleLanguageChange}
-              currentLanguage={currentLanguage}
-              onSignOut={signOut}
-              onCreateWish={handleCreateWish}
-              userProfile={profile}
-            />
+    <div className="min-h-screen bg-background">
+      <Header
+        isAuthenticated={!!user}
+        onLogin={handleLogin}
+        onLanguageChange={handleLanguageChange}
+        currentLanguage={currentLanguage}
+        onSignOut={signOut}
+        onCreateWish={handleCreateWish}
+        userProfile={profile}
+      />
 
-            <Hero
-              onGetStarted={handleGetStarted}
-              onExplore={handleExplore}
-              currentLanguage={currentLanguage}
-            />
+      <Hero
+        onGetStarted={handleGetStarted}
+        onExplore={handleExplore}
+        currentLanguage={currentLanguage}
+      />
 
-            <div id="wish-grid">
-              <WishGrid
-                wishes={transformedWishes}
-                isAuthenticated={!!user}
-                showAddButton={true}
-                loading={wishesLoading}
-                onAddWish={handleAddWish}
-                onLike={handleLike}
-                onMessage={handleMessage}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                isAdmin={isAdmin}
-                currentLanguage={currentLanguage}
-                texts={t}
-              />
-            </div>
+      <div id="wish-grid">
+        <WishGrid
+          wishes={transformedWishes}
+          isAuthenticated={!!user}
+          showAddButton={true}
+          loading={wishesLoading}
+          onAddWish={handleAddWish}
+          onLike={handleLike}
+          onMessage={handleMessage}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          isAdmin={isAdmin}
+          currentLanguage={currentLanguage}
+          texts={t}
+        />
+      </div>
 
-            <footer className="bg-muted/30 py-8 md:py-12 px-4 mt-16">
-              <div className="container mx-auto text-center">
-                <h3 className="text-base md:text-lg font-semibold mb-2">{t.readyToStart}</h3>
-                <p className="text-muted-foreground mb-4 md:mb-6 text-sm md:text-base">
-                  {t.joinThousands}
-                </p>
-                <button 
-                  onClick={handleGetStarted}
-                  className="bg-primary text-primary-foreground px-4 md:px-6 py-2 md:py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors text-sm md:text-base"
-                >
-                  {t.getStartedToday}
-                </button>
-              </div>
-            </footer>
+      <footer className="bg-muted/30 py-8 md:py-12 px-4 mt-16">
+        <div className="container mx-auto text-center">
+          <h3 className="text-base md:text-lg font-semibold mb-2">{t.readyToStart}</h3>
+          <p className="text-muted-foreground mb-4 md:mb-6 text-sm md:text-base">
+            {t.joinThousands}
+          </p>
+          <button 
+            onClick={handleGetStarted}
+            className="bg-primary text-primary-foreground px-4 md:px-6 py-2 md:py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors text-sm md:text-base"
+          >
+            {t.getStartedToday}
+          </button>
+        </div>
+      </footer>
 
-            {/* Scroll to top button */}
-            <ScrollToTop />
+      {/* Scroll to top button */}
+      <ScrollToTop />
 
-            <AuthDialog
-              open={authDialog}
-              onOpenChange={setAuthDialog}
-            />
+      <AuthDialog
+        open={authDialog}
+        onOpenChange={setAuthDialog}
+      />
 
-            <CreateWishDialog
-              open={createWishDialog}
-              onOpenChange={setCreateWishDialog}
-            />
-          </div>
-        } />
-        <Route path="/edit-wish/:id" element={<EditWishPage />} />
-      </Routes>
-    </Router>
+      <CreateWishDialog
+        open={createWishDialog}
+        onOpenChange={setCreateWishDialog}
+      />
+    </div>
   );
 };
 

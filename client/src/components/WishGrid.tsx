@@ -140,7 +140,7 @@ const WishGrid = ({
                     <SelectItem
                       key={opt.value}
                       value={opt.value}
-                      className="rounded-lg px-3 py-2 cursor-pointer font-medium hover:bg-indigo-50 dark:hover:bg-slate-700 transition"
+                      className="rounded-lg px-3 py-2 cursor-pointer font-medium hover:bg-indigo-50 dark:hover:bg-slate-700 transition pl-3 [&>span]:hidden"
                     >
                       {opt.label}
                     </SelectItem>

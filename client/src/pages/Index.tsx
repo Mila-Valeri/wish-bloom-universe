@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -6,8 +5,10 @@ import WishGrid from '@/components/WishGrid';
 import ScrollToTop from '@/components/ScrollToTop';
 import { AuthDialog } from '@/components/auth/AuthDialog';
 import { CreateWishDialog } from '@/components/wishes/CreateWishDialog';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useAuth } from '@/hooks/useAuth';
 import { useWishes } from '@/hooks/useWishes';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate } from "react-router-dom";
 
 // Define the admin email
@@ -16,69 +17,30 @@ const ADMIN_EMAIL = 'admin@wishboard.com';
 const Index = () => {
   const [authDialog, setAuthDialog] = useState(false);
   const [createWishDialog, setCreateWishDialog] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('en');
   const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
   const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishes();
+  const { language, t } = useLanguage();
   const navigate = useNavigate();
 
   // Check if current user is admin
   const isAdmin = user?.email === ADMIN_EMAIL;
 
-  // Text translations
-  const texts = {
-    en: {
-      wishCollection: 'Wish Collection',
-      discoverDreams: 'Discover amazing dreams and aspirations',
-      searchWishes: 'Search wishes...',
-      filter: 'Filter',
-      clear: 'Clear',
-      addWish: 'Add Wish',
-      noWishesMatch: 'No wishes match your filters',
-      tryAdjusting: 'Try adjusting your search or filter criteria',
-      noWishesYet: 'No wishes yet',
-      beFirst: 'Be the first to share your dreams!',
-      readyToStart: 'Ready to start your wish journey?',
-      joinThousands: 'Join thousands of dreamers who are making their wishes come true',
-      getStartedToday: 'Get Started Today',
-      loading: 'Loading...'
-    },
-    ua: {
-      wishCollection: 'Колекція бажань',
-      discoverDreams: 'Відкрийте дивовижні мрії та прагнення',
-      searchWishes: 'Пошук бажань...',
-      filter: 'Фільтр',
-      clear: 'Очистити',
-      addWish: 'Додати бажання',
-      noWishesMatch: 'Жодне бажання не відповідає вашим фільтрам',
-      tryAdjusting: 'Спробуйте змінити критерії пошуку або фільтру',
-      noWishesYet: 'Бажань поки немає',
-      beFirst: 'Будьте першим, хто поділиться своїми мріями!',
-      readyToStart: 'Готові розпочати свою подорож бажань?',
-      joinThousands: 'Приєднуйтесь до тисяч мрійників, які втілюють свої бажання в реальність',
-      getStartedToday: 'Почніть сьогодні',
-      loading: 'Завантаження...'
-    }
-  };
-
-  // Update document theme and language when profile changes
-  useEffect(() => {
-    if (profile?.theme_preference) {
-      document.documentElement.classList.toggle('dark', profile.theme_preference === 'dark');
-    }
-    if (profile?.language_preference) {
-      setCurrentLanguage(profile.language_preference);
-    }
-  }, [profile?.theme_preference, profile?.language_preference]);
+  // Add the language switcher to the header section
+  const headerSection = (
+    <div className="fixed top-4 right-4 z-50">
+      <LanguageSwitcher />
+    </div>
+  );
 
   const handleLogin = () => {
     setAuthDialog(true);
   };
 
   const handleGetStarted = () => {
-    if (user) {
-      document.getElementById('wish-grid')?.scrollIntoView({ behavior: 'smooth' });
+    if (!user) {
+      setAuthDialog(true);
     } else {
-      handleLogin();
+      setCreateWishDialog(true);
     }
   };
 
@@ -86,62 +48,53 @@ const Index = () => {
     document.getElementById('wish-grid')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleLanguageChange = (lang: string) => {
-    setCurrentLanguage(lang);
-    if (user && profile) {
-      updateProfile({ language_preference: lang as 'en' | 'ua' });
-    }
+  const handleCreateWish = () => {
+    setCreateWishDialog(true);
   };
 
   const handleAddWish = () => {
-    if (isAdmin) {
-      setCreateWishDialog(true);
-    } else {
-      handleLogin();
-    }
+    setCreateWishDialog(true);
   };
 
-  const handleCreateWish = () => {
-    if (user) {
-      setCreateWishDialog(true);
-    } else {
-      handleLogin();
+  const handleLike = async (wishId: string) => {
+    if (!user) {
+      setAuthDialog(true);
+      return;
     }
-  };
-
-  const handleLike = (id: string) => {
-    if (user) {
-      toggleLike(id);
-    } else {
-      // Allow non-authenticated users to like (stored locally)
-      toggleLike(id);
+    
+    try {
+      await toggleLike(wishId);
+    } catch (error) {
+      console.error('Error toggling like:', error);
     }
   };
 
   const handleMessage = (authorName: string) => {
-    if (user) {
-      // TODO: Implement messaging functionality
-      console.log('Message to:', authorName);
-    } else {
-      handleLogin();
+    console.log('Message author:', authorName);
+  };
+
+  const handleEdit = (wishId: string) => {
+    navigate(`/edit-wish/${wishId}`);
+  };
+
+  const handleDelete = async (wishId: string) => {
+    if (confirm('Are you sure you want to delete this wish?')) {
+      try {
+        await deleteWish(wishId);
+      } catch (error) {
+        console.error('Error deleting wish:', error);
+      }
     }
   };
 
-  const handleEdit = (id: string) => {
-    navigate(`/edit-wish/${id}`);
-  };
-
-  const handleDelete = (id: string) => {
-    deleteWish(id);
-  };
-
+  // Add current user info to wishes
   const transformedWishes = wishes.map(wish => ({
     id: wish.id,
     title: wish.title,
-    description: wish.description || '',
-    image: wish.image_url || '/placeholder.svg',
-    link: wish.link,
-    tags: wish.tags,
+    description: wish.description,
+    image: wish.image_url || 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400',
+    link: wish.link || undefined,
+    tags: wish.tags || [],
     likes: wish.likes,
     author: {
       name: wish.profiles.full_name || 'Anonymous',
@@ -151,8 +104,6 @@ const Index = () => {
     isOwner: wish.isOwner,
     status: wish.status,
   }));
-
-  const t = texts[currentLanguage as keyof typeof texts] || texts.en;
 
   // Show loading only for a brief moment
   if (authLoading && wishes.length === 0 && wishesLoading) {
@@ -168,11 +119,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {headerSection}
+      
       <Header
         isAuthenticated={!!user}
         onLogin={handleLogin}
-        onLanguageChange={handleLanguageChange}
-        currentLanguage={currentLanguage}
+        onLanguageChange={() => {}} // Language is now handled by context
+        currentLanguage={language}
         onSignOut={signOut}
         onCreateWish={handleCreateWish}
         userProfile={profile}
@@ -181,7 +134,7 @@ const Index = () => {
       <Hero
         onGetStarted={handleGetStarted}
         onExplore={handleExplore}
-        currentLanguage={currentLanguage}
+        currentLanguage={language}
       />
 
       <div id="wish-grid">
@@ -196,38 +149,39 @@ const Index = () => {
           onEdit={handleEdit}
           onDelete={handleDelete}
           isAdmin={isAdmin}
-          currentLanguage={currentLanguage}
-          texts={t}
+          currentLanguage={language}
+          texts={{
+            wishCollection: 'Wish Collection',
+            discoverDreams: 'Discover amazing dreams and aspirations',
+            addWish: t.createWish,
+            noWishesYet: 'No wishes yet',
+            beFirst: 'Be the first to share your dreams!',
+            loading: t.loading
+          }}
         />
       </div>
 
-      <footer className="bg-muted/30 py-8 md:py-12 px-4 mt-16">
-        <div className="container mx-auto text-center">
-          <h3 className="text-base md:text-lg font-semibold mb-2">{t.readyToStart}</h3>
-          <p className="text-muted-foreground mb-4 md:mb-6 text-sm md:text-base">
-            {t.joinThousands}
-          </p>
-          <button 
-            onClick={handleGetStarted}
-            className="bg-primary text-primary-foreground px-4 md:px-6 py-2 md:py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors text-sm md:text-base"
-          >
-            {t.getStartedToday}
-          </button>
-        </div>
-      </footer>
+      {!user && (
+        <section className="py-16 bg-primary/5">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-4">{t.heroTitle}</h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              {t.heroSubtitle}
+            </p>
+            <button
+              onClick={handleGetStarted}
+              className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+            >
+              {t.getStarted}
+            </button>
+          </div>
+        </section>
+      )}
 
-      {/* Scroll to top button */}
       <ScrollToTop />
-
-      <AuthDialog
-        open={authDialog}
-        onOpenChange={setAuthDialog}
-      />
-
-      <CreateWishDialog
-        open={createWishDialog}
-        onOpenChange={setCreateWishDialog}
-      />
+      
+      <AuthDialog open={authDialog} onOpenChange={setAuthDialog} />
+      <CreateWishDialog open={createWishDialog} onOpenChange={setCreateWishDialog} />
     </div>
   );
 };

@@ -125,13 +125,13 @@ export const ImageUpload = ({
           <ImageIcon className="h-12 w-12 text-gray-400" />
           <div className="text-center">
             <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              Upload Image
+              {t.uploadImage}
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Click to select an image from your device
+              {t.clickToSelect}
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              Supports: JPG, PNG, WebP (Max 10MB)
+              {t.supportedFormats}
             </p>
           </div>
         </div>

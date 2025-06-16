@@ -132,10 +132,10 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
         ) : (
           <div className="border-2 border-dashed border-muted-foreground/25 rounded-md p-6 text-center hover:border-muted-foreground/50 transition-colors">
             <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-            <Label htmlFor="image" className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
+            <label htmlFor="image" className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
               {t.clickToSelect}
-              <Input id="image" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
-            </Label>
+              <input id="image" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+            </label>
           </div>
         )}
       </div>

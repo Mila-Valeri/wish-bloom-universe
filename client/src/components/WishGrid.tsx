@@ -91,19 +91,23 @@ const WishGrid = ({
     { label: t.allWishes, value: "all" },
     { label: t.priorityWishes, value: "priority" },
     { label: t.completedWishes, value: "completed" },
-    { label: t.unfulfilledWishes, value: "unfulfilled" },
+    { label: t.notCompletedWishes, value: "not_completed" },
   ];
 
-  // Обновляем фильтрацию по статусу:
+  // Filter wishes by status and priority
   const filteredWishes = wishes.filter((wish) => {
     if (selectedStatus === "all") return true;
-    return typeof wish.status === "string" ? wish.status === selectedStatus : false;
+    if (selectedStatus === "priority") return wish.priority === true;
+    if (selectedStatus === "completed") return wish.status === "completed";
+    if (selectedStatus === "not_completed") return wish.status === "not_completed";
+    return false;
   });
 
   const clearFilters = () => {
+    setSelectedStatus("all");
   };
 
-  const hasActiveFilters = false;
+  const hasActiveFilters = selectedStatus !== "all";
 
   if (loading) {
     return (

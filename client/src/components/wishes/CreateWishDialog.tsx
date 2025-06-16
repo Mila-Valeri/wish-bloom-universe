@@ -162,7 +162,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
             <Checkbox
               id="priority"
               checked={priority}
-              onCheckedChange={setPriority}
+              onCheckedChange={(checked) => setPriority(checked === true)}
               disabled={loading}
             />
             <Label htmlFor="priority">{t.priorityWish}</Label>

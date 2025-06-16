@@ -140,7 +140,7 @@ const WishGrid = ({
                     <SelectItem
                       key={opt.value}
                       value={opt.value}
-                      className="rounded-lg px-3 py-2 cursor-pointer font-medium text-gray-900 dark:text-white hover:bg-indigo-50 dark:hover:bg-slate-700 transition focus:bg-indigo-100 focus:text-gray-900 data-[state=checked]:bg-indigo-100 [&_.check-icon]:hidden"
+                      className="rounded-lg px-3 py-2 cursor-pointer font-medium text-gray-900 dark:text-white hover:bg-indigo-50 dark:hover:bg-slate-700 transition focus:bg-indigo-100 focus:text-gray-900 data-[state=checked]:bg-indigo-100 pl-3 pr-2 [&>span:first-child]:hidden"
                     >
                       {opt.label}
                     </SelectItem>

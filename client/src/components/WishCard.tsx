@@ -211,14 +211,9 @@ const WishCard = ({
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <a
-                          href={link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-primary hover:text-primary/80 font-mono flex-1 truncate select-all cursor-pointer max-w-[180px] sm:max-w-[200px] block overflow-hidden underline decoration-dotted underline-offset-2"
-                        >
+                        <div className="text-xs text-muted-foreground font-mono flex-1 select-all cursor-text max-w-[180px] sm:max-w-[200px] bg-muted/30 px-2 py-1 rounded border truncate overflow-hidden">
                           {shortenUrl(link)}
-                        </a>
+                        </div>
                       </TooltipTrigger>
                       <TooltipContent>
                         <p className="text-xs max-w-xs break-all">{link}</p>

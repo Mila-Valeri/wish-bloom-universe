@@ -56,6 +56,7 @@ const WishCard = ({
   const [liked, setLiked] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
   const { t } = useLanguage();
+  const { toast } = useToast();
 
   const handleLike = () => {
     if (!liked) {
@@ -66,6 +67,31 @@ const WishCard = ({
       setLikeCount(prev => prev - 1);
     }
     onLike?.(id);
+  };
+
+  const handleCopyLink = async () => {
+    if (!link) return;
+    
+    try {
+      await navigator.clipboard.writeText(link);
+      toast({
+        title: t.linkCopied,
+        duration: 2000,
+      });
+    } catch (error) {
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement('textarea');
+      textArea.value = link;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      toast({
+        title: t.linkCopied,
+        duration: 2000,
+      });
+    }
   };
 
   return (
@@ -157,20 +183,22 @@ const WishCard = ({
         )}
 
         {link && (
-          <div className="mb-3 p-2 bg-muted/50 rounded-md border">
-            <p className="text-xs text-muted-foreground mb-1">Посилання:</p>
+          <div className="mb-3 p-3 bg-muted/30 rounded-lg border border-muted">
+            <p className="text-xs text-muted-foreground mb-2 font-medium">{t.linkLabel}</p>
             <div className="flex items-center space-x-2">
-              <code className="text-xs bg-background px-2 py-1 rounded border flex-1 font-mono break-all select-all cursor-text">
-                {link}
-              </code>
+              <div className="flex-1 min-w-0">
+                <code className="text-xs bg-background px-3 py-2 rounded-md border font-mono text-foreground block w-full break-all select-all cursor-text hover:bg-muted/50 transition-colors">
+                  {link}
+                </code>
+              </div>
               <Button
                 size="sm"
                 variant="ghost"
-                className="h-6 w-6 p-0 flex-shrink-0"
-                onClick={() => navigator.clipboard.writeText(link)}
-                title="Копіювати посилання"
+                className="h-8 w-8 p-0 flex-shrink-0 hover:bg-muted"
+                onClick={handleCopyLink}
+                title={t.copyLink}
               >
-                <ExternalLink className="h-3 w-3" />
+                <ExternalLink className="h-4 w-4" />
               </Button>
             </div>
           </div>

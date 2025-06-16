@@ -156,7 +156,11 @@ const Index = () => {
             addWish: t.addWish,
             noWishesYet: t.noWishesYet,
             beFirst: t.beFirst,
-            loading: t.loading
+            loading: t.loading,
+            allWishes: t.allWishes,
+            priorityWishes: t.priorityWishes,
+            completedWishes: t.completedWishes,
+            unfulfilledWishes: t.unfulfilledWishes
           }}
         />
       </div>

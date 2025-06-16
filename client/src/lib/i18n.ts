@@ -44,6 +44,12 @@ export interface Translations {
   noWishesYet: string;
   beFirst: string;
   
+  // Filter options
+  allWishes: string;
+  priorityWishes: string;
+  completedWishes: string;
+  unfulfilledWishes: string;
+  
   // Form labels
   title: string;
   description: string;
@@ -206,6 +212,12 @@ export const translations: Record<Language, Translations> = {
     noWishesYet: 'No wishes yet',
     beFirst: 'Be the first to share your dreams!',
     
+    // Filter options
+    allWishes: 'All wishes',
+    priorityWishes: 'Priority wishes',
+    completedWishes: 'Completed wishes',
+    unfulfilledWishes: 'Unfulfilled wishes',
+    
     // Form labels
     title: 'Title',
     description: 'Description',
@@ -366,6 +378,12 @@ export const translations: Record<Language, Translations> = {
     addWish: 'Додати бажання',
     noWishesYet: 'Поки що немає бажань',
     beFirst: 'Будьте першим, хто поділиться своїми мріями!',
+    
+    // Filter options
+    allWishes: 'Усі мрії',
+    priorityWishes: 'Пріоритетні мрії',
+    completedWishes: 'Виконані мрії',
+    unfulfilledWishes: 'Невиконані мрії',
     
     // Form labels
     title: 'Назва',

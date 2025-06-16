@@ -46,12 +46,7 @@ interface WishGridProps {
   texts?: any;
 }
 
-const WISH_STATUS = [
-  { label: "All wishes", value: "all" },
-  { label: "Priority wishes", value: "priority" },
-  { label: "Completed wishes", value: "completed" },
-  { label: "Unfulfilled wishes", value: "unfulfilled" },
-];
+// Remove the hardcoded WISH_STATUS array as we'll use translations instead
 const WishGrid = ({
   wishes,
   isAuthenticated = false,
@@ -80,10 +75,22 @@ const WishGrid = ({
     tryAdjusting: 'Try adjusting your search or filter criteria',
     noWishesYet: 'No wishes yet',
     beFirst: 'Be the first to share your dreams!',
-    loading: 'Loading...'
+    loading: 'Loading...',
+    allWishes: 'All wishes',
+    priorityWishes: 'Priority wishes',
+    completedWishes: 'Completed wishes',
+    unfulfilledWishes: 'Unfulfilled wishes'
   };
 
   const t = texts || defaultTexts;
+
+  // Create status options using translations
+  const WISH_STATUS = [
+    { label: t.allWishes, value: "all" },
+    { label: t.priorityWishes, value: "priority" },
+    { label: t.completedWishes, value: "completed" },
+    { label: t.unfulfilledWishes, value: "unfulfilled" },
+  ];
 
   // Обновляем фильтрацию по статусу:
   const filteredWishes = wishes.filter((wish) => {

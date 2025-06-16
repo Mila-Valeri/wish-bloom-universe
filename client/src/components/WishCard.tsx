@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Heart, ExternalLink, MessageSquare, MoreVertical, Edit, Trash2 } from 'lucide-react';
+import { Heart, MessageSquare, MoreVertical, Edit, Trash2, Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -100,6 +100,22 @@ const WishCard = ({
     }
   };
 
+  const shortenUrl = (url: string) => {
+    try {
+      const urlObj = new URL(url);
+      const domain = urlObj.hostname.replace('www.', '');
+      const path = urlObj.pathname;
+      
+      if (path.length > 15) {
+        return `https://${domain}/...${path.slice(-10)}`;
+      }
+      return `https://${domain}${path}`;
+    } catch {
+      // If URL parsing fails, truncate the string
+      return url.length > 25 ? `${url.slice(0, 22)}...` : url;
+    }
+  };
+
   return (
     <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-card">
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -112,19 +128,6 @@ const WishCard = ({
         
         {/* Action buttons overlay */}
         <div className="absolute top-3 right-3 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          {link && (
-            <Button
-              size="icon"
-              variant="secondary"
-              className="h-8 w-8 bg-background/80 backdrop-blur"
-              asChild
-            >
-              <a href={link} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="h-4 w-4" />
-              </a>
-            </Button>
-          )}
-          
           {isOwner && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -203,11 +206,25 @@ const WishCard = ({
           <div className="border-t border-muted/30 pt-3 mt-3">
             <div className="flex items-center justify-between">
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-muted-foreground mb-1 font-medium">{t.linkLabel}</p>
+                <p className="text-xs text-muted-foreground mb-1 font-medium">{t.wishLinkLabel}</p>
                 <div className="flex items-center space-x-2">
-                  <code className="text-xs text-muted-foreground font-mono flex-1 truncate select-all cursor-text max-w-[180px] sm:max-w-[200px] block overflow-hidden">
-                    {link}
-                  </code>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <a
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-primary hover:text-primary/80 font-mono flex-1 truncate select-all cursor-pointer max-w-[180px] sm:max-w-[200px] block overflow-hidden underline decoration-dotted underline-offset-2"
+                        >
+                          {shortenUrl(link)}
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="text-xs max-w-xs break-all">{link}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -217,7 +234,7 @@ const WishCard = ({
                           className="h-6 w-6 p-0 flex-shrink-0 hover:bg-muted/50 transition-colors"
                           onClick={handleCopyLink}
                         >
-                          <ExternalLink className="h-3 w-3" />
+                          <Copy className="h-3 w-3" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>

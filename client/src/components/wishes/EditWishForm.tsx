@@ -1,11 +1,10 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Upload, X } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FormField } from "@/components/FormField";
+import { LinkInput } from "@/components/LinkInput";
+import { StatusSelect } from "@/components/StatusSelect";
 import { useWishes } from "@/hooks/useWishes";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -82,57 +81,47 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-background p-6 rounded-lg shadow-lg space-y-4 mt-4">
-      <div>
-        <Label htmlFor="title">{t.title} *</Label>
-        <Input id="title" value={title} onChange={e => setTitle(e.target.value)} placeholder={t.titlePlaceholder} required />
-      </div>
-      <div>
-        <div className="flex items-center justify-between">
-          <Label htmlFor="description">{t.description}</Label>
-          <span className="text-xs text-muted-foreground">{1000 - (description?.length ?? 0)}/1000</span>
-        </div>
-        <Textarea
-          id="description"
-          value={description}
-          onChange={e => {
-            if (e.target.value.length <= 1000) setDescription(e.target.value);
-          }}
-          placeholder={t.descriptionPlaceholder}
-          rows={4}
-        />
-      </div>
-      <div>
-        <Label htmlFor="link">{t.link}</Label>
-        <Input id="link" value={link} type="url" onChange={e => setLink(e.target.value)} placeholder={t.linkPlaceholder} />
-      </div>
-      <div>
-        <Label>{t.status} ({t.optional})</Label>
-        <div className="flex gap-2">
-          <Select value={status} onValueChange={setStatus}>
-            <SelectTrigger className="flex-1">
-              <SelectValue placeholder={t.noStatus} />
-            </SelectTrigger>
-            <SelectContent>
-              {WISH_STATUS.map((s) => (
-                <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {status && (
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              onClick={() => setStatus("")}
-              className="shrink-0"
-            >
-              ×
-            </Button>
-          )}
-        </div>
-      </div>
-      <div>
-        <Label>{t.image}</Label>
+      <FormField
+        label={t.title}
+        value={title}
+        onChange={setTitle}
+        placeholder={t.titlePlaceholder}
+        required={true}
+        disabled={loading}
+      />
+      
+      <FormField
+        label={t.description}
+        value={description}
+        onChange={(value) => {
+          if (value.length <= 1000) setDescription(value);
+        }}
+        type="textarea"
+        placeholder={t.descriptionPlaceholder}
+        maxLength={1000}
+        showCharCount={true}
+        disabled={loading}
+      />
+      
+      <LinkInput
+        label={t.link}
+        value={link}
+        onChange={setLink}
+        placeholder={t.linkPlaceholder}
+        disabled={loading}
+      />
+      
+      <StatusSelect
+        label={`${t.status} (${t.optional})`}
+        value={status}
+        onChange={setStatus}
+        options={WISH_STATUS}
+        placeholder={t.noStatus}
+        disabled={loading}
+      />
+      
+      <div className="space-y-2">
+        <div className="text-sm font-medium">{t.image}</div>
         {imagePreview ? (
           <div className="relative group">
             <img src={imagePreview} alt="Preview" className="w-full h-36 object-cover rounded-md border-2 border-muted-foreground/25" />

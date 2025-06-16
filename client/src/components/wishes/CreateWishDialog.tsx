@@ -129,97 +129,73 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">{t.title} *</Label>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                if (titleError && e.target.value.trim()) {
-                  setTitleError('');
-                }
-              }}
-              placeholder={t.titlePlaceholder}
+          <FormField
+            label={t.title}
+            value={title}
+            onChange={(value) => {
+              setTitle(value);
+              if (titleError && value.trim()) {
+                setTitleError('');
+              }
+            }}
+            placeholder={t.titlePlaceholder}
+            disabled={loading}
+            required={true}
+            error={titleError}
+          />
+
+          <FormField
+            label={t.description}
+            value={description}
+            onChange={(value) => {
+              setDescription(value);
+              if (descriptionError && value.trim()) {
+                setDescriptionError('');
+              }
+            }}
+            type="textarea"
+            placeholder={t.descriptionPlaceholder}
+            disabled={loading}
+            required={true}
+            error={descriptionError}
+            maxLength={DESCRIPTION_LIMIT}
+            showCharCount={true}
+          />
+
+          <LinkInput
+            label={`${t.link} (${t.optional})`}
+            value={link}
+            onChange={setLink}
+            placeholder={t.linkPlaceholder}
+            disabled={loading}
+          />
+
+          <div className="flex gap-2 items-start">
+            <StatusSelect
+              label={`${t.status} (${t.optional})`}
+              value={status}
+              onChange={setStatus}
+              options={STATUS_OPTIONS}
+              placeholder={t.noStatus}
               disabled={loading}
-              required
-              className={titleError ? 'border-red-500' : ''}
+              className="flex-1"
             />
-            {titleError && (
-              <p className="text-sm text-red-500">{titleError}</p>
+            {status && (
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={() => setStatus("")}
+                disabled={loading}
+                className="shrink-0 mt-8"
+              >
+                ×
+              </Button>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">{t.description} *</Label>
-            <Textarea
-              id="description"
-              value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-                if (descriptionError && e.target.value.trim()) {
-                  setDescriptionError('');
-                }
-              }}
-              placeholder={t.descriptionPlaceholder}
-              rows={4}
-              disabled={loading}
-              maxLength={DESCRIPTION_LIMIT}
-              required
-              className={descriptionError ? 'border-red-500' : ''}
-            />
-            {descriptionError && (
-              <p className="text-sm text-red-500">{descriptionError}</p>
-            )}
-            <div className="text-xs text-gray-500 text-right">
-              {remainingChars} {t.charactersRemaining}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="link">{t.link} ({t.optional})</Label>
-            <Input
-              id="link"
-              type="url"
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
-              placeholder={t.linkPlaceholder}
-              disabled={loading}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="status">{t.status} ({t.optional})</Label>
-            <div className="flex gap-2">
-              <Select value={status} onValueChange={setStatus} disabled={loading}>
-                <SelectTrigger className="flex-1">
-                  <SelectValue placeholder={t.noStatus} />
-                </SelectTrigger>
-                <SelectContent>
-                  {STATUS_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {status && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setStatus("")}
-                  disabled={loading}
-                  className="shrink-0"
-                >
-                  ×
-                </Button>
-              )}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>{t.image} ({t.optional})</Label>
+            <div className="text-sm font-medium">{t.image} ({t.optional})</div>
             <ImageUpload
               onImageCropped={handleImageCropped}
               currentImage={imageUrl || undefined}

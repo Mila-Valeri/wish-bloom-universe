@@ -214,7 +214,7 @@ const WishCard = ({
                         <div className="relative flex-1 max-w-[180px] sm:max-w-[200px]">
                           <input
                             type="text"
-                            value={link}
+                            value={shortenUrl(link)}
                             readOnly
                             className="text-xs text-muted-foreground font-mono w-full cursor-text bg-muted/30 px-2 py-1 rounded border outline-none focus:ring-0 focus:ring-offset-0 overflow-x-auto whitespace-nowrap resize-none"
                             style={{ 
@@ -231,8 +231,21 @@ const WishCard = ({
                           />
                         </div>
                       </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="text-xs max-w-xs break-all">{link}</p>
+                      <TooltipContent className="max-w-[300px] sm:max-w-[400px] md:max-w-[500px]">
+                        <div className="overflow-x-auto">
+                          <input
+                            type="text"
+                            value={link}
+                            readOnly
+                            className="text-xs font-mono w-full cursor-text bg-transparent border-none outline-none whitespace-nowrap min-w-full"
+                            style={{ 
+                              scrollbarWidth: 'thin',
+                              scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
+                            }}
+                            onFocus={(e) => e.target.blur()}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </div>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>

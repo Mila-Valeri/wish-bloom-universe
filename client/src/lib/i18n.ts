@@ -25,10 +25,8 @@ export interface Translations {
   wishImage: string;
   
   // Status options
-  priority: string;
   completed: string;
   notCompleted: string;
-  priorityWish: string;
   noStatus: string;
   
   // Actions
@@ -196,10 +194,8 @@ export const translations: Record<Language, Translations> = {
     wishImage: 'Wish Image',
     
     // Status options
-    priority: 'Priority',
     completed: 'Completed',
     notCompleted: 'Not Completed',
-    priorityWish: 'Priority Wish',
     noStatus: 'Not selected',
     
     // Actions

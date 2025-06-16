@@ -22,7 +22,6 @@ export const wishes = pgTable("wishes", {
   tags: text("tags").array(),
   likes: integer("likes").default(0),
   status: text("status"), // "completed" | "not_completed" | null
-  priority: boolean("priority").notNull().default(false),
   user_id: uuid("user_id").notNull(),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),

@@ -29,7 +29,6 @@ interface Wish {
   isLiked?: boolean;
   isOwner?: boolean;
   status?: string;
-  priority?: boolean;
 }
 
 interface WishGridProps {
@@ -90,7 +89,7 @@ const WishGrid = ({
   const WISH_STATUS = [
     { label: t.allWishes, value: "all" },
     { label: t.completedWishes, value: "completed" },
-    { label: t.notCompletedWishes, value: "not_completed" },
+    { label: t.notCompletedWishes || 'Невиконані мрії', value: "not_completed" },
   ];
 
   // Filter wishes by status only

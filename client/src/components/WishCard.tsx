@@ -211,9 +211,25 @@ const WishCard = ({
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <span className="text-xs text-muted-foreground font-mono flex-1 cursor-text max-w-[180px] sm:max-w-[200px] bg-muted/30 px-2 py-1 rounded border block overflow-hidden whitespace-nowrap text-ellipsis user-select-text">
-                          {shortenUrl(link)}
-                        </span>
+                        <div className="relative flex-1 max-w-[180px] sm:max-w-[200px]">
+                          <input
+                            type="text"
+                            value={link}
+                            readOnly
+                            className="text-xs text-muted-foreground font-mono w-full cursor-text bg-muted/30 px-2 py-1 rounded border outline-none focus:ring-0 focus:ring-offset-0 overflow-x-auto whitespace-nowrap resize-none"
+                            style={{ 
+                              scrollbarWidth: 'thin',
+                              scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
+                            }}
+                            onMouseDown={(e) => {
+                              // Allow text selection but prevent focus
+                              const target = e.target as HTMLInputElement;
+                              setTimeout(() => target.blur(), 0);
+                            }}
+                            onFocus={(e) => e.target.blur()}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </div>
                       </TooltipTrigger>
                       <TooltipContent>
                         <p className="text-xs max-w-xs break-all">{link}</p>

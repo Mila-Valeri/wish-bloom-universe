@@ -172,7 +172,7 @@ export const translations: Record<Language, Translations> = {
     
     // Hero section
     heroTitle: 'Your Wishes Come True',
-    heroSubtitle: 'Share your dreams and make them reality with our wishboard community',
+    heroSubtitle: 'A space for dreams open to the world. Maybe you\'re the one who can bring them to life.',
     getStarted: 'Get Started',
     exploreWishes: 'Explore Wishes',
     
@@ -333,7 +333,7 @@ export const translations: Record<Language, Translations> = {
     
     // Hero section
     heroTitle: 'Ваші мрії збуваються',
-    heroSubtitle: 'Поділіться своїми мріями та втіліть їх у реальність разом з нашою спільнотою',
+    heroSubtitle: 'Простір для мрій, відкритих світові. Можливо, саме ти зможеш втілити їх у реальність.',
     getStarted: 'Почати',
     exploreWishes: 'Переглянути мрії',
     

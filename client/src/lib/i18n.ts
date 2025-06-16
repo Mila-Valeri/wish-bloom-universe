@@ -37,6 +37,12 @@ export interface Translations {
   like: string;
   message: string;
   
+  // Header
+  profile: string;
+  settings: string;
+  signIn: string;
+  signOut: string;
+  
   // Wish Grid
   wishCollection: string;
   discoverDreams: string;

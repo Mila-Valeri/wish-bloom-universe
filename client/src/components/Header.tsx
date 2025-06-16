@@ -1,9 +1,11 @@
 
 import { useState } from 'react';
-import { Heart, User, Settings, LogOut, Plus, Globe, ArrowLeft } from 'lucide-react';
+import { Heart, User, Settings, LogOut, Plus, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,15 +36,14 @@ interface HeaderProps {
 const Header = ({ 
   isAuthenticated = false, 
   onLogin, 
-  onLanguageChange,
   onSignOut,
   onCreateWish,
-  currentLanguage = 'en',
   userProfile,
   showBackButton = false
 }: HeaderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
 
   const handleLogoClick = () => {
     if (isAuthenticated) {
@@ -60,29 +61,7 @@ const Header = ({
   const isOnProfileOrSettings = location.pathname === '/profile' || location.pathname === '/settings';
   const isOnEditWish = location.pathname.startsWith('/edit-wish/');
 
-  // Text translations
-  const texts = {
-    en: {
-      profile: 'Profile',
-      createWish: 'Create Wish',
-      settings: 'Settings',
-      logout: 'Logout',
-      login: 'Login',
-      english: 'English',
-      ukrainian: 'Українська'
-    },
-    ua: {
-      profile: 'Профіль',
-      createWish: 'Створити бажання',
-      settings: 'Налаштування',
-      logout: 'Вийти',
-      login: 'Увійти',
-      english: 'English',
-      ukrainian: 'Українська'
-    }
-  };
 
-  const t = texts[currentLanguage as keyof typeof texts] || texts.en;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -115,21 +94,7 @@ const Header = ({
 
         <div className="flex items-center space-x-2 md:space-x-4">
           {/* Language Selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 md:h-10 md:w-10">
-                <Globe className="h-4 w-4 md:h-5 md:w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-background">
-              <DropdownMenuItem onClick={() => onLanguageChange?.('en')}>
-                {t.english}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onLanguageChange?.('ua')}>
-                {t.ukrainian}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <LanguageSwitcher />
 
           {/* Theme Toggle */}
           <ThemeToggle />

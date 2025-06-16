@@ -212,16 +212,46 @@ const WishCard = ({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="relative flex-1 max-w-[180px] sm:max-w-[200px]">
-                          <div
-                            className="text-xs text-muted-foreground font-mono w-full cursor-text bg-muted/30 px-2 py-1 rounded border outline-none overflow-x-auto whitespace-nowrap select-text"
+                          <input
+                            type="text"
+                            value={link}
+                            readOnly
+                            className="text-xs text-muted-foreground font-mono w-full cursor-text bg-muted/30 px-2 py-1 rounded border outline-none focus:ring-1 focus:ring-primary/50 overflow-x-auto whitespace-nowrap resize-none"
                             style={{ 
                               scrollbarWidth: 'thin',
                               scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
                             }}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            {link}
-                          </div>
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const input = e.target as HTMLInputElement;
+                              input.focus();
+                              // Set cursor to start without selecting all text
+                              setTimeout(() => input.setSelectionRange(0, 0), 0);
+                            }}
+                            onFocus={(e) => {
+                              // Prevent auto-select on focus
+                              const input = e.target as HTMLInputElement;
+                              setTimeout(() => input.setSelectionRange(0, 0), 0);
+                            }}
+                            onKeyDown={(e) => {
+                              // Handle Ctrl+A / Cmd+A for select all within this field only
+                              if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                const input = e.target as HTMLInputElement;
+                                input.setSelectionRange(0, input.value.length);
+                              }
+                              // Allow standard copy/cut operations
+                              if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'c' || e.key.toLowerCase() === 'x')) {
+                                // Browser handles copy/cut automatically for selected text
+                                return;
+                              }
+                              // Prevent other editing keys but allow arrow keys for navigation
+                              if (!e.ctrlKey && !e.metaKey && !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
                         </div>
                       </TooltipTrigger>
                       <TooltipContent className="max-w-[280px] sm:max-w-[350px] md:max-w-[450px] p-2">

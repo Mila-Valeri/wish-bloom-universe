@@ -221,17 +221,27 @@ const WishCard = ({
                               scrollbarWidth: 'thin',
                               scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
                             }}
+                            onMouseDown={(e) => {
+                              e.stopPropagation();
+                            }}
                             onClick={(e) => {
                               e.stopPropagation();
                               const input = e.target as HTMLInputElement;
-                              input.focus();
-                              // Set cursor to start without selecting all text
-                              setTimeout(() => input.setSelectionRange(0, 0), 0);
+                              // Only focus if not already focused
+                              if (document.activeElement !== input) {
+                                input.focus();
+                              }
                             }}
                             onFocus={(e) => {
-                              // Prevent auto-select on focus
+                              // Don't interfere with manual text selection
+                              // Only prevent auto-select if no text is currently selected
                               const input = e.target as HTMLInputElement;
-                              setTimeout(() => input.setSelectionRange(0, 0), 0);
+                              setTimeout(() => {
+                                if (input.selectionStart === input.selectionEnd && input.selectionStart === input.value.length) {
+                                  // Only reset cursor if entire text was auto-selected
+                                  input.setSelectionRange(0, 0);
+                                }
+                              }, 0);
                             }}
                             onKeyDown={(e) => {
                               // Handle Ctrl+A / Cmd+A for select all within this field only

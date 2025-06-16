@@ -13,6 +13,7 @@ import { ImageUpload } from '@/components/ui/image-upload';
 import { useWishes } from '@/hooks/useWishes';
 import { useImageUpload } from '@/hooks/wishes/useImageUpload';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Loader2 } from 'lucide-react';
 
 interface CreateWishDialogProps {
   open: boolean;
@@ -39,21 +40,22 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const DESCRIPTION_LIMIT = 1000;
   const remainingChars = DESCRIPTION_LIMIT - description.length;
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(file);
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
+  const handleImageCropped = async (croppedFile: File) => {
+    setLoading(true);
+    try {
+      const uploadedUrl = await uploadImage(croppedFile);
+      if (uploadedUrl) {
+        setImageUrl(uploadedUrl);
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const removeImage = () => {
-    setImage(null);
-    if (imagePreview) {
-      URL.revokeObjectURL(imagePreview);
-      setImagePreview(null);
-    }
+    setImageUrl(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,16 +63,11 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
     setLoading(true);
 
     try {
-      let imageUrl = null;
-      if (image) {
-        imageUrl = await uploadImage(image);
-      }
-
       await createWish({
         title,
-        description: description || undefined,
-        image_url: imageUrl || undefined,
+        description,
         link: link || undefined,
+        image_url: imageUrl || undefined,
         status,
       });
 
@@ -78,130 +75,109 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
       setTitle('');
       setDescription('');
       setLink('');
+      setImageUrl(null);
       setStatus("unfulfilled");
-      removeImage();
       onOpenChange(false);
     } catch (error) {
-      // Error is handled in the hook
+      console.error('Error creating wish:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  const isFormValid = title.trim() && description.trim();
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md w-[95vw] max-h-[90vh] overflow-y-auto mx-auto">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-lg md:text-xl">Create New Wish</DialogTitle>
+          <DialogTitle>Create New Wish</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-sm md:text-base">Title *</Label>
+            <Label htmlFor="title">Title *</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              placeholder="What's your wish?"
+              disabled={loading}
               required
-              placeholder="What do you wish for?"
-              className="text-sm md:text-base"
             />
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="description" className="text-sm md:text-base">Description</Label>
-              <span className={`text-xs ${remainingChars < 100 ? 'text-destructive' : 'text-muted-foreground'}`}>
-                {remainingChars}/{DESCRIPTION_LIMIT}
-              </span>
-            </div>
+            <Label htmlFor="description">Description *</Label>
             <Textarea
               id="description"
               value={description}
-              onChange={(e) => {
-                if (e.target.value.length <= DESCRIPTION_LIMIT) {
-                  setDescription(e.target.value);
-                }
-              }}
-              placeholder="Tell us more about your wish... (up to 1000 characters)"
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Tell us more about your wish..."
               rows={4}
-              className="text-sm md:text-base resize-none"
+              disabled={loading}
+              maxLength={DESCRIPTION_LIMIT}
+              required
             />
+            <div className="text-xs text-gray-500 text-right">
+              {remainingChars} characters remaining
+            </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="link" className="text-sm md:text-base">Link</Label>
+            <Label htmlFor="link">Link (optional)</Label>
             <Input
               id="link"
               type="url"
               value={link}
               onChange={(e) => setLink(e.target.value)}
-              placeholder="https://example.com (opens in new tab)"
-              className="text-sm md:text-base"
+              placeholder="https://..."
+              disabled={loading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="status" className="text-sm md:text-base">Status</Label>
-            <Select value={status} onValueChange={setStatus}>
+            <Label htmlFor="status">Status</Label>
+            <Select value={status} onValueChange={setStatus} disabled={loading}>
               <SelectTrigger>
-                <SelectValue placeholder="Select status" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {STATUS_OPTIONS.map(opt => (
-                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                {STATUS_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label className="text-sm md:text-base">Image</Label>
-            {imagePreview ? (
-              <div className="relative">
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="w-full h-32 md:h-40 object-cover rounded-md border-2 border-dashed border-muted-foreground/25"
-                />
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="icon"
-                  className="absolute top-2 right-2 h-8 w-8 rounded-full shadow-lg"
-                  onClick={removeImage}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
-              <div className="border-2 border-dashed border-muted-foreground/25 rounded-md p-6 text-center hover:border-muted-foreground/50 transition-colors">
-                <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                <Label htmlFor="image" className="cursor-pointer">
-                  <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Click to upload an image
-                  </span>
-                  <Input
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </Label>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Image will be automatically resized to fit
-                </p>
-              </div>
-            )}
+            <Label>Image (optional)</Label>
+            <ImageUpload
+              onImageCropped={handleImageCropped}
+              currentImage={imageUrl || undefined}
+              onRemoveImage={removeImage}
+              disabled={loading}
+            />
           </div>
 
-          <Button 
-            type="submit" 
-            className="w-full text-sm md:text-base py-3" 
-            disabled={loading || !title}
-          >
-            {loading ? 'Creating...' : 'Create Wish'}
-          </Button>
+          <div className="flex justify-end space-x-2 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={!isFormValid || loading}
+            >
+              {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+              Create Wish
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

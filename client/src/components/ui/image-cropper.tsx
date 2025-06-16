@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ImageCropperProps {
   open: boolean;
@@ -30,8 +31,9 @@ export const ImageCropper = ({ open, onOpenChange, image, onCropComplete, onCanc
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
-  const [aspect, setAspect] = useState<number | undefined>(ASPECT_RATIOS['4:3']);
+  const [aspect, setAspect] = useState<number | undefined>(ASPECT_RATIOS['free']);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArea | null>(null);
+  const { t } = useLanguage();
 
   const onCropCompleteCallback = useCallback(
     (croppedArea: any, croppedAreaPixels: CropArea) => {
@@ -150,12 +152,14 @@ export const ImageCropper = ({ open, onOpenChange, image, onCropComplete, onCanc
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl w-full h-[80vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Crop Image</DialogTitle>
+      <DialogContent className="max-w-[95vw] w-full max-h-[95vh] h-full flex flex-col p-0 gap-0 sm:max-w-6xl">
+        {/* Header */}
+        <DialogHeader className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+          <DialogTitle className="text-lg font-semibold text-center">{t.cropImage}</DialogTitle>
         </DialogHeader>
         
-        <div className="flex-1 relative bg-black rounded-lg overflow-hidden">
+        {/* Main cropping area - takes most of the space */}
+        <div className="flex-1 relative bg-black overflow-hidden min-h-0">
           <Cropper
             image={image}
             crop={crop}
@@ -166,17 +170,33 @@ export const ImageCropper = ({ open, onOpenChange, image, onCropComplete, onCanc
             onCropComplete={onCropCompleteCallback}
             onZoomChange={setZoom}
             onRotationChange={setRotation}
+            maxZoom={5}
+            minZoom={0.5}
+            wheelZoomSensitivity={0.1}
+            touchZoomSensitivity={0.1}
             classes={{
               containerClassName: 'w-full h-full',
-              cropAreaClassName: 'border-white border-2',
+              cropAreaClassName: 'border-white border-2 shadow-lg',
+              mediaClassName: 'object-contain'
+            }}
+            style={{
+              containerStyle: {
+                width: '100%',
+                height: '100%',
+                position: 'relative'
+              }
             }}
           />
         </div>
 
-        <div className="space-y-4 py-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Aspect Ratio</label>
+        {/* Controls - Compact layout for mobile */}
+        <div className="flex-shrink-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+          {/* Aspect Ratio - Top row on mobile */}
+          <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center justify-center space-x-4">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 min-w-0 flex-shrink-0">
+                {t.aspectRatio}
+              </label>
               <Select value={aspect?.toString() || 'free'} onValueChange={(value) => {
                 if (value === 'free') {
                   setAspect(undefined);
@@ -184,50 +204,70 @@ export const ImageCropper = ({ open, onOpenChange, image, onCropComplete, onCanc
                   setAspect(parseFloat(value));
                 }
               }}>
-                <SelectTrigger>
+                <SelectTrigger className="w-32 h-8">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="free">{t.optional}</SelectItem>
+                  <SelectItem value="1">1:1</SelectItem>
                   <SelectItem value="1.3333333333333333">4:3</SelectItem>
-                  <SelectItem value="1">1:1 (Square)</SelectItem>
-                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="1.7777777777777777">16:9</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Zoom: {Math.round(zoom * 100)}%</label>
+          {/* Zoom and Rotation Controls */}
+          <div className="px-4 py-3 space-y-3">
+            {/* Zoom Control */}
+            <div className="flex items-center space-x-4">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 min-w-0 flex-shrink-0 w-20">
+                {t.zoom}: {Math.round(zoom * 100)}%
+              </label>
               <Slider
                 value={[zoom]}
                 onValueChange={(value) => setZoom(value[0])}
-                min={1}
-                max={3}
+                min={0.5}
+                max={5}
                 step={0.1}
-                className="w-full"
+                className="flex-1"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Rotation: {rotation}°</label>
+            {/* Rotation Control */}
+            <div className="flex items-center space-x-4">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 min-w-0 flex-shrink-0 w-20">
+                {t.rotation}: {rotation}°
+              </label>
               <Slider
                 value={[rotation]}
                 onValueChange={(value) => setRotation(value[0])}
                 min={0}
                 max={360}
                 step={1}
-                className="w-full"
+                className="flex-1"
               />
             </div>
           </div>
         </div>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button onClick={handleSave}>
-            Apply Crop
-          </Button>
+        {/* Action buttons */}
+        <DialogFooter className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+          <div className="flex w-full space-x-3">
+            <Button 
+              variant="outline" 
+              onClick={handleCancel}
+              className="flex-1 sm:flex-none"
+            >
+              {t.cancel}
+            </Button>
+            <Button 
+              onClick={handleSave}
+              className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              {t.applyCrop}
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

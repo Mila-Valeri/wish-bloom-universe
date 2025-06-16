@@ -45,8 +45,15 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const handleImageCropped = async (croppedFile: File) => {
     setLoading(true);
     try {
+      // Create preview URL immediately for better UX
+      const previewUrl = URL.createObjectURL(croppedFile);
+      setImageUrl(previewUrl);
+      
+      // Upload the cropped file
       const uploadedUrl = await uploadImage(croppedFile);
       if (uploadedUrl) {
+        // Clean up the blob URL and use the uploaded URL
+        URL.revokeObjectURL(previewUrl);
         setImageUrl(uploadedUrl);
       }
     } catch (error) {

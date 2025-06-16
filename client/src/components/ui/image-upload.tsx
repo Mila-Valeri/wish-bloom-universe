@@ -51,6 +51,7 @@ export const ImageUpload = ({
   const handleCropComplete = (croppedFile: File) => {
     onImageCropped(croppedFile);
     setSelectedImage(null);
+    setCropperOpen(false);
   };
 
   const handleCropCancel = () => {

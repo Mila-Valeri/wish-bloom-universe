@@ -11,7 +11,6 @@ interface WishContextType {
     link?: string;
     tags?: string[];
     status?: string;
-    priority?: boolean;
   }) => Promise<any>;
   updateWish: (id: string, updates: Partial<Wish>) => Promise<void>;
   deleteWish: (id: string) => Promise<void>;

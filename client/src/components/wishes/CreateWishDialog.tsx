@@ -14,7 +14,6 @@ import { ImageUpload } from '@/components/ui/image-upload';
 import { useWishContext } from '@/contexts/WishContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from 'lucide-react';
 
 interface CreateWishDialogProps {
@@ -29,7 +28,6 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("not_completed");
-  const [priority, setPriority] = useState(false);
   const [titleError, setTitleError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
   const { createWish, uploadImage } = useWishContext();
@@ -102,7 +100,6 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
         link: link || undefined,
         image_url: imageUrl || undefined,
         status,
-        priority,
       });
 
       // Reset form
@@ -111,7 +108,6 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
       setLink('');
       setImageUrl(null);
       setStatus("not_completed");
-      setPriority(false);
       setTitleError('');
       setDescriptionError('');
       onOpenChange(false);
@@ -207,16 +203,6 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="priority"
-              checked={priority}
-              onCheckedChange={(checked) => setPriority(checked === true)}
-              disabled={loading}
-            />
-            <Label htmlFor="priority">{t.priorityWish}</Label>
           </div>
 
           <div className="space-y-2">

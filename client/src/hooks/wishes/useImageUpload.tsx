@@ -17,7 +17,6 @@ export const useImageUpload = () => {
       const response = await apiRequest('/api/upload', {
         method: 'POST',
         body: formData,
-        headers: {}, // Remove Content-Type to let browser set it with boundary
       });
 
       return response.url;

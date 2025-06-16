@@ -9,8 +9,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { ImageUpload } from '@/components/ui/image-upload';
 import { useWishes } from '@/hooks/useWishes';
-import { Upload, X } from 'lucide-react';
+import { useImageUpload } from '@/hooks/wishes/useImageUpload';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface CreateWishDialogProps {
@@ -28,10 +29,10 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
-  const [image, setImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { createWish, uploadImage } = useWishes();
+  const { createWish } = useWishes();
+  const { uploadImage } = useImageUpload();
   const [status, setStatus] = useState("unfulfilled");
 
   // Character limit for description

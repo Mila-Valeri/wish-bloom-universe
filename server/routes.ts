@@ -3,8 +3,48 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertProfileSchema, insertWishSchema, insertWishLikeSchema } from "@shared/schema";
 import { z } from "zod";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import crypto from "crypto";
+import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Ensure uploads directory exists
+  const uploadsDir = path.join(process.cwd(), 'uploads');
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+
+  // Configure multer for file uploads
+  const storage_multer = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadsDir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueId = crypto.randomUUID();
+      const ext = path.extname(file.originalname);
+      cb(null, `${uniqueId}${ext}`);
+    }
+  });
+
+  const upload = multer({
+    storage: storage_multer,
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 10MB limit
+    },
+    fileFilter: (req, file, cb) => {
+      if (file.mimetype.startsWith('image/')) {
+        cb(null, true);
+      } else {
+        cb(new Error('Only image files are allowed'));
+      }
+    }
+  });
+
+  // Serve uploaded files statically
+  app.use('/uploads', express.static(uploadsDir));
+
   // Profile routes
   app.get("/api/profiles/:id", async (req, res) => {
     try {
@@ -176,13 +216,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Image upload route (simplified - would need proper file handling in production)
-  app.post("/api/upload", async (req, res) => {
+  // Image upload route
+  app.post("/api/upload", upload.single('image'), async (req, res) => {
     try {
-      // For now, return a placeholder URL
-      // In production, this would handle file upload to cloud storage
-      const imageUrl = "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400";
-      res.json({ url: imageUrl });
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      // Return the URL where the file can be accessed
+      const fileUrl = `/uploads/${req.file.filename}`;
+      res.json({ url: fileUrl });
     } catch (error) {
       console.error("Error uploading image:", error);
       res.status(500).json({ error: "Internal server error" });

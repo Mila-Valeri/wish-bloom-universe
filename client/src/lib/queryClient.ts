@@ -11,9 +11,16 @@ export const queryClient = new QueryClient({
 
 // Custom fetch wrapper for API requests
 export const apiRequest = async (url: string, options: RequestInit = {}) => {
+  const headers: Record<string, string> = {};
+  
+  // Only add Content-Type for non-FormData requests
+  if (!(options.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   const response = await fetch(url, {
     headers: {
-      'Content-Type': 'application/json',
+      ...headers,
       ...options.headers,
     },
     ...options,

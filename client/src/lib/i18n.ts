@@ -27,7 +27,8 @@ export interface Translations {
   // Status options
   priority: string;
   completed: string;
-  unfulfilled: string;
+  notCompleted: string;
+  priorityWish: string;
   
   // Actions
   save: string;
@@ -49,7 +50,7 @@ export interface Translations {
   allWishes: string;
   priorityWishes: string;
   completedWishes: string;
-  unfulfilledWishes: string;
+  notCompletedWishes: string;
   
   // Form labels
   title: string;
@@ -196,7 +197,8 @@ export const translations: Record<Language, Translations> = {
     // Status options
     priority: 'Priority',
     completed: 'Completed',
-    unfulfilled: 'Unfulfilled',
+    notCompleted: 'Not Completed',
+    priorityWish: 'Priority Wish',
     
     // Actions
     save: 'Save',
@@ -218,7 +220,7 @@ export const translations: Record<Language, Translations> = {
     allWishes: 'All wishes',
     priorityWishes: 'Priority wishes',
     completedWishes: 'Completed wishes',
-    unfulfilledWishes: 'Unfulfilled wishes',
+    notCompletedWishes: 'Not completed wishes',
     
     // Form labels
     title: 'Title',
@@ -364,7 +366,8 @@ export const translations: Record<Language, Translations> = {
     // Status options
     priority: 'Пріоритет',
     completed: 'Виконано',
-    unfulfilled: 'Не виконано',
+    notCompleted: 'Не виконано',
+    priorityWish: 'Пріоритетна мрія',
     
     // Actions
     save: 'Зберегти',

@@ -7,13 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { ImageUpload } from '@/components/ui/image-upload';
+import { FormField } from '@/components/FormField';
+import { LinkInput } from '@/components/LinkInput';
+import { StatusSelect } from '@/components/StatusSelect';
 import { useWishContext } from '@/contexts/WishContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2 } from 'lucide-react';
 
 interface CreateWishDialogProps {

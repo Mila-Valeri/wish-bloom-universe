@@ -7,7 +7,7 @@ import { AuthDialog } from '@/components/auth/AuthDialog';
 import { CreateWishDialog } from '@/components/wishes/CreateWishDialog';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useAuth } from '@/hooks/useAuth';
-import { useWishes } from '@/hooks/useWishes';
+import { useWishContext } from '@/contexts/WishContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const Index = () => {
   const [authDialog, setAuthDialog] = useState(false);
   const [createWishDialog, setCreateWishDialog] = useState(false);
   const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
-  const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishes();
+  const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishContext();
   const { language, t } = useLanguage();
   const navigate = useNavigate();
 
@@ -88,7 +88,7 @@ const Index = () => {
   };
 
   // Add current user info to wishes
-  const transformedWishes = wishes.map(wish => ({
+  const transformedWishes = wishes.map((wish: any) => ({
     id: wish.id,
     title: wish.title,
     description: wish.description || '',

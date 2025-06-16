@@ -130,14 +130,14 @@ const Header = ({
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>{t.logout}</span>
+                  <span>{t.signOut}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <div className="flex items-center space-x-1 md:space-x-2">
               <Button onClick={onLogin} className="text-sm md:text-base px-2 md:px-4">
-                {t.login}
+                {t.signIn}
               </Button>
             </div>
           )}

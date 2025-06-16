@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ImageCropper } from './image-cropper';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
 
 interface ImageUploadProps {
@@ -21,6 +22,7 @@ export const ImageUpload = ({
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [cropperOpen, setCropperOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useLanguage();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -92,7 +94,7 @@ export const ImageUpload = ({
                   disabled={disabled}
                 >
                   <Upload className="h-4 w-4 mr-1" />
-                  Change
+                  {t.changeImage}
                 </Button>
                 {onRemoveImage && (
                   <Button
@@ -102,7 +104,7 @@ export const ImageUpload = ({
                     disabled={disabled}
                   >
                     <X className="h-4 w-4 mr-1" />
-                    Remove
+                    {t.removeImage}
                   </Button>
                 )}
               </div>

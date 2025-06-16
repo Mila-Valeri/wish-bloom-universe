@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ImageUpload } from '@/components/ui/image-upload';
 import { useWishes } from '@/hooks/useWishes';
 import { useImageUpload } from '@/hooks/wishes/useImageUpload';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2 } from 'lucide-react';
 
@@ -19,12 +20,6 @@ interface CreateWishDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
-const STATUS_OPTIONS = [
-  { label: "Priority", value: "priority" },
-  { label: "Completed", value: "completed" },
-  { label: "Unfulfilled", value: "unfulfilled" }
-];
 
 export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) => {
   const [title, setTitle] = useState('');
@@ -34,7 +29,14 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [loading, setLoading] = useState(false);
   const { createWish } = useWishes();
   const { uploadImage } = useImageUpload();
+  const { t } = useLanguage();
   const [status, setStatus] = useState("unfulfilled");
+
+  const STATUS_OPTIONS = [
+    { label: t.priority, value: "priority" },
+    { label: t.completed, value: "completed" },
+    { label: t.unfulfilled, value: "unfulfilled" }
+  ];
 
   // Character limit for description
   const DESCRIPTION_LIMIT = 1000;
@@ -91,52 +93,52 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Create New Wish</DialogTitle>
+          <DialogTitle>{t.createWish}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title">{t.title} *</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="What's your wish?"
+              placeholder={t.titlePlaceholder}
               disabled={loading}
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description *</Label>
+            <Label htmlFor="description">{t.description} *</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Tell us more about your wish..."
+              placeholder={t.descriptionPlaceholder}
               rows={4}
               disabled={loading}
               maxLength={DESCRIPTION_LIMIT}
               required
             />
             <div className="text-xs text-gray-500 text-right">
-              {remainingChars} characters remaining
+              {remainingChars} {t.charactersRemaining}
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="link">Link (optional)</Label>
+            <Label htmlFor="link">{t.link} ({t.optional})</Label>
             <Input
               id="link"
               type="url"
               value={link}
               onChange={(e) => setLink(e.target.value)}
-              placeholder="https://..."
+              placeholder={t.linkPlaceholder}
               disabled={loading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status">{t.status}</Label>
             <Select value={status} onValueChange={setStatus} disabled={loading}>
               <SelectTrigger>
                 <SelectValue />
@@ -152,7 +154,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
           </div>
 
           <div className="space-y-2">
-            <Label>Image (optional)</Label>
+            <Label>{t.image} ({t.optional})</Label>
             <ImageUpload
               onImageCropped={handleImageCropped}
               currentImage={imageUrl || undefined}
@@ -168,14 +170,14 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
-              Cancel
+              {t.cancel}
             </Button>
             <Button
               type="submit"
               disabled={!isFormValid || loading}
             >
               {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              Create Wish
+              {loading ? t.creating : t.createWish}
             </Button>
           </div>
         </form>

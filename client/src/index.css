@@ -111,6 +111,28 @@
     transform: scale(0.94);
   }
 
+  /* Custom text selection styles for link fields */
+  .wish-link-input::selection {
+    background: #d3e5ff; /* Light blue background for light theme */
+    color: #000000; /* Black text for contrast */
+  }
+
+  .wish-link-input::-moz-selection {
+    background: #d3e5ff;
+    color: #000000;
+  }
+
+  /* Dark theme selection styles */
+  .dark .wish-link-input::selection {
+    background: #4a90e2; /* Blue background for dark theme */
+    color: #ffffff; /* White text for contrast */
+  }
+
+  .dark .wish-link-input::-moz-selection {
+    background: #4a90e2;
+    color: #ffffff;
+  }
+
   .dream-bg {
     background: linear-gradient(135deg, 
       hsl(var(--background)) 0%, 

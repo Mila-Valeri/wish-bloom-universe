@@ -216,7 +216,7 @@ const WishCard = ({
                             type="text"
                             value={link}
                             readOnly
-                            className="text-xs text-muted-foreground font-mono w-full cursor-text bg-muted/30 px-2 py-1 rounded border outline-none focus:ring-1 focus:ring-primary/50 overflow-x-auto whitespace-nowrap resize-none"
+                            className="wish-link-input text-xs text-muted-foreground font-mono w-full cursor-text bg-muted/30 px-2 py-1 rounded border outline-none focus:ring-1 focus:ring-primary/50 overflow-x-auto whitespace-nowrap resize-none"
                             style={{ 
                               scrollbarWidth: 'thin',
                               scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'

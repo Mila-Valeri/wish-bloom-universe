@@ -104,11 +104,11 @@ const WishCard = ({
               <DropdownMenuContent align="end" className="bg-background">
                 <DropdownMenuItem onClick={() => onEdit?.(id)}>
                   <Edit className="mr-2 h-4 w-4" />
-                  Edit
+                  {t.edit}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onDelete?.(id)} className="text-destructive">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
+                  {t.delete}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

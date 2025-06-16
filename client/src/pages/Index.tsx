@@ -98,11 +98,11 @@ const Index = () => {
     likes: wish.likes,
     author: {
       name: wish.profiles.full_name || 'Anonymous',
-      avatar: wish.profiles.avatar_url || undefined,
+      avatar: wish.profiles.avatar_url ?? undefined,
     },
     isLiked: wish.isLiked,
     isOwner: wish.isOwner,
-    status: wish.status,
+    status: wish.status || undefined,
   }));
 
   // Show loading only for a brief moment

@@ -17,7 +17,7 @@ export default function EditWishPage() {
           isAuthenticated={!!user}
           onSignOut={signOut}
         />
-        <div className="text-center text-lg mt-10">No wish ID provided</div>
+        <div className="text-center text-lg mt-10">{t.errorUpdatingWish}</div>
       </div>
     );
   }

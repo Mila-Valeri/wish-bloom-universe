@@ -46,7 +46,7 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
   }, [wish]);
 
   if (!wish) {
-    return <div className="p-4 text-center text-muted-foreground">Wish not found</div>;
+    return <div className="p-4 text-center text-muted-foreground">{t.errorUpdatingWish}</div>;
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,18 +78,18 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
     });
     setLoading(false);
     if (onSaved) onSaved();
-    navigate("/"); // Возвращаемся на главную страницу
+    navigate("/");
   };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-background p-6 rounded-lg shadow-lg space-y-4 mt-4">
       <div>
-        <Label htmlFor="title">Title *</Label>
-        <Input id="title" value={title} onChange={e => setTitle(e.target.value)} required />
+        <Label htmlFor="title">{t.title} *</Label>
+        <Input id="title" value={title} onChange={e => setTitle(e.target.value)} placeholder={t.titlePlaceholder} required />
       </div>
       <div>
         <div className="flex items-center justify-between">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">{t.description}</Label>
           <span className="text-xs text-muted-foreground">{1000 - (description?.length ?? 0)}/1000</span>
         </div>
         <Textarea
@@ -98,18 +98,19 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
           onChange={e => {
             if (e.target.value.length <= 1000) setDescription(e.target.value);
           }}
+          placeholder={t.descriptionPlaceholder}
           rows={4}
         />
       </div>
       <div>
-        <Label htmlFor="link">Link</Label>
-        <Input id="link" value={link} type="url" onChange={e => setLink(e.target.value)} />
+        <Label htmlFor="link">{t.link}</Label>
+        <Input id="link" value={link} type="url" onChange={e => setLink(e.target.value)} placeholder={t.linkPlaceholder} />
       </div>
       <div>
-        <Label>Status</Label>
+        <Label>{t.status}</Label>
         <Select value={status} onValueChange={setStatus}>
           <SelectTrigger>
-            <SelectValue placeholder="Select status" />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
             {WISH_STATUS.map((s) => (
@@ -119,7 +120,7 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
         </Select>
       </div>
       <div>
-        <Label>Image</Label>
+        <Label>{t.image}</Label>
         {imagePreview ? (
           <div className="relative group">
             <img src={imagePreview} alt="Preview" className="w-full h-36 object-cover rounded-md border-2 border-muted-foreground/25" />
@@ -131,13 +132,15 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
           <div className="border-2 border-dashed border-muted-foreground/25 rounded-md p-6 text-center hover:border-muted-foreground/50 transition-colors">
             <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
             <Label htmlFor="image" className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
-              Click to upload an image
+              {t.clickToSelect}
               <Input id="image" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
             </Label>
           </div>
         )}
       </div>
-      <Button type="submit" className="w-full py-3" disabled={loading}>{loading ? "Saving..." : "Save Changes"}</Button>
+      <Button type="submit" className="w-full py-3" disabled={loading}>
+        {loading ? t.updating : t.save}
+      </Button>
     </form>
   );
 }

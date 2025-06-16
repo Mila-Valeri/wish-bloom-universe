@@ -2,6 +2,7 @@
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '../useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Wish } from './useWishesData';
 
 export const useWishMutations = (
@@ -9,6 +10,7 @@ export const useWishMutations = (
 ) => {
   const { toast } = useToast();
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const createWish = async (wishData: {
     title: string;
@@ -42,14 +44,14 @@ export const useWishMutations = (
       setWishes(prev => [wishWithMetadata, ...prev]);
       
       toast({
-        title: "Wish created!",
-        description: "Your wish has been added to the board.",
+        title: t.wishCreated,
+        description: t.wishCreated,
       });
 
       return newWish;
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t.errorCreatingWish,
         description: error.message,
         variant: "destructive",
       });
@@ -69,12 +71,12 @@ export const useWishMutations = (
       ));
 
       toast({
-        title: "Wish updated",
-        description: "Your wish has been successfully updated.",
+        title: t.wishUpdated,
+        description: t.wishUpdated,
       });
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t.errorUpdatingWish,
         description: error.message,
         variant: "destructive",
       });
@@ -91,12 +93,12 @@ export const useWishMutations = (
       setWishes(prev => prev.filter(wish => wish.id !== id));
       
       toast({
-        title: "Wish deleted",
-        description: "Your wish has been removed from the board.",
+        title: t.wishDeleted,
+        description: t.wishDeleted,
       });
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: t.errorDeletingWish,
         description: error.message,
         variant: "destructive",
       });

@@ -5,7 +5,7 @@ import { Upload, X } from "lucide-react";
 import { FormField } from "@/components/FormField";
 import { LinkInput } from "@/components/LinkInput";
 import { StatusSelect } from "@/components/StatusSelect";
-import { useWishes } from "@/hooks/useWishes";
+import { useWishContext } from "@/contexts/WishContext";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -15,7 +15,7 @@ interface EditWishFormProps {
 }
 
 export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
-  const { wishes, updateWish, uploadImage } = useWishes();
+  const { wishes, updateWish, uploadImage } = useWishContext();
   const { t } = useLanguage();
   const wish = wishes.find((w) => w.id === wishId);
 

@@ -78,6 +78,11 @@ export interface Translations {
   changeImage: string;
   removeImage: string;
   
+  // Link display
+  linkLabel: string;
+  copyLink: string;
+  linkCopied: string;
+  
   // Errors
   errorUploadingImage: string;
   errorCreatingWish: string;
@@ -247,6 +252,11 @@ export const translations: Record<Language, Translations> = {
     changeImage: 'Change',
     removeImage: 'Remove',
     
+    // Link display
+    linkLabel: 'Link:',
+    copyLink: 'Copy link',
+    linkCopied: 'Link copied to clipboard',
+    
     // Errors
     errorUploadingImage: 'Failed to upload image',
     errorCreatingWish: 'Failed to create wish',
@@ -413,6 +423,11 @@ export const translations: Record<Language, Translations> = {
     applyCrop: 'Застосувати обрізку',
     changeImage: 'Змінити',
     removeImage: 'Видалити',
+    
+    // Link display
+    linkLabel: 'Посилання:',
+    copyLink: 'Копіювати посилання',
+    linkCopied: 'Посилання скопійовано в буфер обміну',
     
     // Errors
     errorUploadingImage: 'Не вдалося завантажити зображення',

@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Heart, ExternalLink, MessageSquare, MoreVertical, Edit, Trash2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -152,6 +153,26 @@ const WishCard = ({
                 +{tags.length - 3}
               </Badge>
             )}
+          </div>
+        )}
+
+        {link && (
+          <div className="mb-3 p-2 bg-muted/50 rounded-md border">
+            <p className="text-xs text-muted-foreground mb-1">Посилання:</p>
+            <div className="flex items-center space-x-2">
+              <code className="text-xs bg-background px-2 py-1 rounded border flex-1 font-mono break-all select-all cursor-text">
+                {link}
+              </code>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-6 w-6 p-0 flex-shrink-0"
+                onClick={() => navigator.clipboard.writeText(link)}
+                title="Копіювати посилання"
+              >
+                <ExternalLink className="h-3 w-3" />
+              </Button>
+            </div>
           </div>
         )}
 

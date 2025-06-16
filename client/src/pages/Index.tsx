@@ -151,11 +151,11 @@ const Index = () => {
           isAdmin={isAdmin}
           currentLanguage={language}
           texts={{
-            wishCollection: 'Wish Collection',
-            discoverDreams: 'Discover amazing dreams and aspirations',
-            addWish: t.createWish,
-            noWishesYet: 'No wishes yet',
-            beFirst: 'Be the first to share your dreams!',
+            wishCollection: t.wishCollection,
+            discoverDreams: t.discoverDreams,
+            addWish: t.addWish,
+            noWishesYet: t.noWishesYet,
+            beFirst: t.beFirst,
             loading: t.loading
           }}
         />

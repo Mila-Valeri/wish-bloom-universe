@@ -37,6 +37,13 @@ export interface Translations {
   like: string;
   message: string;
   
+  // Wish Grid
+  wishCollection: string;
+  discoverDreams: string;
+  addWish: string;
+  noWishesYet: string;
+  beFirst: string;
+  
   // Form labels
   title: string;
   description: string;
@@ -115,6 +122,13 @@ export const translations: Record<Language, Translations> = {
     like: 'Like',
     message: 'Message',
     
+    // Wish Grid
+    wishCollection: 'Wish Collection',
+    discoverDreams: 'Discover amazing dreams and aspirations',
+    addWish: 'Add Wish',
+    noWishesYet: 'No wishes yet',
+    beFirst: 'Be the first to share your dreams!',
+    
     // Form labels
     title: 'Title',
     description: 'Description',
@@ -191,6 +205,13 @@ export const translations: Record<Language, Translations> = {
     edit: 'Редагувати',
     like: 'Подобається',
     message: 'Повідомлення',
+    
+    // Wish Grid
+    wishCollection: 'Колекція бажань',
+    discoverDreams: 'Відкрийте дивовижні мрії та прагнення',
+    addWish: 'Додати бажання',
+    noWishesYet: 'Поки що немає бажань',
+    beFirst: 'Будьте першим, хто поділиться своїми мріями!',
     
     // Form labels
     title: 'Назва',

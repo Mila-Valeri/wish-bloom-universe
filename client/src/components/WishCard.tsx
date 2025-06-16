@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WishCardProps {
   id: string;
@@ -51,6 +52,7 @@ const WishCard = ({
 }: WishCardProps) => {
   const [liked, setLiked] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
+  const { t } = useLanguage();
 
   const handleLike = () => {
     if (!liked) {

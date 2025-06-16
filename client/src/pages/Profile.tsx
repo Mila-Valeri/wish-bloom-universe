@@ -192,6 +192,11 @@ const Profile = () => {
           </Card>
         </div>
       </div>
+
+      <CreateWishDialog 
+        open={createWishOpen} 
+        onOpenChange={setCreateWishOpen} 
+      />
     </div>
   );
 };

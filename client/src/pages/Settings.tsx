@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Eye, EyeOff, Settings as SettingsIcon, Shield, Trash2, Sparkles } from 'lucide-react';
+import { Eye, EyeOff, Settings as SettingsIcon, Shield, Trash2, Sparkles, Plus } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/Header';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { CreateWishDialog } from '@/components/wishes/CreateWishDialog';
 
 const Settings = () => {
   const { user, profile, signOut, updateProfile } = useAuth();
@@ -21,6 +22,7 @@ const Settings = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [createWishOpen, setCreateWishOpen] = useState(false);
 
   const handlePasswordSave = () => {
     if (newPassword !== repeatPassword) {
@@ -71,9 +73,18 @@ const Settings = () => {
         </div>
         
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent profile-shine">
-            {t.settingsTitle}
-          </h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent profile-shine">
+              {t.settingsTitle}
+            </h1>
+            <Button 
+              onClick={() => setCreateWishOpen(true)}
+              className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/80 hover:to-purple-600/80 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              {t.createWish}
+            </Button>
+          </div>
           
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
@@ -248,6 +259,11 @@ const Settings = () => {
           </Tabs>
         </div>
       </div>
+
+      <CreateWishDialog 
+        open={createWishOpen} 
+        onOpenChange={setCreateWishOpen} 
+      />
     </div>
   );
 };

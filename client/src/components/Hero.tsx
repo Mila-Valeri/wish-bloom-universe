@@ -14,9 +14,7 @@ interface HeroProps {
 
 const Hero = ({ onGetStarted, onExplore }: HeroProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { t, language } = useLanguage();
-  
-  console.log('Hero component - current language:', language, 'heroSubtitle:', t.heroSubtitle);
+  const { t } = useLanguage();
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center px-4 py-12 md:py-20 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">

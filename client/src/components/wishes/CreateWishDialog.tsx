@@ -10,8 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ImageUpload } from '@/components/ui/image-upload';
-import { useWishes } from '@/hooks/useWishes';
-import { useImageUpload } from '@/hooks/wishes/useImageUpload';
+import { useWishContext } from '@/contexts/WishContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2 } from 'lucide-react';
@@ -27,8 +26,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [link, setLink] = useState('');
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { createWish } = useWishes();
-  const { uploadImage } = useImageUpload();
+  const { createWish, uploadImage } = useWishContext();
   const { t } = useLanguage();
   const [status, setStatus] = useState("unfulfilled");
 
@@ -45,19 +43,16 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const handleImageCropped = async (croppedFile: File) => {
     setLoading(true);
     try {
-      // Create preview URL immediately for better UX
-      const previewUrl = URL.createObjectURL(croppedFile);
-      setImageUrl(previewUrl);
-      
-      // Upload the cropped file
+      // Upload the cropped file and use the uploaded URL directly
       const uploadedUrl = await uploadImage(croppedFile);
       if (uploadedUrl) {
-        // Clean up the blob URL and use the uploaded URL
-        URL.revokeObjectURL(previewUrl);
         setImageUrl(uploadedUrl);
       }
     } catch (error) {
       console.error('Error uploading image:', error);
+      // Fallback to blob URL if upload fails
+      const previewUrl = URL.createObjectURL(croppedFile);
+      setImageUrl(previewUrl);
     } finally {
       setLoading(false);
     }

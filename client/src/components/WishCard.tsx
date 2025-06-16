@@ -171,7 +171,7 @@ const WishCard = ({
             className="flex items-center space-x-1"
           >
             <MessageSquare className="h-4 w-4" />
-            <span>Message</span>
+            <span>{t.message}</span>
           </Button>
         )}
       </CardFooter>

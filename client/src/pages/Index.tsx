@@ -91,7 +91,7 @@ const Index = () => {
   const transformedWishes = wishes.map(wish => ({
     id: wish.id,
     title: wish.title,
-    description: wish.description,
+    description: wish.description || '',
     image: wish.image_url || 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400',
     link: wish.link || undefined,
     tags: wish.tags || [],

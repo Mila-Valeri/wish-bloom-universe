@@ -31,10 +31,10 @@ const HeroTitleMain = () => {
         }}
       >
         {titleText.split('\n').map((line, index) => (
-          <React.Fragment key={index}>
+          <span key={index}>
             {line}
             {index < titleText.split('\n').length - 1 && <br />}
-          </React.Fragment>
+          </span>
         ))}
       </h1>
     </div>

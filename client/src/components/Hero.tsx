@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, Sparkles } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import DreamStars from "./DreamStars";
 import HeroTitleMain from "./HeroTitleMain";
 import SparkleField from "./SparkleField";
@@ -11,26 +12,9 @@ interface HeroProps {
   currentLanguage?: string;
 }
 
-const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) => {
+const Hero = ({ onGetStarted, onExplore }: HeroProps) => {
   const [isHovered, setIsHovered] = useState(false);
-
-  // Text translations (updated for new headline)
-  const texts = {
-    en: {
-      headline: "Bring your dreams to life",
-      sub: "Share your dreams with the world and inspire others to chase theirs",
-      getStarted: 'Get Started',
-      explore: 'Explore Dreams'
-    },
-    ua: {
-      headline: "Втілюй свої мрії в життя",
-      sub: "Поділися своїми мріями зі світом та надихай інших здійснювати свої",
-      getStarted: 'Почати',
-      explore: 'Дослідити мрії'
-    }
-  };
-
-  const t = texts[currentLanguage as keyof typeof texts] || texts.en;
+  const { t } = useLanguage();
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center px-4 py-12 md:py-20 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
@@ -45,7 +29,7 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
             animationFillMode: 'both'
           }}
         >
-          {t.sub}
+          {t.heroSubtitle}
         </p>
         <div
           className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
@@ -70,7 +54,7 @@ const Hero = ({ onGetStarted, onExplore, currentLanguage = 'en' }: HeroProps) =>
             className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 border-2 hover:bg-accent transition-all duration-300 hover:scale-105"
           >
             <Sparkles className="mr-2 h-5 w-5" />
-            {t.explore}
+            {t.exploreWishes}
           </Button>
         </div>
 

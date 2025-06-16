@@ -134,7 +134,7 @@ const Profile = () => {
                         type="text"
                         value={editedName}
                         onChange={(e) => setEditedName(e.target.value)}
-                        placeholder="Enter your full name"
+                        placeholder={t.enterFullName}
                         className={nameError ? 'border-destructive' : ''}
                       />
                       {nameError && (
@@ -143,17 +143,17 @@ const Profile = () => {
                       <div className="flex gap-2">
                         <Button onClick={handleSave} className="hover:scale-105 transition-transform">
                           <Save className="w-4 h-4 mr-2" />
-                          Save
+                          {t.save}
                         </Button>
                         <Button variant="outline" onClick={handleCancel}>
-                          Cancel
+                          {t.cancel}
                         </Button>
                       </div>
                     </div>
                   ) : (
                     <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                       <span className="font-medium">
-                        {profile?.full_name || 'No name set'}
+                        {profile?.full_name || t.noNameSet}
                       </span>
                       <Button 
                         variant="ghost" 
@@ -162,17 +162,17 @@ const Profile = () => {
                         className="hover:scale-105 transition-transform"
                       >
                         <Edit2 className="w-4 h-4 mr-2" />
-                        Edit name
+                        {t.editName}
                       </Button>
                     </div>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Member Since</Label>
+                  <Label>{t.memberSince}</Label>
                   <div className="p-3 bg-muted/50 rounded-lg">
                     <span className="text-sm text-muted-foreground">
-                      {profile?.created_at ? new Date(profile.created_at).toLocaleDateString() : 'Unknown'}
+                      {profile?.created_at ? new Date(profile.created_at).toLocaleDateString() : t.unknown}
                     </span>
                   </div>
                 </div>

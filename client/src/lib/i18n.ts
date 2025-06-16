@@ -135,6 +135,30 @@ export interface Translations {
   exportData: string;
   permanentlyDelete: string;
   thisActionCannot: string;
+  
+  // Settings additional
+  loginSecurity: string;
+  accountManagement: string;
+  manageEmail: string;
+  removeEmail: string;
+  enterNewEmail: string;
+  addEmail: string;
+  password: string;
+  changePassword: string;
+  currentPassword: string;
+  newPassword: string;
+  repeatNewPassword: string;
+  enterCurrentPassword: string;
+  enterNewPassword: string;
+  repeatPassword: string;
+  savePassword: string;
+  forgotPassword: string;
+  passwordsDoNotMatch: string;
+  deleteMyAccount: string;
+  absolutelySure: string;
+  permanentlyDeleteAccount: string;
+  removeAllData: string;
+  yesDeleteAccount: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -273,6 +297,30 @@ export const translations: Record<Language, Translations> = {
     exportData: 'Export Data',
     permanentlyDelete: 'Permanently Delete Account',
     thisActionCannot: 'This action cannot be undone',
+    
+    // Settings additional
+    loginSecurity: 'Login & Security',
+    accountManagement: 'Account Management',
+    manageEmail: 'Manage your email address',
+    removeEmail: 'Remove email',
+    enterNewEmail: 'Enter new email',
+    addEmail: 'Add email',
+    password: 'Password',
+    changePassword: 'Change your password',
+    currentPassword: 'Current password',
+    newPassword: 'New password',
+    repeatNewPassword: 'Repeat new password',
+    enterCurrentPassword: 'Enter current password',
+    enterNewPassword: 'Enter new password',
+    repeatPassword: 'Repeat new password',
+    savePassword: 'Save password',
+    forgotPassword: 'Forgot password?',
+    passwordsDoNotMatch: 'Passwords do not match',
+    deleteMyAccount: 'Delete my account',
+    absolutelySure: 'Are you absolutely sure?',
+    permanentlyDeleteAccount: 'Permanently delete your account and all associated data',
+    removeAllData: 'This action cannot be undone. This will permanently delete your account and remove all your data from our servers.',
+    yesDeleteAccount: 'Yes, delete my account',
   },
   
   ua: {
@@ -410,6 +458,30 @@ export const translations: Record<Language, Translations> = {
     exportData: 'Експортувати дані',
     permanentlyDelete: 'Назавжди видалити обліковий запис',
     thisActionCannot: 'Цю дію неможливо скасувати',
+    
+    // Settings additional
+    loginSecurity: 'Вхід та безпека',
+    accountManagement: 'Керування обліковим записом',
+    manageEmail: 'Керування електронною адресою',
+    removeEmail: 'Видалити email',
+    enterNewEmail: 'Введіть новий email',
+    addEmail: 'Додати email',
+    password: 'Пароль',
+    changePassword: 'Змінити пароль',
+    currentPassword: 'Поточний пароль',
+    newPassword: 'Новий пароль',
+    repeatNewPassword: 'Повторіть новий пароль',
+    enterCurrentPassword: 'Введіть поточний пароль',
+    enterNewPassword: 'Введіть новий пароль',
+    repeatPassword: 'Повторіть новий пароль',
+    savePassword: 'Зберегти пароль',
+    forgotPassword: 'Забули пароль?',
+    passwordsDoNotMatch: 'Паролі не співпадають',
+    deleteMyAccount: 'Видалити мій обліковий запис',
+    absolutelySure: 'Ви абсолютно впевнені?',
+    permanentlyDeleteAccount: 'Назавжди видалити ваш обліковий запис та всі пов\'язані дані',
+    removeAllData: 'Цю дію неможливо скасувати. Це назавжди видалить ваш обліковий запис та всі дані з наших серверів.',
+    yesDeleteAccount: 'Так, видалити мій обліковий запис',
   },
 };
 

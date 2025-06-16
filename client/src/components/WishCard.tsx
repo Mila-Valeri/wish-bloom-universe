@@ -121,18 +121,20 @@ const WishCard = ({
       <CardContent className="p-4">
         <div className="flex items-start justify-between mb-2">
           <h3 className="font-semibold text-lg line-clamp-2 flex-1">{title}</h3>
-          <div className="flex items-center gap-1 ml-2">
-            {status === "completed" ? (
-              <Badge variant="outline" className="text-xs bg-green-100 text-green-800 border-green-300">
-                <CheckCircle className="w-3 h-3 mr-1" />
-                {t.completed}
-              </Badge>
-            ) : (
-              <Badge variant="outline" className="text-xs bg-gray-100 text-gray-600 border-gray-300">
-                ❌ {t.notCompleted}
-              </Badge>
-            )}
-          </div>
+          {status && (
+            <div className="flex items-center gap-1 ml-2">
+              {status === "completed" ? (
+                <Badge className="text-xs bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
+                  <CheckCircle className="w-3 h-3 mr-1" />
+                  {t.completed}
+                </Badge>
+              ) : status === "not_completed" ? (
+                <Badge variant="secondary" className="text-xs bg-gray-50 text-gray-600 border-gray-200">
+                  {t.notCompleted}
+                </Badge>
+              ) : null}
+            </div>
+          )}
         </div>
         
         <p className="text-muted-foreground text-sm line-clamp-3 mb-3">

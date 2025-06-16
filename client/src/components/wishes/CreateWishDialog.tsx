@@ -27,13 +27,14 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [link, setLink] = useState('');
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("not_completed");
+  const [status, setStatus] = useState<string>("");
   const [titleError, setTitleError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
   const { createWish, uploadImage } = useWishContext();
   const { t } = useLanguage();
 
   const STATUS_OPTIONS = [
+    { label: "Не вибрано", value: "" },
     { label: t.notCompleted, value: "not_completed" },
     { label: t.completed, value: "completed" }
   ];
@@ -99,7 +100,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
         description,
         link: link || undefined,
         image_url: imageUrl || undefined,
-        status,
+        status: status || undefined,
       });
 
       // Reset form
@@ -107,7 +108,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
       setDescription('');
       setLink('');
       setImageUrl(null);
-      setStatus("not_completed");
+      setStatus("");
       setTitleError('');
       setDescriptionError('');
       onOpenChange(false);

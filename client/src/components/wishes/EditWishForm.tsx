@@ -21,14 +21,14 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
   const wish = wishes.find((w) => w.id === wishId);
 
   const WISH_STATUS = [
-    { label: t.priority, value: "priority" },
+    { label: "Не вибрано", value: "" },
+    { label: t.notCompleted, value: "not_completed" },
     { label: t.completed, value: "completed" },
-    { label: t.unfulfilled, value: "unfulfilled" },
   ];
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
-  const [status, setStatus] = useState("unfulfilled");
+  const [status, setStatus] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
       setTitle(wish.title || "");
       setDescription(wish.description ?? "");
       setLink(wish.link ?? "");
-      setStatus((wish.status as string) ?? "unfulfilled");
+      setStatus((wish.status as string) ?? "");
       setImagePreview(wish.image_url ?? null);
     }
   }, [wish]);

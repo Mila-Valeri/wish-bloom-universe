@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Language, useTranslation } from '@/lib/i18n';
+import { createContext, useContext, useState, useEffect, ReactNode, useMemo } from 'react';
+import { Language, translations } from '@/lib/i18n';
 
 interface LanguageContextType {
   language: Language;
   setLanguage: (language: Language) => void;
-  t: ReturnType<typeof useTranslation>['t'];
+  t: any;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -15,7 +15,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     return saved && ['en', 'ua'].includes(saved) ? saved : 'en';
   });
 
-  const { t } = useTranslation(language);
+  const t = useMemo(() => translations[language], [language]);
 
   const setLanguage = (newLanguage: Language) => {
     setLanguageState(newLanguage);

@@ -24,7 +24,7 @@ const Settings = () => {
 
   const handlePasswordSave = () => {
     if (newPassword !== repeatPassword) {
-      alert('Passwords do not match');
+      alert(t.passwordsDoNotMatch);
       return;
     }
     // TODO: Implement password change logic
@@ -72,16 +72,16 @@ const Settings = () => {
         
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent profile-shine">
-            Settings
+            {t.settingsTitle}
           </h1>
           
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
               <TabsTrigger value="login" className="transition-all duration-300 hover:scale-105">
-                Login & Security
+                {t.loginSecurity}
               </TabsTrigger>
               <TabsTrigger value="account" className="transition-all duration-300 hover:scale-105">
-                Account Management
+                {t.accountManagement}
               </TabsTrigger>
             </TabsList>
             
@@ -95,26 +95,26 @@ const Settings = () => {
                 {/* Email Section */}
                 <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg wish-glow">
                   <CardHeader>
-                    <CardTitle className="text-xl">Email Address</CardTitle>
-                    <CardDescription>Manage your email address</CardDescription>
+                    <CardTitle className="text-xl">{t.emailAddress}</CardTitle>
+                    <CardDescription>{t.manageEmail}</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                       <span className="text-sm font-medium">{user?.email}</span>
                       <Button variant="destructive" size="sm" onClick={handleEmailRemove}>
-                        Remove email
+                        {t.removeEmail}
                       </Button>
                     </div>
                     
                     <div className="flex gap-2">
                       <Input
                         type="email"
-                        placeholder="Enter new email"
+                        placeholder={t.enterNewEmail}
                         value={newEmail}
                         onChange={(e) => setNewEmail(e.target.value)}
                         className="flex-1"
                       />
-                      <Button onClick={handleEmailAdd}>Add email</Button>
+                      <Button onClick={handleEmailAdd}>{t.addEmail}</Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -122,19 +122,19 @@ const Settings = () => {
                 {/* Password Section */}
                 <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg wish-glow">
                   <CardHeader>
-                    <CardTitle className="text-xl">Password</CardTitle>
-                    <CardDescription>Change your password</CardDescription>
+                    <CardTitle className="text-xl">{t.password}</CardTitle>
+                    <CardDescription>{t.changePassword}</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="current-password">Current password</Label>
+                      <Label htmlFor="current-password">{t.currentPassword}</Label>
                       <div className="relative">
                         <Input
                           id="current-password"
                           type={showCurrentPassword ? "text" : "password"}
                           value={currentPassword}
                           onChange={(e) => setCurrentPassword(e.target.value)}
-                          placeholder="Enter current password"
+                          placeholder={t.enterCurrentPassword}
                         />
                         <Button
                           type="button"
@@ -149,14 +149,14 @@ const Settings = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="new-password">New password</Label>
+                      <Label htmlFor="new-password">{t.newPassword}</Label>
                       <div className="relative">
                         <Input
                           id="new-password"
                           type={showNewPassword ? "text" : "password"}
                           value={newPassword}
                           onChange={(e) => setNewPassword(e.target.value)}
-                          placeholder="Enter new password"
+                          placeholder={t.enterNewPassword}
                         />
                         <Button
                           type="button"
@@ -171,14 +171,14 @@ const Settings = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="repeat-password">Repeat new password</Label>
+                      <Label htmlFor="repeat-password">{t.repeatNewPassword}</Label>
                       <div className="relative">
                         <Input
                           id="repeat-password"
                           type={showRepeatPassword ? "text" : "password"}
                           value={repeatPassword}
                           onChange={(e) => setRepeatPassword(e.target.value)}
-                          placeholder="Repeat new password"
+                          placeholder={t.repeatPassword}
                         />
                         <Button
                           type="button"
@@ -194,10 +194,10 @@ const Settings = () => {
 
                     <div className="flex justify-between items-center pt-4">
                       <Button onClick={handlePasswordSave} className="hover:scale-105 transition-transform">
-                        Save password
+                        {t.savePassword}
                       </Button>
                       <Button variant="link" className="text-primary hover:underline">
-                        Forgot password?
+                        {t.forgotPassword}
                       </Button>
                     </div>
                   </CardContent>
@@ -213,32 +213,31 @@ const Settings = () => {
               
               <Card className="backdrop-blur-sm bg-card/50 border-2 border-destructive/10 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-xl text-destructive">Delete Account</CardTitle>
+                  <CardTitle className="text-xl text-destructive">{t.deleteAccount}</CardTitle>
                   <CardDescription>
-                    Permanently delete your account and all associated data
+                    {t.permanentlyDeleteAccount}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
                     <DialogTrigger asChild>
                       <Button variant="destructive" className="hover:scale-105 transition-transform">
-                        Delete my account
+                        {t.deleteMyAccount}
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                        <DialogTitle>{t.absolutelySure}</DialogTitle>
                         <DialogDescription>
-                          This action cannot be undone. This will permanently delete your account
-                          and remove all your data from our servers.
+                          {t.removeAllData}
                         </DialogDescription>
                       </DialogHeader>
                       <div className="flex justify-end gap-2 pt-4">
                         <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
-                          Cancel
+                          {t.cancel}
                         </Button>
                         <Button variant="destructive" onClick={handleDeleteAccount}>
-                          Yes, delete my account
+                          {t.yesDeleteAccount}
                         </Button>
                       </div>
                     </DialogContent>

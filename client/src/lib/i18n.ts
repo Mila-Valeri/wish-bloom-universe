@@ -29,6 +29,7 @@ export interface Translations {
   completed: string;
   notCompleted: string;
   priorityWish: string;
+  noStatus: string;
   
   // Actions
   save: string;
@@ -337,6 +338,7 @@ export const translations: Record<Language, Translations> = {
     permanentlyDeleteAccount: 'Permanently delete your account and all associated data',
     removeAllData: 'This action cannot be undone. This will permanently delete your account and remove all your data from our servers.',
     yesDeleteAccount: 'Yes, delete my account',
+    noStatus: 'Not selected',
   },
   
   ua: {
@@ -368,6 +370,7 @@ export const translations: Record<Language, Translations> = {
     completed: 'Виконано',
     notCompleted: 'Не виконано',
     priorityWish: 'Пріоритетна мрія',
+    noStatus: 'Не вибрано',
     
     // Actions
     save: 'Зберегти',

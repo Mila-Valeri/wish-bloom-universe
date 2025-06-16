@@ -72,9 +72,9 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
     await updateWish(wish.id, {
       title,
       description,
-      link,
+      link: link || undefined,
       image_url: imageUrl,
-      status,
+      status: status || undefined,
     });
     setLoading(false);
     if (onSaved) onSaved();

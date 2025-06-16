@@ -29,6 +29,7 @@ interface Wish {
   isLiked?: boolean;
   isOwner?: boolean;
   status?: string;
+  priority?: boolean;
 }
 
 interface WishGridProps {

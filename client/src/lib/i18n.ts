@@ -389,7 +389,7 @@ export const translations: Record<Language, Translations> = {
     allWishes: 'Усі мрії',
     priorityWishes: 'Пріоритетні мрії',
     completedWishes: 'Виконані мрії',
-    unfulfilledWishes: 'Невиконані мрії',
+    notCompletedWishes: 'Невиконані мрії',
     
     // Form labels
     title: 'Назва',

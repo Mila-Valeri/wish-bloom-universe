@@ -13,6 +13,7 @@ import { ImageUpload } from '@/components/ui/image-upload';
 import { useWishContext } from '@/contexts/WishContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from 'lucide-react';
 
 interface CreateWishDialogProps {
@@ -26,14 +27,14 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [link, setLink] = useState('');
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("not_completed");
+  const [priority, setPriority] = useState(false);
   const { createWish, uploadImage } = useWishContext();
   const { t } = useLanguage();
-  const [status, setStatus] = useState("unfulfilled");
 
   const STATUS_OPTIONS = [
-    { label: t.priority, value: "priority" },
-    { label: t.completed, value: "completed" },
-    { label: t.unfulfilled, value: "unfulfilled" }
+    { label: t.notCompleted, value: "not_completed" },
+    { label: t.completed, value: "completed" }
   ];
 
   // Character limit for description
@@ -73,6 +74,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
         link: link || undefined,
         image_url: imageUrl || undefined,
         status,
+        priority,
       });
 
       // Reset form
@@ -80,7 +82,8 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
       setDescription('');
       setLink('');
       setImageUrl(null);
-      setStatus("unfulfilled");
+      setStatus("not_completed");
+      setPriority(false);
       onOpenChange(false);
     } catch (error) {
       console.error('Error creating wish:', error);
@@ -153,6 +156,16 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="priority"
+              checked={priority}
+              onCheckedChange={setPriority}
+              disabled={loading}
+            />
+            <Label htmlFor="priority">{t.priorityWish}</Label>
           </div>
 
           <div className="space-y-2">

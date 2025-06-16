@@ -76,6 +76,7 @@ const WishGrid = ({
     noWishesYet: 'No wishes yet',
     beFirst: 'Be the first to share your dreams!',
     loading: 'Loading...',
+    filters: 'Filters',
     allWishes: 'All wishes',
     priorityWishes: 'Priority wishes',
     completedWishes: 'Completed wishes',
@@ -133,7 +134,7 @@ const WishGrid = ({
             <div className="flex justify-center mb-6 md:mb-8">
               <Select value={selectedStatus} onValueChange={setSelectedStatus}>
                 <SelectTrigger className="w-48 rounded-xl shadow bg-gradient-to-r from-indigo-500/75 to-sky-500/75 dark:from-slate-800 dark:to-purple-800 text-white dark:text-white focus:ring-2 focus:ring-violet-300 transition-all">
-                  <SelectValue />
+                  <span className="flex-1 text-left">{t.filters}</span>
                 </SelectTrigger>
                 <SelectContent className="rounded-xl shadow-2xl border p-2 bg-white dark:bg-neutral-900 transition-all">
                   {WISH_STATUS.map((opt) => (

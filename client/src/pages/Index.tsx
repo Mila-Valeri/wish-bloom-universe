@@ -157,6 +157,7 @@ const Index = () => {
             noWishesYet: t.noWishesYet,
             beFirst: t.beFirst,
             loading: t.loading,
+            filters: t.filters,
             allWishes: t.allWishes,
             priorityWishes: t.priorityWishes,
             completedWishes: t.completedWishes,

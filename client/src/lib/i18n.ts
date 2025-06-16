@@ -45,6 +45,7 @@ export interface Translations {
   beFirst: string;
   
   // Filter options
+  filters: string;
   allWishes: string;
   priorityWishes: string;
   completedWishes: string;
@@ -213,6 +214,7 @@ export const translations: Record<Language, Translations> = {
     beFirst: 'Be the first to share your dreams!',
     
     // Filter options
+    filters: 'Filters',
     allWishes: 'All wishes',
     priorityWishes: 'Priority wishes',
     completedWishes: 'Completed wishes',
@@ -380,6 +382,7 @@ export const translations: Record<Language, Translations> = {
     beFirst: 'Будьте першим, хто поділиться своїми мріями!',
     
     // Filter options
+    filters: 'Фільтри',
     allWishes: 'Усі мрії',
     priorityWishes: 'Пріоритетні мрії',
     completedWishes: 'Виконані мрії',

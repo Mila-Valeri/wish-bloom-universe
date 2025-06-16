@@ -159,9 +159,8 @@ const Index = () => {
             loading: t.loading,
             filters: t.filters,
             allWishes: t.allWishes,
-            priorityWishes: t.priorityWishes,
             completedWishes: t.completedWishes,
-            unfulfilledWishes: t.unfulfilledWishes
+            notCompletedWishes: t.notCompletedWishes
           }}
         />
       </div>

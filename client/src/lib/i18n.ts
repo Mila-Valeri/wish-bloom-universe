@@ -362,10 +362,8 @@ export const translations: Record<Language, Translations> = {
     wishImage: 'Зображення мрії',
     
     // Status options
-    priority: 'Пріоритет',
     completed: 'Виконано',
     notCompleted: 'Не виконано',
-    priorityWish: 'Пріоритетна мрія',
     
     // Actions
     save: 'Зберегти',

@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Heart, ExternalLink, MessageSquare, MoreVertical, Edit, Trash2, CheckCircle } from 'lucide-react';
+import { Heart, ExternalLink, MessageSquare, MoreVertical, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -120,16 +120,15 @@ const WishCard = ({
 
       <CardContent className="p-4">
         <div className="flex items-start justify-between mb-2">
-          <h3 className="font-semibold text-lg line-clamp-2 flex-1">{title}</h3>
+          <h3 className="font-semibold text-lg line-clamp-2 flex-1 mr-3">{title}</h3>
           {status && (
-            <div className="flex items-center gap-1 ml-2">
+            <div className="flex items-center gap-1 ml-2 flex-shrink-0">
               {status === "completed" ? (
-                <Badge className="text-xs bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
-                  <CheckCircle className="w-3 h-3 mr-1" />
+                <Badge className="text-xs px-2 py-1 bg-emerald-50 text-emerald-700 border-emerald-200 font-medium rounded-full">
                   {t.completed}
                 </Badge>
               ) : status === "not_completed" ? (
-                <Badge variant="secondary" className="text-xs bg-gray-50 text-gray-600 border-gray-200">
+                <Badge variant="secondary" className="text-xs px-2 py-1 bg-gray-50 text-gray-600 border-gray-200 font-medium rounded-full">
                   {t.notCompleted}
                 </Badge>
               ) : null}

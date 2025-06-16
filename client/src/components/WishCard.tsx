@@ -123,7 +123,7 @@ const WishCard = ({
           {description}
         </p>
 
-        {tags.length > 0 && (
+        {tags && tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
             {tags.slice(0, 3).map((tag, index) => (
               <Badge key={index} variant="secondary" className="text-xs">

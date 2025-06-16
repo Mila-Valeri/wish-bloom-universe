@@ -82,6 +82,24 @@ export interface Translations {
   creating: string;
   updating: string;
   deleting: string;
+  
+  // Pages
+  myWishes: string;
+  editWishPage: string;
+  backToHome: string;
+  
+  // Auth
+  login: string;
+  logout: string;
+  
+  // Confirmations
+  confirmDelete: string;
+  areYouSure: string;
+  
+  // Notifications
+  wishCreated: string;
+  wishUpdated: string;
+  wishDeleted: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -167,6 +185,24 @@ export const translations: Record<Language, Translations> = {
     creating: 'Creating...',
     updating: 'Updating...',
     deleting: 'Deleting...',
+    
+    // Pages
+    myWishes: 'My Wishes',
+    editWishPage: 'Edit Wish',
+    backToHome: 'Back to Home',
+    
+    // Auth
+    login: 'Login',
+    logout: 'Logout',
+    
+    // Confirmations
+    confirmDelete: 'Confirm Delete',
+    areYouSure: 'Are you sure you want to delete this wish?',
+    
+    // Notifications
+    wishCreated: 'Wish created successfully!',
+    wishUpdated: 'Wish updated successfully!',
+    wishDeleted: 'Wish deleted successfully!',
   },
   
   ua: {
@@ -251,6 +287,24 @@ export const translations: Record<Language, Translations> = {
     creating: 'Створення...',
     updating: 'Оновлення...',
     deleting: 'Видалення...',
+    
+    // Pages
+    myWishes: 'Мої бажання',
+    editWishPage: 'Редагувати бажання',
+    backToHome: 'На головну',
+    
+    // Auth
+    login: 'Увійти',
+    logout: 'Вийти',
+    
+    // Confirmations
+    confirmDelete: 'Підтвердити видалення',
+    areYouSure: 'Ви впевнені, що хочете видалити це бажання?',
+    
+    // Notifications
+    wishCreated: 'Бажання успішно створено!',
+    wishUpdated: 'Бажання успішно оновлено!',
+    wishDeleted: 'Бажання успішно видалено!',
   },
 };
 

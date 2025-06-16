@@ -8,21 +8,23 @@ import { Upload, X } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useWishes } from "@/hooks/useWishes";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface EditWishFormProps {
   wishId: string;
   onSaved?: () => void;
 }
 
-const WISH_STATUS = [
-  { label: "Priority", value: "priority" },
-  { label: "Completed", value: "completed" },
-  { label: "Unfulfilled", value: "unfulfilled" },
-];
-
 export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
   const { wishes, updateWish, uploadImage } = useWishes();
+  const { t } = useLanguage();
   const wish = wishes.find((w) => w.id === wishId);
+
+  const WISH_STATUS = [
+    { label: t.priority, value: "priority" },
+    { label: t.completed, value: "completed" },
+    { label: t.unfulfilled, value: "unfulfilled" },
+  ];
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");

@@ -89,15 +89,13 @@ const WishGrid = ({
   // Create status options using translations
   const WISH_STATUS = [
     { label: t.allWishes, value: "all" },
-    { label: t.priorityWishes, value: "priority" },
     { label: t.completedWishes, value: "completed" },
     { label: t.notCompletedWishes, value: "not_completed" },
   ];
 
-  // Filter wishes by status and priority
+  // Filter wishes by status only
   const filteredWishes = wishes.filter((wish) => {
     if (selectedStatus === "all") return true;
-    if (selectedStatus === "priority") return wish.priority === true;
     if (selectedStatus === "completed") return wish.status === "completed";
     if (selectedStatus === "not_completed") return wish.status === "not_completed";
     return false;

@@ -55,6 +55,7 @@ const Settings = () => {
       <Header
         isAuthenticated={!!user}
         onSignOut={signOut}
+        onCreateWish={() => setCreateWishOpen(true)}
         userProfile={profile}
       />
       

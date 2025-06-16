@@ -47,7 +47,7 @@ export const useWishesData = () => {
       // Set demo data for migration
       const demoWishes: Wish[] = [
         {
-          id: 'demo-wish-1',
+          id: '550e8400-e29b-41d4-a716-446655440010',
           title: 'Learn Web Development',
           description: 'Master React, Node.js, and modern web technologies',
           image_url: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400',
@@ -55,7 +55,7 @@ export const useWishesData = () => {
           tags: ['coding', 'web-development', 'react'],
           likes: 12,
           status: 'unfulfilled',
-          user_id: 'demo-admin-id',
+          user_id: '550e8400-e29b-41d4-a716-446655440000',
           created_at: '2024-01-15T10:00:00Z',
           updated_at: '2024-01-15T10:00:00Z',
           profiles: {
@@ -63,10 +63,10 @@ export const useWishesData = () => {
             avatar_url: null,
           },
           isLiked: false,
-          isOwner: user?.id === 'demo-admin-id',
+          isOwner: user?.id === '550e8400-e29b-41d4-a716-446655440000',
         },
         {
-          id: 'demo-wish-2',
+          id: '550e8400-e29b-41d4-a716-446655440011',
           title: 'Travel to Japan',
           description: 'Experience the culture, food, and beautiful landscapes',
           image_url: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=400',
@@ -74,7 +74,7 @@ export const useWishesData = () => {
           tags: ['travel', 'culture', 'adventure'],
           likes: 8,
           status: 'unfulfilled',
-          user_id: 'demo-admin-id',
+          user_id: '550e8400-e29b-41d4-a716-446655440000',
           created_at: '2024-01-14T15:30:00Z',
           updated_at: '2024-01-14T15:30:00Z',
           profiles: {
@@ -82,10 +82,10 @@ export const useWishesData = () => {
             avatar_url: null,
           },
           isLiked: false,
-          isOwner: user?.id === 'demo-admin-id',
+          isOwner: user?.id === '550e8400-e29b-41d4-a716-446655440000',
         },
         {
-          id: 'demo-wish-3',
+          id: '550e8400-e29b-41d4-a716-446655440012',
           title: 'Start a Garden',
           description: 'Grow organic vegetables and beautiful flowers',
           image_url: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400',
@@ -93,7 +93,7 @@ export const useWishesData = () => {
           tags: ['gardening', 'nature', 'healthy-living'],
           likes: 15,
           status: 'unfulfilled',
-          user_id: 'demo-admin-id',
+          user_id: '550e8400-e29b-41d4-a716-446655440000',
           created_at: '2024-01-13T09:15:00Z',
           updated_at: '2024-01-13T09:15:00Z',
           profiles: {
@@ -101,7 +101,7 @@ export const useWishesData = () => {
             avatar_url: null,
           },
           isLiked: false,
-          isOwner: user?.id === 'demo-admin-id',
+          isOwner: user?.id === '550e8400-e29b-41d4-a716-446655440000',
         }
       ];
       setWishes(demoWishes);

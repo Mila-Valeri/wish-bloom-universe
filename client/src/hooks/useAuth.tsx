@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Initialize with demo admin user for migration purposes
   useEffect(() => {
     const mockUser: User = {
-      id: 'demo-admin-id',
+      id: '550e8400-e29b-41d4-a716-446655440000',
       email: 'admin@wishboard.com'
     };
     
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     const mockProfile: Profile = {
-      id: 'demo-admin-id',
+      id: '550e8400-e29b-41d4-a716-446655440000',
       email: 'admin@wishboard.com',
       full_name: 'Demo Admin',
       avatar_url: null,
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     try {
       const mockUser: User = {
-        id: email === 'admin@wishboard.com' ? 'demo-admin-id' : 'demo-user-id',
+        id: email === 'admin@wishboard.com' ? '550e8400-e29b-41d4-a716-446655440000' : '550e8400-e29b-41d4-a716-446655440001',
         email: email
       };
       

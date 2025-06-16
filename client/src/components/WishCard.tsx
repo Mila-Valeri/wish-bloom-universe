@@ -212,39 +212,23 @@ const WishCard = ({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="relative flex-1 max-w-[180px] sm:max-w-[200px]">
-                          <input
-                            type="text"
-                            value={shortenUrl(link)}
-                            readOnly
-                            className="text-xs text-muted-foreground font-mono w-full cursor-text bg-muted/30 px-2 py-1 rounded border outline-none focus:ring-0 focus:ring-offset-0 overflow-x-auto whitespace-nowrap resize-none"
+                          <div
+                            className="text-xs text-muted-foreground font-mono w-full cursor-text bg-muted/30 px-2 py-1 rounded border outline-none overflow-x-auto whitespace-nowrap select-text"
                             style={{ 
                               scrollbarWidth: 'thin',
                               scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
                             }}
-                            onMouseDown={(e) => {
-                              // Allow text selection but prevent focus
-                              const target = e.target as HTMLInputElement;
-                              setTimeout(() => target.blur(), 0);
-                            }}
-                            onFocus={(e) => e.target.blur()}
                             onClick={(e) => e.stopPropagation()}
-                          />
+                          >
+                            {link}
+                          </div>
                         </div>
                       </TooltipTrigger>
-                      <TooltipContent className="max-w-[300px] sm:max-w-[400px] md:max-w-[500px]">
-                        <div className="overflow-x-auto">
-                          <input
-                            type="text"
-                            value={link}
-                            readOnly
-                            className="text-xs font-mono w-full cursor-text bg-transparent border-none outline-none whitespace-nowrap min-w-full"
-                            style={{ 
-                              scrollbarWidth: 'thin',
-                              scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
-                            }}
-                            onFocus={(e) => e.target.blur()}
-                            onClick={(e) => e.stopPropagation()}
-                          />
+                      <TooltipContent className="max-w-[280px] sm:max-w-[350px] md:max-w-[450px] p-2">
+                        <div className="overflow-x-auto max-h-20">
+                          <div className="text-xs font-mono whitespace-nowrap select-text cursor-text p-1 bg-background/50 rounded border">
+                            {link}
+                          </div>
                         </div>
                       </TooltipContent>
                     </Tooltip>

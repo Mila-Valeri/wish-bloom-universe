@@ -80,6 +80,7 @@ export interface Translations {
   
   // Link display
   linkLabel: string;
+  wishLinkLabel: string;
   copyLink: string;
   linkCopied: string;
   
@@ -254,6 +255,7 @@ export const translations: Record<Language, Translations> = {
     
     // Link display
     linkLabel: 'Link:',
+    wishLinkLabel: 'Wish link',
     copyLink: 'Copy link',
     linkCopied: 'Link copied to clipboard',
     
@@ -426,6 +428,7 @@ export const translations: Record<Language, Translations> = {
     
     // Link display
     linkLabel: 'Посилання:',
+    wishLink: 'Посилання на бажання',
     copyLink: 'Копіювати посилання',
     linkCopied: 'Посилання скопійовано в буфер обміну',
     

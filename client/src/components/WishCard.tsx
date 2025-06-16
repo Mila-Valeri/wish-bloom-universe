@@ -11,6 +11,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WishCardProps {
@@ -182,29 +188,7 @@ const WishCard = ({
           </div>
         )}
 
-        {link && (
-          <div className="mb-3 p-3 bg-muted/30 rounded-lg border border-muted">
-            <p className="text-xs text-muted-foreground mb-2 font-medium">{t.linkLabel}</p>
-            <div className="flex items-center space-x-2">
-              <div className="flex-1 min-w-0">
-                <code className="text-xs bg-background px-3 py-2 rounded-md border font-mono text-foreground block w-full break-all select-all cursor-text hover:bg-muted/50 transition-colors">
-                  {link}
-                </code>
-              </div>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="h-8 w-8 p-0 flex-shrink-0 hover:bg-muted"
-                onClick={handleCopyLink}
-                title={t.copyLink}
-              >
-                <ExternalLink className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        )}
-
-        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-3">
           <div className="flex items-center space-x-1">
             <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
               <span className="text-xs font-medium">
@@ -214,6 +198,30 @@ const WishCard = ({
             <span>{author.name}</span>
           </div>
         </div>
+
+        {link && (
+          <div className="border-t pt-3 mt-3">
+            <div className="flex items-center justify-between">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-muted-foreground mb-1">Посилання на бажання</p>
+                <div className="flex items-center space-x-2">
+                  <code className="text-xs text-muted-foreground font-mono flex-1 truncate select-all cursor-text max-w-[200px] block">
+                    {link}
+                  </code>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-6 w-6 p-0 flex-shrink-0 hover:bg-muted/50"
+                    onClick={handleCopyLink}
+                    title={t.copyLink}
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </CardContent>
 
       <CardFooter className="p-4 pt-0 flex items-center justify-between">

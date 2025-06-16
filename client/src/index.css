@@ -1,11 +1,9 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700&display=swap");
+@import "./animations.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Импортируем анимации, float, кастомные hero-классы */
-@import "./animations.css";
 
 @layer base {
   :root {

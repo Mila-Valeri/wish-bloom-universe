@@ -5,10 +5,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/Header';
 
 const Profile = () => {
   const { user, profile, signOut, updateProfile } = useAuth();
+  const { t } = useLanguage();
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState('');
   const [nameError, setNameError] = useState('');
@@ -21,10 +23,10 @@ const Profile = () => {
 
   const validateName = (name: string) => {
     if (name.length < 2) {
-      return 'Name must be at least 2 characters';
+      return t.nameMinLength;
     }
     if (!/^[a-zA-Z\s]+$/.test(name)) {
-      return 'Name can only contain letters and spaces';
+      return t.nameLettersOnly;
     }
     return '';
   };
@@ -90,7 +92,7 @@ const Profile = () => {
         
         <div className="max-w-2xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent profile-shine">
-            Profile
+            {t.profileTitle}
           </h1>
           
           <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg wish-glow">
@@ -106,14 +108,14 @@ const Profile = () => {
                   <User className="w-12 h-12 text-white" />
                 )}
               </div>
-              <CardTitle className="text-2xl">Welcome to your Profile</CardTitle>
-              <CardDescription>Manage your personal information</CardDescription>
+              <CardTitle className="text-2xl">{t.welcomeProfile}</CardTitle>
+              <CardDescription>{t.manageInformation}</CardDescription>
             </CardHeader>
             
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
+                  <Label htmlFor="email">{t.emailAddress}</Label>
                   <Input
                     id="email"
                     type="email"
@@ -124,7 +126,7 @@ const Profile = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
+                  <Label htmlFor="name">{t.fullName}</Label>
                   {isEditing ? (
                     <div className="space-y-2">
                       <Input

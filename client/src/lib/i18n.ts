@@ -100,6 +100,41 @@ export interface Translations {
   wishCreated: string;
   wishUpdated: string;
   wishDeleted: string;
+  
+  // Profile page
+  profileTitle: string;
+  welcomeProfile: string;
+  manageInformation: string;
+  emailAddress: string;
+  fullName: string;
+  enterFullName: string;
+  editName: string;
+  noNameSet: string;
+  memberSince: string;
+  unknown: string;
+  nameMinLength: string;
+  nameLettersOnly: string;
+  
+  // Settings page
+  settingsTitle: string;
+  accountSettings: string;
+  preferences: string;
+  themePreference: string;
+  lightMode: string;
+  darkMode: string;
+  languagePreference: string;
+  english: string;
+  ukrainian: string;
+  notifications: string;
+  emailNotifications: string;
+  pushNotifications: string;
+  marketingEmails: string;
+  privacy: string;
+  dataExport: string;
+  deleteAccount: string;
+  exportData: string;
+  permanentlyDelete: string;
+  thisActionCannot: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -203,6 +238,41 @@ export const translations: Record<Language, Translations> = {
     wishCreated: 'Wish created successfully!',
     wishUpdated: 'Wish updated successfully!',
     wishDeleted: 'Wish deleted successfully!',
+    
+    // Profile page
+    profileTitle: 'Profile',
+    welcomeProfile: 'Welcome to your Profile',
+    manageInformation: 'Manage your personal information',
+    emailAddress: 'Email Address',
+    fullName: 'Full Name',
+    enterFullName: 'Enter your full name',
+    editName: 'Edit name',
+    noNameSet: 'No name set',
+    memberSince: 'Member Since',
+    unknown: 'Unknown',
+    nameMinLength: 'Name must be at least 2 characters',
+    nameLettersOnly: 'Name can only contain letters and spaces',
+    
+    // Settings page
+    settingsTitle: 'Settings',
+    accountSettings: 'Account Settings',
+    preferences: 'Preferences',
+    themePreference: 'Theme Preference',
+    lightMode: 'Light Mode',
+    darkMode: 'Dark Mode',
+    languagePreference: 'Language Preference',
+    english: 'English',
+    ukrainian: 'Ukrainian',
+    notifications: 'Notifications',
+    emailNotifications: 'Email Notifications',
+    pushNotifications: 'Push Notifications',
+    marketingEmails: 'Marketing Emails',
+    privacy: 'Privacy',
+    dataExport: 'Data Export',
+    deleteAccount: 'Delete Account',
+    exportData: 'Export Data',
+    permanentlyDelete: 'Permanently Delete Account',
+    thisActionCannot: 'This action cannot be undone',
   },
   
   ua: {
@@ -305,6 +375,41 @@ export const translations: Record<Language, Translations> = {
     wishCreated: 'Бажання успішно створено!',
     wishUpdated: 'Бажання успішно оновлено!',
     wishDeleted: 'Бажання успішно видалено!',
+    
+    // Profile page
+    profileTitle: 'Профіль',
+    welcomeProfile: 'Ласкаво просимо до вашого профілю',
+    manageInformation: 'Керуйте своєю особистою інформацією',
+    emailAddress: 'Електронна адреса',
+    fullName: 'Повне ім\'я',
+    enterFullName: 'Введіть ваше повне ім\'я',
+    editName: 'Редагувати ім\'я',
+    noNameSet: 'Ім\'я не встановлено',
+    memberSince: 'Учасник з',
+    unknown: 'Невідомо',
+    nameMinLength: 'Ім\'я має містити принаймні 2 символи',
+    nameLettersOnly: 'Ім\'я може містити тільки літери та пробіли',
+    
+    // Settings page
+    settingsTitle: 'Налаштування',
+    accountSettings: 'Налаштування облікового запису',
+    preferences: 'Переваги',
+    themePreference: 'Тема оформлення',
+    lightMode: 'Світла тема',
+    darkMode: 'Темна тема',
+    languagePreference: 'Мовні переваги',
+    english: 'Англійська',
+    ukrainian: 'Українська',
+    notifications: 'Сповіщення',
+    emailNotifications: 'Email сповіщення',
+    pushNotifications: 'Push сповіщення',
+    marketingEmails: 'Маркетингові листи',
+    privacy: 'Приватність',
+    dataExport: 'Експорт даних',
+    deleteAccount: 'Видалити обліковий запис',
+    exportData: 'Експортувати дані',
+    permanentlyDelete: 'Назавжди видалити обліковий запис',
+    thisActionCannot: 'Цю дію неможливо скасувати',
   },
 };
 

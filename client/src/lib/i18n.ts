@@ -428,7 +428,7 @@ export const translations: Record<Language, Translations> = {
     
     // Link display
     linkLabel: 'Посилання:',
-    wishLink: 'Посилання на бажання',
+    wishLinkLabel: 'Посилання на бажання',
     copyLink: 'Копіювати посилання',
     linkCopied: 'Посилання скопійовано в буфер обміну',
     

@@ -200,23 +200,31 @@ const WishCard = ({
         </div>
 
         {link && (
-          <div className="border-t pt-3 mt-3">
+          <div className="border-t border-muted/30 pt-3 mt-3">
             <div className="flex items-center justify-between">
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-muted-foreground mb-1">Посилання на бажання</p>
+                <p className="text-xs text-muted-foreground mb-1 font-medium">{t.linkLabel}</p>
                 <div className="flex items-center space-x-2">
-                  <code className="text-xs text-muted-foreground font-mono flex-1 truncate select-all cursor-text max-w-[200px] block">
+                  <code className="text-xs text-muted-foreground font-mono flex-1 truncate select-all cursor-text max-w-[180px] sm:max-w-[200px] block overflow-hidden">
                     {link}
                   </code>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="h-6 w-6 p-0 flex-shrink-0 hover:bg-muted/50"
-                    onClick={handleCopyLink}
-                    title={t.copyLink}
-                  >
-                    <ExternalLink className="h-3 w-3" />
-                  </Button>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-6 w-6 p-0 flex-shrink-0 hover:bg-muted/50 transition-colors"
+                          onClick={handleCopyLink}
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="text-xs">{t.copyLink}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               </div>
             </div>

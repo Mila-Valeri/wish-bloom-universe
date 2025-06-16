@@ -103,6 +103,7 @@ const Index = () => {
     isLiked: wish.isLiked,
     isOwner: wish.isOwner,
     status: wish.status || undefined,
+    priority: wish.priority || false,
   }));
 
   // Show loading only for a brief moment

@@ -200,6 +200,7 @@ export const translations: Record<Language, Translations> = {
     completed: 'Completed',
     notCompleted: 'Not Completed',
     priorityWish: 'Priority Wish',
+    noStatus: 'Not selected',
     
     // Actions
     save: 'Save',
@@ -338,7 +339,6 @@ export const translations: Record<Language, Translations> = {
     permanentlyDeleteAccount: 'Permanently delete your account and all associated data',
     removeAllData: 'This action cannot be undone. This will permanently delete your account and remove all your data from our servers.',
     yesDeleteAccount: 'Yes, delete my account',
-    noStatus: 'Not selected',
   },
   
   ua: {
@@ -370,7 +370,6 @@ export const translations: Record<Language, Translations> = {
     completed: 'Виконано',
     notCompleted: 'Не виконано',
     priorityWish: 'Пріоритетна мрія',
-    noStatus: 'Не вибрано',
     
     // Actions
     save: 'Зберегти',
@@ -509,6 +508,7 @@ export const translations: Record<Language, Translations> = {
     permanentlyDeleteAccount: 'Назавжди видалити ваш обліковий запис та всі пов\'язані дані',
     removeAllData: 'Цю дію неможливо скасувати. Це назавжди видалить ваш обліковий запис та всі дані з наших серверів.',
     yesDeleteAccount: 'Так, видалити мій обліковий запис',
+    noStatus: 'Не вибрано',
   },
 };
 

@@ -34,7 +34,7 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const { t } = useLanguage();
 
   const STATUS_OPTIONS = [
-    { label: "Не вибрано", value: "" },
+    { label: t.noStatus, value: "" },
     { label: t.notCompleted, value: "not_completed" },
     { label: t.completed, value: "completed" }
   ];

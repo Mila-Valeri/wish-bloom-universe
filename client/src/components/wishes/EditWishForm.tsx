@@ -21,7 +21,7 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
   const wish = wishes.find((w) => w.id === wishId);
 
   const WISH_STATUS = [
-    { label: "Не вибрано", value: "" },
+    { label: t.noStatus, value: "" },
     { label: t.notCompleted, value: "not_completed" },
     { label: t.completed, value: "completed" },
   ];

@@ -34,7 +34,6 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const { t } = useLanguage();
 
   const STATUS_OPTIONS = [
-    { label: t.noStatus, value: "" },
     { label: t.notCompleted, value: "not_completed" },
     { label: t.completed, value: "completed" }
   ];
@@ -191,19 +190,33 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="status">{t.status}</Label>
-            <Select value={status} onValueChange={setStatus} disabled={loading}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {STATUS_OPTIONS.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Label htmlFor="status">{t.status} ({t.optional})</Label>
+            <div className="flex gap-2">
+              <Select value={status} onValueChange={setStatus} disabled={loading}>
+                <SelectTrigger className="flex-1">
+                  <SelectValue placeholder={t.noStatus} />
+                </SelectTrigger>
+                <SelectContent>
+                  {STATUS_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {status && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setStatus("")}
+                  disabled={loading}
+                  className="shrink-0"
+                >
+                  ×
+                </Button>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">

@@ -21,7 +21,6 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
   const wish = wishes.find((w) => w.id === wishId);
 
   const WISH_STATUS = [
-    { label: t.noStatus, value: "" },
     { label: t.notCompleted, value: "not_completed" },
     { label: t.completed, value: "completed" },
   ];
@@ -107,17 +106,30 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
         <Input id="link" value={link} type="url" onChange={e => setLink(e.target.value)} placeholder={t.linkPlaceholder} />
       </div>
       <div>
-        <Label>{t.status}</Label>
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {WISH_STATUS.map((s) => (
-              <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Label>{t.status} ({t.optional})</Label>
+        <div className="flex gap-2">
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger className="flex-1">
+              <SelectValue placeholder={t.noStatus} />
+            </SelectTrigger>
+            <SelectContent>
+              {WISH_STATUS.map((s) => (
+                <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {status && (
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => setStatus("")}
+              className="shrink-0"
+            >
+              ×
+            </Button>
+          )}
+        </div>
       </div>
       <div>
         <Label>{t.image}</Label>

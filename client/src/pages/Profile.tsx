@@ -94,17 +94,10 @@ const Profile = () => {
         </div>
         
         <div className="max-w-2xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
+          <div className="mb-8">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent profile-shine">
               {t.profileTitle}
             </h1>
-            <Button 
-              onClick={() => setCreateWishOpen(true)}
-              className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/80 hover:to-purple-600/80 text-white shadow-lg hover:shadow-xl transition-all duration-200"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              {t.createWish}
-            </Button>
           </div>
           
           <Card className="backdrop-blur-sm bg-card/50 border-2 border-primary/10 shadow-lg wish-glow">

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -29,6 +30,8 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("not_completed");
   const [priority, setPriority] = useState(false);
+  const [titleError, setTitleError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
   const { createWish, uploadImage } = useWishContext();
   const { t } = useLanguage();
 
@@ -63,8 +66,33 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
     setImageUrl(null);
   };
 
+  const validateForm = () => {
+    let isValid = true;
+    
+    if (!title.trim()) {
+      setTitleError('Заповніть це поле');
+      isValid = false;
+    } else {
+      setTitleError('');
+    }
+    
+    if (!description.trim()) {
+      setDescriptionError('Заповніть це поле');
+      isValid = false;
+    } else {
+      setDescriptionError('');
+    }
+    
+    return isValid;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -84,6 +112,8 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
       setImageUrl(null);
       setStatus("not_completed");
       setPriority(false);
+      setTitleError('');
+      setDescriptionError('');
       onOpenChange(false);
     } catch (error) {
       console.error('Error creating wish:', error);
@@ -99,6 +129,9 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{t.createWish}</DialogTitle>
+          <DialogDescription>
+            {t.wishDescription || 'Fill in the required fields to create your wish'}
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -106,11 +139,20 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
             <Input
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                if (titleError && e.target.value.trim()) {
+                  setTitleError('');
+                }
+              }}
               placeholder={t.titlePlaceholder}
               disabled={loading}
               required
+              className={titleError ? 'border-red-500' : ''}
             />
+            {titleError && (
+              <p className="text-sm text-red-500">{titleError}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -118,13 +160,22 @@ export const CreateWishDialog = ({ open, onOpenChange }: CreateWishDialogProps) 
             <Textarea
               id="description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                if (descriptionError && e.target.value.trim()) {
+                  setDescriptionError('');
+                }
+              }}
               placeholder={t.descriptionPlaceholder}
               rows={4}
               disabled={loading}
               maxLength={DESCRIPTION_LIMIT}
               required
+              className={descriptionError ? 'border-red-500' : ''}
             />
+            {descriptionError && (
+              <p className="text-sm text-red-500">{descriptionError}</p>
+            )}
             <div className="text-xs text-gray-500 text-right">
               {remainingChars} {t.charactersRemaining}
             </div>

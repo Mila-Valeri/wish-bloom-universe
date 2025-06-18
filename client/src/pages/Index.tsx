@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import WishGrid from '@/components/WishGrid';
@@ -9,7 +9,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useAuth } from '@/hooks/useAuth';
 import { useWishContext } from '@/contexts/WishContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useLocation } from "wouter";
+import { useNavigate } from "react-router-dom";
 
 // Define the admin email
 const ADMIN_EMAIL = 'admin@wishboard.com';
@@ -17,10 +17,10 @@ const ADMIN_EMAIL = 'admin@wishboard.com';
 const Index = () => {
   const [authDialog, setAuthDialog] = useState(false);
   const [createWishDialog, setCreateWishDialog] = useState(false);
-  const { user, profile, loading: authLoading, signOut } = useAuth();
+  const { user, profile, loading: authLoading, signOut, updateProfile } = useAuth();
   const { wishes, loading: wishesLoading, toggleLike, deleteWish } = useWishContext();
   const { language, t } = useLanguage();
-  const [, setLocation] = useLocation();
+  const navigate = useNavigate();
 
   // Check if current user is admin
   const isAdmin = user?.email === ADMIN_EMAIL;
@@ -74,7 +74,7 @@ const Index = () => {
   };
 
   const handleEdit = (wishId: string) => {
-    setLocation(`/edit-wish/${wishId}`);
+    navigate(`/edit-wish/${wishId}`);
   };
 
   const handleDelete = async (wishId: string) => {

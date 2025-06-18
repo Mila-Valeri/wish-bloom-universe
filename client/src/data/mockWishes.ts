@@ -10,7 +10,7 @@ export const mockWishes = [
     likes: 24,
     author: {
       name: 'Emma Wilson',
-      avatar: './placeholder.svg'
+      avatar: '/api/placeholder/32/32'
     },
     isLiked: false,
     isOwner: false
@@ -24,7 +24,7 @@ export const mockWishes = [
     likes: 18,
     author: {
       name: 'Alex Chen',
-      avatar: './placeholder.svg'
+      avatar: '/api/placeholder/32/32'
     },
     isLiked: true,
     isOwner: false
@@ -38,7 +38,7 @@ export const mockWishes = [
     likes: 32,
     author: {
       name: 'Sarah Johnson',
-      avatar: './placeholder.svg'
+      avatar: '/api/placeholder/32/32'
     },
     isLiked: false,
     isOwner: false
@@ -52,7 +52,7 @@ export const mockWishes = [
     likes: 15,
     author: {
       name: 'Michael Brown',
-      avatar: './placeholder.svg'
+      avatar: '/api/placeholder/32/32'
     },
     isLiked: false,
     isOwner: false
@@ -66,7 +66,7 @@ export const mockWishes = [
     likes: 27,
     author: {
       name: 'Lisa Rodriguez',
-      avatar: './placeholder.svg'
+      avatar: '/api/placeholder/32/32'
     },
     isLiked: true,
     isOwner: false
@@ -80,7 +80,7 @@ export const mockWishes = [
     likes: 21,
     author: {
       name: 'David Kim',
-      avatar: './placeholder.svg'
+      avatar: '/api/placeholder/32/32'
     },
     isLiked: false,
     isOwner: false
@@ -94,7 +94,7 @@ export const mockWishes = [
     likes: 19,
     author: {
       name: 'Maria Garcia',
-      avatar: './placeholder.svg'
+      avatar: '/api/placeholder/32/32'
     },
     isLiked: false,
     isOwner: false
@@ -108,7 +108,7 @@ export const mockWishes = [
     likes: 35,
     author: {
       name: 'Tom Anderson',
-      avatar: './placeholder.svg'
+      avatar: '/api/placeholder/32/32'
     },
     isLiked: true,
     isOwner: false

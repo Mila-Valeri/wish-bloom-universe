@@ -1,11 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import {
-  insertProfileSchema,
-  insertWishSchema,
-  insertWishLikeSchema,
-} from "@shared/schema";
+import { insertProfileSchema, insertWishSchema, insertWishLikeSchema } from "@shared/schema";
 import { z } from "zod";
 import multer from "multer";
 import path from "path";
@@ -15,7 +11,7 @@ import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Ensure uploads directory exists
-  const uploadsDir = path.join(process.cwd(), "uploads");
+  const uploadsDir = path.join(process.cwd(), 'uploads');
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
@@ -29,7 +25,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const uniqueId = crypto.randomUUID();
       const ext = path.extname(file.originalname);
       cb(null, `${uniqueId}${ext}`);
-    },
+    }
   });
 
   const upload = multer({
@@ -38,26 +34,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       fileSize: 10 * 1024 * 1024, // 10MB limit
     },
     fileFilter: (req, file, cb) => {
-      if (file.mimetype.startsWith("image/")) {
+      if (file.mimetype.startsWith('image/')) {
         cb(null, true);
       } else {
-        cb(new Error("Only image files are allowed"));
+        cb(new Error('Only image files are allowed'));
       }
-    },
+    }
   });
 
   // Serve uploaded files statically
-  app.use("/uploads", express.static(uploadsDir));
-
-  // Test endpoint for debugging
-  app.get("/api/test", async (req, res) => {
-    try {
-      res.json({ status: "OK", message: "Server is working" });
-    } catch (error) {
-      console.error("Error in test endpoint:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
+  app.use('/uploads', express.static(uploadsDir));
 
   // Profile routes
   app.get("/api/profiles/:id", async (req, res) => {
@@ -81,9 +67,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(profile);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res
-          .status(400)
-          .json({ error: "Invalid profile data", details: error.errors });
+        return res.status(400).json({ error: "Invalid profile data", details: error.errors });
       }
       console.error("Error creating profile:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -101,9 +85,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(profile);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res
-          .status(400)
-          .json({ error: "Invalid profile data", details: error.errors });
+        return res.status(400).json({ error: "Invalid profile data", details: error.errors });
       }
       console.error("Error updating profile:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -153,9 +135,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(wish);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res
-          .status(400)
-          .json({ error: "Invalid wish data", details: error.errors });
+        return res.status(400).json({ error: "Invalid wish data", details: error.errors });
       }
       console.error("Error creating wish:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -173,9 +153,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(wish);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res
-          .status(400)
-          .json({ error: "Invalid wish data", details: error.errors });
+        return res.status(400).json({ error: "Invalid wish data", details: error.errors });
       }
       console.error("Error updating wish:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -223,14 +201,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { wishId } = req.params;
       const { userId } = req.body;
-
+      
       if (!userId) {
         return res.status(400).json({ error: "User ID is required" });
       }
 
       const isLiked = await storage.toggleWishLike(wishId, userId);
       const totalLikes = await storage.getWishLikes(wishId);
-
+      
       res.json({ isLiked, totalLikes });
     } catch (error) {
       console.error("Error toggling wish like:", error);
@@ -239,7 +217,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Image upload route
-  app.post("/api/upload", upload.single("image"), async (req, res) => {
+  app.post("/api/upload", upload.single('image'), async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });

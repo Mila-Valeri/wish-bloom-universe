@@ -1,21 +1,9 @@
 
 import { useAuth } from '@/hooks/useAuth';
-import { useLocation } from 'wouter';
-import { useEffect } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
-
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const ProtectedRoute = () => {
   const { user, loading } = useAuth();
-  const [, setLocation] = useLocation();
-
-  useEffect(() => {
-    if (!loading && !user) {
-      setLocation('/');
-    }
-  }, [user, loading, setLocation]);
 
   if (loading) {
     return (
@@ -29,10 +17,10 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!user) {
-    return null;
+    return <Navigate to="/" replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

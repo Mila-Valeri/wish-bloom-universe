@@ -6,7 +6,7 @@ import { FormField } from "@/components/FormField";
 import { LinkInput } from "@/components/LinkInput";
 import { StatusSelect } from "@/components/StatusSelect";
 import { useWishContext } from "@/contexts/WishContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface EditWishFormProps {
@@ -31,7 +31,7 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     if (wish) {
@@ -76,7 +76,7 @@ export default function EditWishForm({ wishId, onSaved }: EditWishFormProps) {
     });
     setLoading(false);
     if (onSaved) onSaved();
-    navigate("/");
+    setLocation("/");
   };
 
   return (

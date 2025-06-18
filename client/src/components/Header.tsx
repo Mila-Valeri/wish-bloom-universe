@@ -1,8 +1,8 @@
 
-import { useState } from 'react';
+
 import { Heart, User, Settings, LogOut, Plus, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import ThemeToggle from './ThemeToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -41,25 +41,24 @@ const Header = ({
   userProfile,
   showBackButton = false
 }: HeaderProps) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [location, setLocation] = useLocation();
   const { t } = useLanguage();
 
   const handleLogoClick = () => {
     if (isAuthenticated) {
-      navigate('/');
+      setLocation('/');
     }
   };
 
   const handleBackClick = () => {
     if (isAuthenticated) {
-      navigate('/');
+      setLocation('/');
     }
   };
 
   // Check if we're on profile, settings, or edit wish pages
-  const isOnProfileOrSettings = location.pathname === '/profile' || location.pathname === '/settings';
-  const isOnEditWish = location.pathname.startsWith('/edit-wish/');
+  const isOnProfileOrSettings = location === '/profile' || location === '/settings';
+  const isOnEditWish = location.startsWith('/edit-wish/');
 
 
 
@@ -115,7 +114,7 @@ const Header = ({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-background">
-                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                <DropdownMenuItem onClick={() => setLocation('/profile')}>
                   <User className="mr-2 h-4 w-4" />
                   <span>{t.profile}</span>
                 </DropdownMenuItem>
@@ -123,7 +122,7 @@ const Header = ({
                   <Plus className="mr-2 h-4 w-4" />
                   <span>{t.createWish}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/settings')}>
+                <DropdownMenuItem onClick={() => setLocation('/settings')}>
                   <Settings className="mr-2 h-4 w-4" />
                   <span>{t.settings}</span>
                 </DropdownMenuItem>
